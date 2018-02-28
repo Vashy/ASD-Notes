@@ -13,7 +13,7 @@
 	Input $\rightarrow$ \textbf{Algoritmo} $\rightarrow$ Output
 \end{center}
 
-\begin{quote}
+\begin{quote} 
 	\textit{Dato un problema, ci sono tanti algoritmi per risolverlo.}
 \end{quote}
 
@@ -164,7 +164,7 @@ Ottengo l'array ordinato:
 \paragraph{Algorimo} Passiamo ora all'implementazione dell'algoritmo, con uno pseudocodice similare a \texttt{Python}\footnote{\textbf{ATTENZIONE}: verranno usati array con indici
 che partono da 1.}\par
 
-\subsubsection{Pseudocodice}
+\bigskip
 
 \texttt{Input}: $A[1, \dots ,n]$, $A.length$.
 
@@ -173,13 +173,39 @@ che partono da 1.}\par
 	$A[i] \leq key < A[i+1]$
 \end{center}
 
+\paragraph{Pseudocodice} Segue lo pseudocodice dell'\texttt{Insertion Sort}.
+
 \begin{lstlisting}
-n = A.length
-for j = 2 to n
-  key = A[j]
-  i = j-1
-  while (i > 0) and (A[i] > key)	
-    A[i+1] = A[i]
-    i = i-1
-  A[i+1 = key]
+  n = A.length
+  for j = 2 to n  #il primo elemento e' gia' ordinato
+    key = A[j]    #[1...j-1] ordinato
+    i = j-1
+    while (i > 0) and (A[i] > key)
+      A[i+1] = A[i]
+      i = i-1
+    A[i+1 = key]
 \end{lstlisting}
+
+\vspace{0.5cm}
+
+Se il \texttt{while} termina, ci sono due casi: 
+\begin{itemize}
+	\item[$\circ$] \texttt{i = 0}: tutti gli elementi prima di \texttt{j} 
+	sono maggiori di \texttt{key}; \texttt{key} va al primo posto (1);
+	\item[$\circ$] \texttt{(i > 0) and (A[i] $\leq$ key)}: \texttt{A[i+1] = key}.
+\end{itemize}
+
+\subsubsection{Invarianti e correttezza}
+
+\paragraph{for} \texttt{A[1\dots j-1]} è ordinato e contiene gli 
+elementi in \texttt{(1,j-1)} iniziali.
+
+\paragraph{while} \texttt{A[1\dots i]A[i+2\dots j]} ordinato e 
+\texttt{A[i+2\dots j] > key}. \par
+\vspace{0.5cm}
+In uscita abbiamo: 
+\begin{itemize}[noitemsep]
+	\item[$\circ$] \texttt{j = n+1}; \par
+	\item[$\circ$] \texttt{A[1\dots n]} ordinato, come da invariante: 
+	vale \texttt{A[1\dots j-1]}	ordinato, e \texttt{j} vale \texttt{n+1}.
+\end{itemize}

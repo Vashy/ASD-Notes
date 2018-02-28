@@ -2,15 +2,60 @@
 
 \usepackage[english,italian]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
-\usepackage{graphicx}
-\usepackage{enumitem}
+
+\usepackage{hyperref} 
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    % unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    % pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    % pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Note di Algoritmi},    % title
+    pdfauthor={Timoty Granziero},     % author
+    % pdfsubject={},   % subject of the document
+    % pdfcreator={Creator},   % creator of the document
+    % pdfproducer={Producer}, % producer of the document
+    % pdfkeywords={keyword1, key2, key3}, % list of keywords
+    % pdfnewwindow=true,      % links in new PDF window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links (change box color with linkbordercolor)
+    % citecolor=green,        % color of links to bibliography
+    % filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\usepackage{graphicx} %img/media
+\usepackage{enumitem} 
 \usepackage{listings}
-\usepackage{mathtools}
+\usepackage{mathtools} %math package
+\usepackage{fancyhdr} %header e footer
+
+\newcommand{\authorName}{Timoty Granziero}
+
+\author{\authorName}
+\date{\today}
+\title{Appunti di Algoritmi}
+
+%header/footer setup
+\fancyhf{}
+\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
+\fancyhead[LO]{\small\scshape\nouppercase{\rightmark}}
+\fancyhead[L,RO]{\small\thepage}
+\lhead{\rightmark}
+\rhead{\nouppercase{\leftmark}}
+\rfoot{\thepage}
+\lfoot{\authorName}
+
+\pagestyle{fancy}
+
 
 \begin{document}
-
+\maketitle
+\newpage
 \tableofcontents
+
+\newpage
 
 \input{rel/lez_28_02.tex}
 
