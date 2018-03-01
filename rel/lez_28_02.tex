@@ -25,39 +25,45 @@ L'idea è quella di trovare tutte le permutazioni di ogni numero.\par
 	$3^{19}$ anni (con \textit{ns} = nanosecondi)
 \end{center}
 
-\paragraph{std::vector} È un esempio nel \texttt{C++} delle ragioni per cui si studia questa materia. Nella documentazione della \texttt{STL}, sono riportati i seguenti:
+\paragraph{std::vector} È un esempio nel \texttt{C++} delle ragioni per cui 
+si studia questa materia. Nella documentazione della \texttt{STL}, 
+sono riportati i seguenti:
 
 \begin{itemize}
 	\item \texttt{Random access}: complessità O(1);
 	\item \texttt{Insert}: complessità O(1) ammortizzato.
 \end{itemize}
 
-Il \texttt{random access} è l'accesso a un elemento casuale del \texttt{vector}. O(1) implica che l'accesso avviene in tempo costante (pari a 1). \\
-Per \texttt{insert} si intende l'inserimento di un nuovo elemento in coda. Avviene in tempo O(1) ammortizzato: questo perchè ogni N inserimenti, è necessario un resize del vector e una copia di tutti gli elementi nel nuovo vettore.
+Il \texttt{random access} è l'accesso a un elemento casuale del \texttt{vector}. 
+O(1) implica che l'accesso avviene in tempo costante (pari a 1). \par
+Per \texttt{insert} si intende l'inserimento di un nuovo elemento in coda. 
+Avviene in tempo O(1) ammortizzato: questo perchè ogni N inserimenti, è 
+necessario un resize del vector e una copia di tutti gli elementi nel nuovo vettore
+(questa procedura è nascosta al programmatore).
 
 \subsection{Cosa analizzeremo nel corso}
 
 \begin{itemize}
-	\item Tempo di esecuzione;
-	\item Spazio (memoria);
+	\item[$\bullet$] Tempo di esecuzione;
+	\item[$\bullet$] Spazio (memoria);
 	\medskip
-	\item[$\circ$] Correttezza;
-	\item[$\circ$] Manutenibilità.
+	\item Correttezza;
+	\item Manutenibilità.
 \end{itemize}
 
 \subsubsection{Approfondimento sul tempo di esecuzione T(n)}
-
-\begin{figure}[htb]
-	\centering
-	\includegraphics[height=6cm]{img/algorithm_complexity.png}
-	\caption{Complessità T(n).}	
-\end{figure}
 
 \begin{itemize}
 	\item \textit{P Problems}: complessità polinomiale. L'algoritmo è trattabile
 	\item \textit{NP Complete}: problemi NP completi. \textbf{e.g}: Applicazione sugli algoritmi di sicurezzza. Si basano sull'assunzione che per essere risolti debbano essere considerate tutte le soluzioni possibili.
 	\item \textit{NP Problems}: problemi con complessità  (ad esempio) esponenziale/fattoriale. Assolutamente non trattabili.
 \end{itemize}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[height=6cm]{img/algorithm_complexity.png}
+	\caption{Complessità T(n).}	
+\end{figure}
 	
 \subsection{Problema dell'ordinamento (sorting)}
 \texttt{Input}: sequenza di numeri 
@@ -73,7 +79,7 @@ tale che
 	$a'_0 \leq a'_1 \leq \dots \leq a'_n$
 \end{center}
 
-Vedremo due algoritmi:
+\noindent Vedremo due algoritmi:
 \begin{itemize}[noitemsep]
 	\item \texttt{Insertion Sort};
 	\item \texttt{Merge Sort}.
@@ -90,9 +96,9 @@ Vedremo due algoritmi:
 		\hline
 	\end{tabular}
 \end{center}
-	
-Partiamo dal primo elemento: 5. È già ordinato con se stesso, quindi procediamo con il secondo elemento.\par
-Il numero 2 lo confronto con l'elemento alla sua destra: \par
+
+\noindent Partiamo dal primo elemento: 5. È già ordinato con se stesso, quindi procediamo con il secondo elemento.\par
+\noindent Confronto il numero 2 con l'elemento alla sua sinistra: \par
 $2 \geq 5$?  No, quindi lo inverto con l'elemento alla sua sinistra, come segue
 
 \begin{center}
@@ -109,7 +115,7 @@ $2 \geq 5$?  No, quindi lo inverto con l'elemento alla sua sinistra, come segue
 	\end{tabular}
 \end{center}
 
-La key analizzata è 8. \par
+\noindent La key analizzata è 8. \par
 $8 \geq 5$? Sì, quindi è ordinato in modo corretto.
 
 \begin{center}
@@ -126,7 +132,7 @@ $8 \geq 5$? Sì, quindi è ordinato in modo corretto.
 	\end{tabular}
 \end{center}
 
-La key analizzata è 4.\par
+\noindent La key analizzata è 4.\par
 $4 \geq 8$? No, quindi lo sposto a sinistra invertendolo con 8.\par 
 $4 \geq 5$? No, lo sposto a sinistra invertendolo con 5.\par
 $4 \geq 2$? Sì, quindi è nella posizione corretta.
@@ -145,11 +151,12 @@ $4 \geq 2$? Sì, quindi è nella posizione corretta.
 	\end{tabular}
 \end{center}
 
-Key analizzata 7. \par
+\noindent Key analizzata 7. \par
 $7 \geq 8$? No, lo sposto a sinistra invertendolo con 8.\par
 $7 \geq 5$? Sì, è nella posizione corretta.\par
+
 \smallskip
-Ottengo l'array ordinato:
+\noindent Ottengo l'array ordinato:
 
 \begin{center}
 	\begin{tabular}{|l|l|l|l|l|}
@@ -166,7 +173,7 @@ che partono da 1.}\par
 
 \bigskip
 
-\texttt{Input}: $A[1, \dots ,n]$, $A.length$.
+\texttt{Input}: $A[1, \twodots ,n]$, $A.length$.
 
 \begin{center}
 	È noto che: 
@@ -175,20 +182,27 @@ che partono da 1.}\par
 
 \paragraph{Pseudocodice} Segue lo pseudocodice dell'\texttt{Insertion Sort}.
 
-\begin{lstlisting}
-  n = A.length
-  for j = 2 to n  #il primo elemento e' gia' ordinato
-    key = A[j]    #[1...j-1] ordinato
-    i = j-1
-    while (i > 0) and (A[i] > key)
-      A[i+1] = A[i]
-      i = i-1
-    A[i+1 = key]
-\end{lstlisting}
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A)$}
+\li $\id{n} \gets \attrib{A}{length}$
+\li \For $j \gets 2$ \To $n$
+	\Comment il primo elemento è già ordinato
+\li		\Do
+			$\id{key} \gets A[j]$ 
+			\Comment $A[1 \twodots j-1]$ ordinato
+\li			$i \gets j-1$
+\li			\While $i > 0$ and $A[i] > \id{key}$
+\li				\Do
+					$A[i+1] \gets A[i]$
+\li					$i \gets i-1$
+				\End
+\li			$A[i+1] \gets \id{key}$
+		\End
+\end{codebox}
 
 \vspace{0.5cm}
 
-Se il \texttt{while} termina, ci sono due casi: 
+Quando il \texttt{while} termina, ci sono due casi: 
 \begin{itemize}
 	\item[$\circ$] \texttt{i = 0}: tutti gli elementi prima di \texttt{j} 
 	sono maggiori di \texttt{key}; \texttt{key} va al primo posto (1);
@@ -197,15 +211,15 @@ Se il \texttt{while} termina, ci sono due casi:
 
 \subsubsection{Invarianti e correttezza}
 
-\paragraph{for} \texttt{A[1\dots j-1]} è ordinato e contiene gli 
+\paragraph{for} \texttt{A[1$\twodots$j-1]} è ordinato e contiene gli 
 elementi in \texttt{(1,j-1)} iniziali.
 
-\paragraph{while} \texttt{A[1\dots i]A[i+2\dots j]} ordinato e 
-\texttt{A[i+2\dots j] > key}. \par
+\paragraph{while} \texttt{A[1$\twodots$i]A[i+2$\twodots$j]} ordinato e 
+\texttt{A[i+2$\twodots$j] > key}. \par
 \vspace{0.5cm}
 In uscita abbiamo: 
 \begin{itemize}[noitemsep]
 	\item[$\circ$] \texttt{j = n+1}; \par
-	\item[$\circ$] \texttt{A[1\dots n]} ordinato, come da invariante: 
-	vale \texttt{A[1\dots j-1]}	ordinato, e \texttt{j} vale \texttt{n+1}.
+	\item[$\circ$] \texttt{A[1$\twodots$n]} ordinato, come da invariante: 
+	vale \texttt{A[1$\twodots$j-1]}	ordinato, e \texttt{j} vale \texttt{n+1}.
 \end{itemize}

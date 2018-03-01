@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 
 \usepackage[english,italian]{babel}
 \usepackage[utf8]{inputenc}
@@ -26,12 +26,21 @@
 }
 
 \usepackage{graphicx} %img/media
-\usepackage{enumitem} 
-\usepackage{listings}
+\usepackage{enumitem} %lists
+\usepackage{listings} %coding environment
 \usepackage{mathtools} %math package
 \usepackage{fancyhdr} %header e footer
 
+\usepackage{clrscode3e} %algorithms pseudocode
+\RequirePackage{graphics} % needed for \scalebox command
+
 \newcommand{\authorName}{Timoty Granziero}
+
+%liste
+\renewcommand{\labelitemi}{$\circ$}
+\renewcommand{\labelitemii}{$\cdot$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\ast$}
 
 \author{\authorName}
 \date{\today}
@@ -44,16 +53,44 @@
 \fancyhead[L,RO]{\small\thepage}
 \lhead{\rightmark}
 \rhead{\nouppercase{\leftmark}}
-\rfoot{\thepage}
-\lfoot{\authorName}
+\cfoot{\thepage}
+%\lfoot{\authorName}
 
 \pagestyle{fancy}
 
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.50\textwidth]{img/logo_unipd_color.png}\par\vspace{1cm} %logo
+	
+	{\LARGE\bfseries Appunti di Algoritmi e Strutture Dati \par}
+	\vspace{1cm}
+	
+	{\Large\bfseries a.a. 2017/2018 \par}
+	
+	\vspace{1cm} 
+
+	Autore: \par
+	{\bfseries \authorName \par}
+	
+	\vspace{1cm}
+
+	Repository: \par
+	\url{https://github.com/Vashy/ASD-Notes}
+    
+    \vfill
+	
+	% Bottom of the page
+	{\large \today\par}
+	
+\end{titlepage}
+
 \newpage
 \tableofcontents
+
+\frenchspacing
 
 \newpage
 
