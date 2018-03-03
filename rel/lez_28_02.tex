@@ -86,7 +86,7 @@ tale che
 \end{itemize}
 
 \subsection{Insertion Sort}
-È l'algoritmo di sorting che viene fatto naturalmente ad esempio quando si vogliono ordinare le carte nella propria mano in una partita a scala 40: si prende ogni carta a partire da sinistra, e la si posiziona in ordine crescente.\par
+È un algoritmo di \emph{sorting incrementale}. Viene applicato naturalmente ad esempio quando si vogliono ordinare le carte nella propria mano in una partita a scala 40: si prende ogni carta a partire da sinistra, e la si posiziona in ordine crescente.\par
 \paragraph{Astrazione} Prendiamo ad esempio il seguente array:
 
 \begin{center}
@@ -182,23 +182,7 @@ che partono da 1.}\par
 
 \paragraph{Pseudocodice} Segue lo pseudocodice dell'\texttt{Insertion Sort}.
 
-\begin{codebox}
-\Procname{$\proc{Insertion-Sort}(A)$}
-\li $\id{n} \gets \attrib{A}{length}$
-\li \For $j \gets 2$ \To $n$
-	\Comment il primo elemento è già ordinato
-\li		\Do
-			$\id{key} \gets A[j]$ 
-			\Comment $A[1 \twodots j-1]$ ordinato
-\li			$i \gets j-1$
-\li			\While $i > 0$ and $A[i] > \id{key}$
-\li				\Do
-					$A[i+1] \gets A[i]$
-\li					$i \gets i-1$
-				\End
-\li			$A[i+1] \gets \id{key}$
-		\End
-\end{codebox}
+\input{pseudocodes/insertion-sort.tex}
 
 \vspace{0.5cm}
 

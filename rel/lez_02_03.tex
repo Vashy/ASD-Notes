@@ -1,0 +1,278 @@
+\section{Lezione del 02/03/2018}
+
+\subsection{Modello dei costi}
+\paragraph{Assunzione} Tutte le istruzioni richiedono un tempo \underline{costante}.
+
+Rivediamo l'algoritmo:
+
+\input{pseudocodes/insertion-sort.tex}
+
+Diamo il nome $c_0$ alla chiamata del metodo, \texttt{InsertionSort(A)};
+A ogni riga numerata, diamo il nome $c_1, c_2,\twodots ,c_8$
+\footnote{($c_1$ corrisponde alla riga 1, $c_2$ alla riga 2 e così via)}.\par
+Vediamo il \emph{costo} di ogni istruzione:
+
+\begin{itemize}
+    \item[] $\boldsymbol{c_0} \rightarrow 1$
+    \item[] $\boldsymbol{c_1} \rightarrow 1$
+    \item[] $\boldsymbol{c_2} \rightarrow n$
+    \item[] $\boldsymbol{c_3} \rightarrow (n-1)$
+    \item[] $\boldsymbol{c_4} \rightarrow (n-1)$
+    \item[] $\boldsymbol{c_5} \rightarrow \displaystyle\sum_{j=2}^{n} t_j+1$
+    \item[] $\boldsymbol{c_6}, \boldsymbol{c_7} \rightarrow \displaystyle\sum_{j=2}^{n} t_j$
+    \item[] $\boldsymbol{c_8} \rightarrow (n-1)$
+\end{itemize}
+
+\subsection{Complessità di IS} 
+\begin{displaymath}
+    T^{IS}(n) = c_0 + c_1 + c_2n + (c_3+c_4+c_8)(n-1)
+    + c_5\displaystyle\sum_{j=2}^{n}(t_j+1) + (c_6+c_7)\displaystyle\sum_{j=2}^{n}t_j
+\end{displaymath}
+
+$\boldsymbol{t_j}$ dipende, oltre che da $n$, dall'istanza dell'array
+che stiamo considerando.
+È chiaro che questo calcolo non da indicazioni chiare sull'effettiva
+complessità dell'algoritmo.\par
+
+\bigskip
+Andiamo ad analizzare i 3 possibili casi:
+
+\begin{enumerate}[label=\emph{\alph*})]
+    \item Caso migliore (\ref{is:casomigliore})
+    \item Caso peggiore (\ref{is:casopeggiore})
+    \item Caso medio (\ref{is:casomedio})
+\end{enumerate}
+
+\subsubsection{Caso migliore} \label{is:casomigliore}
+
+$\rightarrow A$ ordinato $\Rightarrow t_j = 0 $ $\forall j$
+
+\bigskip
+La \textbf{complessità} diventa:
+\begin{displaymath}
+    T^{IS}_{min}(n) = c_0 + c_1 + c_2n + (c_3+c_4+c_5+c_8)(n-1) 
+    = an+b \approx n
+\end{displaymath}
+
+Ossia, si comporta come $n$. Il \emph{caso migliore} \textbf{non}
+è interessante, visto che è improbabile si presenti.
+
+\subsubsection{Caso peggiore} \label{is:casopeggiore}
+
+$\rightarrow A$ ordinato in senso inverso $\Rightarrow \forall j$ $t_j = j-1$ \par
+\bigskip
+La \textbf{complessità} diventa: 
+
+\begin{displaymath}
+    T^{IS}_{max}(n) = c_0 + c_1 + c_2n + (c_3+c_4+c_8)(n-1)
+    + c_5\displaystyle\sum_{j=2}^{n}j + (c_6+c_7)
+    \displaystyle\sum_{j=2}^{n}(j-1)
+\end{displaymath}
+
+Per valutare il costo di $\displaystyle\sum_{j=2}^{n}j$ e di 
+$\displaystyle\sum_{j=2}^{n}(j-1)$, usiamo la \textbf{somma di Gauss}: \par
+
+\begin{equation}
+    \displaystyle\sum_{i=1}^{n}i = \frac{n(n+1)}{2}
+\end{equation}
+\newpage
+Otteniamo:
+
+\begin{displaymath}
+    \displaystyle\sum_{j=2}^{n}j = \frac{n(n+1)}{2}-1
+\end{displaymath}
+
+\begin{displaymath}
+    \displaystyle\sum_{j=2}^{n}(j-1) = \displaystyle\sum_{i=1}^{n}n = \frac{(n-1)n}{2}
+\end{displaymath}
+
+Per finire, ricalcoliamo $T^{IS}_{max}(n)$
+
+\begin{displaymath}
+    T^{IS}_{max}(n) = a'n^2+b'n+c' \approx n^2
+\end{displaymath}
+
+\subsubsection{Caso medio} \label{is:casomedio}
+Il caso medio è \emph{difficile da calcolare}, e in una considerevole parte dei casi,
+coincide con il caso peggiore.\par
+Comunque, l'idea è la seguente:
+
+\begin{align*}
+    \frac{\displaystyle\sum_{\text{perm. di input}}T^{IS}(p)}{n!} \approx n^2 && 
+        \text{posso pensare che } t_j \cong \frac{j-1}{2}
+\end{align*}
+
+\subsection{Divide et Impera}
+
+Un algoritmo di sorting \emph{divide et impera} si può suddividere in 3 fasi:
+
+\begin{description}
+    \item[divide] divide il problema dato in sottoproblemi più piccoli;
+    \item[impera] risolve i sottoproblemi:
+    \begin{itemize}
+        \item ricorsivamente;
+        \item la soluzione è nota (e.g. array con un elemento);
+    \end{itemize}
+    \item[combina] compone le soluzioni dei sottoproblemi in una soluzione del 
+        problema originale.
+\end{description}
+
+\subsection{Merge Sort}
+\href{https://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}\footnote{Si %
+consiglia uno sguardo all'algoritmo da altre fonti, poichè presentarlo %
+graficamente in \LaTeX, come è stato visto a lezione, è arduo.} è un 
+esempio di algoritmo divide et impera. Andiamo ad analizzarlo.
+
+\paragraph{Astrazione} Consideriamo il seguente array A.
+\begin{center}
+	\begin{tabular}{|l|l|l|l||l|l|l|l|}
+		\hline
+		5 & 2 & 4 & 7 & 1 & 2 & 3 & 6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Lo divido a metà, ottenendo due parti separate.
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		5 & 2 & 4 & 7 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		1 & 2 & 3 & 6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Consideriamo il primo, ossia \texttt{A[1$\twodots$4]} (A originale). Divido anche questo a metà.
+
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		5 & 2 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\begin{tabular}{|l|l|}
+		\hline
+		4 & 7 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Divido nuovamente a metà, ottenendo:
+
+\begin{center}
+	\begin{tabular}{|l|}
+		\hline
+		5 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\begin{tabular}{|l|}
+		\hline
+		2 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+5 e 2 sono due blocchi già ordinati. Scelgo il minore tra i due e lo metto in prima 
+posizione, mentre l'altro in seconda posizione, ottenendo un blocco composto da 2 e 5.\par
+Riprendo con il blocco composto da 4 e 7. Lo divido in due blocchi da un elemento. Faccio lo stesso procedimento 
+fatto per 2 e 5: metto in prima posizione 4 e in seconda posizione 7. La situazione
+è la seguente:
+
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		2 & 5 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\begin{tabular}{|l|l|}
+		\hline
+		4 & 7 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+So che i blocchi ottenuti contengono elementi ordinati. Data questa assunzione, posso ragionare 
+nel seguente modo: considero il primo elemento dei due blocchi (il 2 in questo caso) e lo metto 
+in prima posizione. Ora considero il successivo elemento di quel blocco e lo stesso elemento del 
+blocco che non è stato selezionato, e inserisco nell'array l'elemento minore. Continuo fino ad 
+ottenere un blocco ordinato.
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		2 & 4 & 5 & 7 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Faccio lo stesso ragionamento con la parte di array originale \texttt{A[5$\twodots$8]}, ottenendo
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		2 & 4 & 5 & 7 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		1 & 2 & 3 & 6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+A questo punto, i blocchi da 4 contengono elementi tra loro ordinati. Faccio lo stesso procedimento
+usato per comporli, per ottenere l'array originale ordinato. Considero:
+\begin{itemize}[noitemsep]
+    \item \texttt{A[1$\twodots$4]}: indice $i = 1$ per scorrerlo;
+    \item \texttt{A[5$\twodots$8]}: indice $j = 1$ per scorrerlo;
+\end{itemize}
+
+Valuto \texttt{A[i]} e \texttt{A[j]}. \par
+\begin{itemize}[noitemsep]
+    \item Se \texttt{A[i]} $\leq$ \texttt{A[j]}, inserisco \texttt{A[i]} e incremento \texttt{i}. \par
+    \item Altrimenti, inserisco \texttt{A[j]} e incremento \texttt{j}.
+    \item Itero finchè entrambi gli indici non sono out of bounds.
+\end{itemize}
+
+\paragraph{Pseudocodice} Segue lo pseudocodice del 
+\texttt{Merge Sort}.
+
+\input{pseudocodes/merge-sort.tex}
+
+\input{pseudocodes/merge.tex}
+
+\subsubsection{Invarianti e correttezza}
+
+\textbf{L} e \textbf{R} contengono rispettivamente 
+\texttt{A[p$\twodots$q]} e \texttt{A[q+1$\twodots$r]}. 
+L'indice \texttt{k} scorre \texttt{A}. Il sotto-array \texttt{A[p$\twodots$k-1]}
+è ordinato, e contiene \texttt{L[1$\twodots$i-1]} e \texttt{R[1$\twodots$j-1]}.
+
+\begin{center}
+    $A[p \twodots k-1] \leq L[i \twodots n1], R[j \twodots n2]$ \\
+    $\Downarrow$ \\
+    $A[p \twodots k-1] = A[p \twodots r+1-1] \implies A[p \twodots r] \text{ ordinato}$
+\end{center}
+
+\paragraph{Dimostrazione per induzione su r-p} 
+\begin{itemize}
+    \item[$\Rightarrow$] Se $r-p == 0 $ (oppure $-1$) abbiamo al
+    più un elemento $\implies$ array già ordinato.
+    \item[$\Rightarrow$] Se $r-p > 0$ per ipotesi induttiva:
+    \begin{itemize}
+        \item \texttt{Merge-sort(A,p,q)} ordina \texttt{A[p$\twodots$q]};
+        \item \texttt{Merge-sort(A,q+1,r)} ordina \texttt{A[q+1$\twodots$r]}; \par
+        Per correttezza di \texttt{Merge()}, dopo la sua chiamata ottengo 
+        \texttt{A[p$\twodots$r]} ordinato.
+    \end{itemize}
+\end{itemize} 

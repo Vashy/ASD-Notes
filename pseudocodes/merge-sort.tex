@@ -1,0 +1,14 @@
+\begin{codebox}
+\Procname{$\proc{Merge-Sort}(A,p,r)$}
+\li \If $p < r$
+\li     \Then
+            $q \gets (p + r) / 2$ 
+        \Comment arrotondato per difetto
+\li         $\proc{Merge-Sort}(A,p,q)$
+        \Comment ordina \texttt{A[p$\twodots$q]}
+\li         $\proc{Merge-Sort}(A,q+1,r)$
+        \Comment ordina \texttt{A[q+1$\twodots$r]}
+\li         $\proc{Merge}(A,p,q,r)$
+        \Comment ``Merge'' dei due sotto-array 
+        \End
+\end{codebox}

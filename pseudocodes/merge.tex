@@ -1,0 +1,29 @@
+\begin{codebox}
+\Procname{$\proc{Merge}(A,p,q,r)$}
+\li $\id{n1} \gets q-p+1$
+    \Comment gli indici partono da 1
+\li $\id{n2} \gets r-q$
+\zi \Comment \kw{L} sotto-array sx, \kw{R} sotto-array dx
+\li \For $i \gets 1$ \To $\id{n1}$
+\li     \Do
+            $L[i] \gets A[p+i-1]$
+\li         \For $j \gets 1$ \To $\id{n2}$
+\li             \Do
+                    $R[j] \gets A[q+j]$
+                \End
+\li         $L[\id{n1}+1] \gets R[\id{n2}+1] \gets \infty$
+\li         $i \gets j \gets 1$
+\li         \For $k = p$ \To $r$
+\li             \Do
+                    \If $L[i] \leq R[j]$
+\li                     \Then
+                            $A[k] \gets L[i]$
+\li                         $i \gets i+1$
+\li                     \Else
+                    \Comment \texttt{L[i]} $>$ \texttt{R[j]}
+\li                            $A[k] \gets R[j]$
+\li                         $j \gets j+1$
+                        \End
+                \End
+        \End
+\end{codebox}

@@ -4,3 +4,5 @@
 *.out
 *.gz
 *.toc
+main.fdb_latexmk
+clrscode3e.pdf
