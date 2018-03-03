@@ -233,14 +233,14 @@ Faccio lo stesso ragionamento con la parte di array originale \texttt{A[5$\twodo
 A questo punto, i blocchi da 4 contengono elementi tra loro ordinati. Faccio lo stesso procedimento
 usato per comporli, per ottenere l'array originale ordinato. Considero:
 \begin{itemize}[noitemsep]
-    \item \texttt{A[1$\twodots$4]}: indice $i = 1$ per scorrerlo;
-    \item \texttt{A[5$\twodots$8]}: indice $j = 1$ per scorrerlo;
+    \item \texttt{L[1$\twodots$4] $=$ A[1$\twodots$4]}: indice $i = 1$ per scorrerlo;
+    \item \texttt{R[1$\twodots$4] $=$ A[5$\twodots$8]}: indice $j = 1$ per scorrerlo;
 \end{itemize}
 
-Valuto \texttt{A[i]} e \texttt{A[j]}. \par
+Valuto \texttt{L[i]} e \texttt{R[j]}. \par
 \begin{itemize}[noitemsep]
-    \item Se \texttt{A[i]} $\leq$ \texttt{A[j]}, inserisco \texttt{A[i]} e incremento \texttt{i}. \par
-    \item Altrimenti, inserisco \texttt{A[j]} e incremento \texttt{j}.
+    \item Se \texttt{L[i]} $\leq$ \texttt{R[j]}, inserisco \texttt{L[i]} e incremento \texttt{i}. \par
+    \item Altrimenti, inserisco \texttt{R[j]} e incremento \texttt{j}.
     \item Itero finchè entrambi gli indici non sono out of bounds.
 \end{itemize}
 
