@@ -82,8 +82,8 @@ an_{11}+b && an_{12}+b && an_{21}+b && an_{22}+b
 	c_0 && c_0 && \dots && \dots && \dots && c_0 && c_0 \\
 \end{align*}
 
-Otteniamo $c_0$ ripetuto $n$ volte alla radice dell'albero. Vediamo nel dettaglio la complessità nelle varie
-iterazioni.
+Otteniamo $c_0$ ripetuto $n$ volte all'ultimo livello dell'albero. Vediamo nel dettaglio la complessità
+nelle varie iterazioni.
 \begin{itemize}
 	\item[] $\boldsymbol{i=0}$ \hspace{0.5cm} $an+b$
 	\item[] $\boldsymbol{i=1}$ \hspace{0.5cm} $a(n_1+n_2)+2b \approx an+2b$
@@ -113,7 +113,7 @@ Poniamo $n=2^h$. Abbiamo
 
 Posso calcolare il limite del rapporto:
 \begin{displaymath}
-	\lim_{n \to +\infty} \frac{T^{MS}(n)}{T^{IS}(n)} = \lim_{n \to +\infty} \frac{a'n^2 + b'n + c'}{an \log_2n + b''n + c''} = 0
+	\lim_{n \to +\infty} \frac{T^{MS}(n)}{T^{IS}(n)} = \lim_{n \to +\infty} \frac{an \log_2n + b''n + c''}{a'n^2 + b'n + c'} = 0
 \end{displaymath}
 
 Per definizione
