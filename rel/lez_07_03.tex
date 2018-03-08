@@ -1,0 +1,143 @@
+\section{Lezione del 07/03/2018}
+
+\subsection{Approfondimento sull'induzione}
+
+\subsubsection{Induzione ordinaria} 
+
+Proprietà $P(n)$, e.g., $ = $ ``Se $n$ è pari, $n+1$ è dispari'' oppure 
+``tutti i grafi con $n$ nodi \dots ''.\par
+Per dimostrare che $P(n)$ vale per ogni $n$
+\begin{itemize}
+	\item $P(0)$: \textbf{caso base};
+	\item assumo vera $P(n) \rightarrow $ dimostro $P(n+1)$, allora $P(n)$
+	è vera per ogni $n$.
+\end{itemize}
+
+\subsubsection{Induzione completa}
+\begin{itemize}
+	\item $\big[ P(0) \big]$ (non necessaria, è un'istanza del passo successivo);
+	\item dimostro $P(m) \ \forall m<n \rightarrow $ vale $P(n) \ \forall n$.  
+\end{itemize}
+
+\subsection{Complessità di Merge Sort}
+
+$n = \#\text{elementi da ordinare}$
+
+\paragraph{Merge(A,p,q,r)}
+\begin{itemize}
+	\item[] \textbf{inizializzazione}: $a'n+b'$;
+	\item[] \textbf{ciclo}: $a'n+b'$;
+\end{itemize}
+
+Sommandoli, ottengo una complessità all'incirca di:
+\begin{displaymath}
+	T^{merge}(n) = an+b
+\end{displaymath}
+
+Nel dettaglio: 
+
+\[ T^{MS}(n) =
+\begin{cases}
+	c_0       & \quad \text{se } n \leq 1 \\
+	T^{MS}(n_1)+T^{MS}(n_2)+T^{merge}(n)  & \quad \text{altrimenti}
+\end{cases}
+\]
+
+\begin{center}
+	$\Downarrow$ \\
+\end{center}
+
+\[ T^{MS}(n) =
+\begin{cases}
+c_0       & \quad \text{se } n \leq 1 \\
+T^{MS}(n_1)+T^{MS}(n_2)+an+b  & \quad \text{altrimenti}
+\end{cases}
+\]
+
+con 
+
+\begin{itemize}
+	\item[] $T^{MS}(n_1) = \floor{\frac{n}{2}}$
+	\item[] $T^{MS}(n_2) = \ceil{\frac{n}{2}}$
+\end{itemize}
+
+%\subsubsection{Complessità }
+
+\begin{align*}
+	T^{MS}(n) \\
+	an+b
+\end{align*}
+\begin{align*}
+	T^{MS}(n_1) && T^{MS}(n_2) \\
+	an_1+b && an_2+b
+\end{align*}
+\begin{align*}
+T^{MS}(n_{11}) && T^{MS}(n_{12}) && T^{MS}(n_{21}) && T^{MS}(n_{22}) \\
+an_{11}+b && an_{12}+b && an_{21}+b && an_{22}+b
+\end{align*}
+\begin{center}
+	\dots
+\end{center}
+\begin{align*}
+	c_0 && c_0 && \dots && \dots && \dots && c_0 && c_0 \\
+\end{align*}
+
+Otteniamo $c_0$ ripetuto $n$ volte alla radice dell'albero. Vediamo nel dettaglio la complessità nelle varie
+iterazioni.
+\begin{itemize}
+	\item[] $\boldsymbol{i=0}$ \hspace{0.5cm} $an+b$
+	\item[] $\boldsymbol{i=1}$ \hspace{0.5cm} $a(n_1+n_2)+2b \approx an+2b$
+	\item[] $\boldsymbol{i=2}$ \hspace{0.5cm} $a(n_{11}+n_{12}+n_{21}+n_{22})+4b \approx an+4b$
+	\item[] \dots
+	\item[] $\boldsymbol{i=h}$ \hspace{0.5cm} $c_0n$
+\end{itemize}
+
+Poniamo $n=2^h$. Abbiamo
+
+\begin{align*}
+	T^{MS}(n) 	& = \displaystyle\sum_{i=0}^{h-1}(an+2^ib)+c_0n \\
+				& = anh+b\displaystyle\sum_{i=0}^{h-1}2^i && \text{($h= \log_2n$)}\\
+				& = an \log_2n + b2^h - b + c_0n && \text{($2^h=n$)} \\
+				& = an \log_2n + (b+c_0)n - b
+\end{align*}
+\begin{displaymath}
+	T^{MS}(n) = an \log_2n + b''n + c'' \approx n \log_2n
+\end{displaymath}
+
+\subsection{Confronto tra IS e MS}
+
+\begin{gather*}
+	T^{IS}(n) = a'n^2 + b'n + c' \\
+	T^{MS}(n) = an \log_2n + b''n + c''
+\end{gather*}
+
+Posso calcolare il limite del rapporto:
+\begin{displaymath}
+	\lim_{n \to +\infty} \frac{T^{MS}(n)}{T^{IS}(n)} = \lim_{n \to +\infty} \frac{a'n^2 + b'n + c'}{an \log_2n + b''n + c''} = 0
+\end{displaymath}
+
+Per definizione
+\begin{gather*}
+	\forall \varepsilon > 0 \ \exists n_0 : \forall n \geq n_0 \quad \frac{T^{MS}(n)}{T^{IS}(n)} < \varepsilon \\
+	\Downarrow
+\end{gather*}
+\begin{align*}
+	T^{MS}(n) < \varepsilon T^{IS}(n) = \frac{T^{IS}}{m} && \text{(Ponendo, ad esempio, $\varepsilon = \frac{1}{m}$)}
+\end{align*}
+
+Detto a parole, c'è un certo $n$ oltre il quale, ad esempio, \texttt{Merge Sort} su un \emph{Commodore 64} 
+esegue più velocemente di un \texttt{Insertion Sort} su una macchina moderna, come mostrato nella seguente 
+tabella.
+\begin{center}
+	\begin{tabular}{l|c|c}
+		$n$ & $T^{IS}(n)=n^2$ & $T^{IS}(n)=n \log n$ \\
+		\hline
+		10 & $0.1ns$ & $0.033ns$ \\
+		\hline
+		1000 & $1ms$ & $10\mu s$ \\
+		\hline
+		$10^6$ & 17 minuti & $20ms$ \\
+		\hline
+		$10^9$ & 70 anni & $30s$ \\
+	\end{tabular}
+\end{center}

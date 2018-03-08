@@ -268,7 +268,10 @@ L'indice \texttt{k} scorre \texttt{A}. Il sotto-array \texttt{A[p$\twodots$k-1]}
 \begin{itemize}
     \item[$\Rightarrow$] Se $r-p == 0 $ (oppure $-1$) abbiamo al
     più un elemento $\implies$ array già ordinato.
-    \item[$\Rightarrow$] Se $r-p > 0$ per ipotesi induttiva:
+    \item[$\Rightarrow$] Se $r-p > 0$, vale 
+    $\#\text{elem}(A[p \twodots q]),\#\text{elem}(A[q+1 \twodots r]) 
+    < \#\text{elem}(A[p \twodots r])$.
+    Per ipotesi induttiva:
     \begin{itemize}
         \item \texttt{Merge-sort(A,p,q)} ordina \texttt{A[p$\twodots$q]};
         \item \texttt{Merge-sort(A,q+1,r)} ordina \texttt{A[q+1$\twodots$r]}; \par

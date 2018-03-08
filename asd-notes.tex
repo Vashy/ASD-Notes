@@ -26,11 +26,18 @@
 
 \usepackage{graphicx} %img/media
 
+%\usepackage[toc]{glossaries}
+
 \usepackage{enumitem} %lists
 \usepackage[perpage]{footmisc} %footnote, starting at 1 every page
 
 \usepackage{listings} %coding environment
 \usepackage{mathtools} %math package
+
+%floor and ceil
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 \usepackage{fancyhdr} %header e footer
 
 \usepackage{clrscode3e} %algorithms pseudocode
@@ -60,6 +67,8 @@
 
 \pagestyle{fancy}
 
+%\input{glossary.tex}
+%\makeglossaries
 
 \begin{document}
 
@@ -97,6 +106,11 @@
 \newpage
 
 \input{rel/lez_28_02.tex} \newpage
-\input{rel/lez_02_03.tex}
+\input{rel/lez_02_03.tex} 
+\input{rel/lez_07_03.tex}
+
+%glossaries
+%\glsaddall
+%\printglossaries
 
 \end{document}
