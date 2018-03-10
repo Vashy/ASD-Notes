@@ -31,12 +31,31 @@
 \usepackage{enumitem} %lists
 \usepackage[perpage]{footmisc} %footnote, starting at 1 every page
 
-\usepackage{listings} %coding environment
+%\usepackage{listings} %coding environment
+
 \usepackage{mathtools} %math package
+\usepackage{amssymb} % N, R ... symbols
 
 %floor and ceil
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+%abs and norm
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the 
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+
+
 
 \usepackage{fancyhdr} %header e footer
 
@@ -108,6 +127,7 @@
 \input{rel/lez_28_02.tex} \newpage
 \input{rel/lez_02_03.tex} 
 \input{rel/lez_07_03.tex}
+\input{rel/lez_08_03.tex}
 
 %glossaries
 %\glsaddall
