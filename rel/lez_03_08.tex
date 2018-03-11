@@ -1,4 +1,4 @@
-\section{Lezione del 08/03/2018}
+\section{Lezione dell'08/03/2018}
 
 \subsection{Notazione asintotica}
 Il \textbf{tempo di esecuzione} è difficile da calcolare, come visto nella sezione \ref{is:complessita}. 
@@ -41,6 +41,8 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 	O \big(g(n) \big) = \{ f(n) \ \vert \ \exists c > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \Rightarrow (0 \leq) f(n) \leq c \cdot g(n) \}
 \end{displaymath}
 
+\input{plots/plotO.tex}
+
 \paragraph{Esempi}
 \begin{itemize}
 	\item $f_1(n) = 2n^2 + 5n + 3 = O \big(g(n^2) \big)$ ? Sì. \par
@@ -52,7 +54,7 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 		\frac{5 \pm \sqrt{2 \cdot 5 + 12}}{2} = \frac{5 \pm \sqrt{37}}{2} \cong 5.54 && \text{(Non considero la soluzione} \\ && \text{negativa, poiché siamo in } \mathbb{R}^+ \text{)}
 	\end{align*}
 	\begin{center}
-		\includegraphics[height=6cm]{img/parabola-plot1.png}
+%		\includegraphics[height=6cm]{img/parabola-plot1.png}
 	\end{center}
 	
 	Prendo $c = 3$ e $n_0 = 6$. Vale dunque:
