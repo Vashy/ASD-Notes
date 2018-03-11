@@ -1,0 +1,24 @@
+%\usepackage[usenames,dvipsnames]{pstricks}
+%\usepackage{epsfig}
+%\usepackage{pst-grad} % For gradients
+%\usepackage{pst-plot} % For axes
+%\usepackage[space]{grffile} % For spaces in paths
+%\usepackage{etoolbox} % For spaces in paths
+
+%\makeatletter % For spaces in paths
+%\patchcmd\Gread@eps{\@inputcheck#1 }{\@inputcheck"#1"\relax}{}{}
+%\makeatother
+
+%plot per omega(g(n))
+\psscalebox{1.0 1.0} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-5.0)(10.603136,5.0)
+\rput(0.603136,-5.0){\psaxes[linecolor=black, linewidth=0.04, tickstyle=top, axesstyle=axes, labels=none, ticks=none, dx=1.0cm, dy=1.0cm](0,0)(0,0)(10,10)}
+\psbezier[linecolor=red, linewidth=0.04, showpoints=false](0.6,-3.8)(0.8,-4.3547)(1.4320503,-0.4)(2.3,-0.4)(3.4320502,-0.4)(3.157893,-4.0)(4.5,-3.8)(4.9,-3.8)(5.263829,-2.0401845)(6.03205,-1.4)(6.8002715,-0.7598156)(8.023314,-0.1881717)(8.33205,0.2)(8.45,0.3)(9.739157,1.6)(10,1.8)
+\psbezier[linecolor=black, linewidth=0.04, showpoints=false](0.603136,-5.0)(0.8,-4.8)(2.8206878,-3.574979)(3.7908301,-3.3324433976333423)(4.7609725,-3.089908)(4.7969465,-3.842875)(5.79083,-3.7324433)(6.7847137,-3.622012)(10.017413,-2.7614827)(9.99083,-2.5324433)
+\psline[linecolor=black, linewidth=0.04, linestyle=dashed, dash=0.17638889cm 0.10583334cm](4.82,-4.9324436)(4.82,5.0675564)
+\rput[bl](10,1.8){$f(n)$}
+\rput[bl](10,-2.5){$c g(n)$}
+\rput[bl](4.82,-5.3){$n_0$}
+\end{pspicture}
+}
