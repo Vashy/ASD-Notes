@@ -2,7 +2,7 @@
 \Procname{$\proc{Merge-Sort}(A,p,r)$}
 \li \If $p < r$
 \li     \Then
-            $q \gets (p + r) / 2$ 
+            $q \gets \floor{\frac{p + r}{2}}$ 
         \Comment arrotondato per difetto
 \li         $\proc{Merge-Sort}(A,p,q)$
         \Comment ordina \texttt{A[p$\twodots$q]}
