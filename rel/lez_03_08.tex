@@ -41,7 +41,9 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 	O \big(g(n) \big) = \{ f(n) \ \vert \ \exists c > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \Rightarrow (0 \leq) f(n) \leq c \cdot g(n) \}
 \end{displaymath}
 
-\input{plots/plotO.tex}
+\begin{center}
+	\includegraphics[width=0.80\textwidth]{img/plots/plotO.png}
+\end{center}
 
 \paragraph{Esempi}
 \begin{itemize}
@@ -83,6 +85,10 @@ Data $g(n)$, indichiamo con $\Omega \big(g(n) \big)$ il \emph{limite asintotico 
 	\Omega \big(g(n) \big) = \{ f(n) \ \vert \ \exists c > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \Rightarrow c \cdot g(n) \leq f(n) \}
 \end{displaymath}
 
+\begin{center}
+	\includegraphics[width=0.80\textwidth]{img/plots/plotomega.png}
+\end{center}
+
 \paragraph{Esempi}
 \begin{itemize}
 	\item $f_1(n) = 2n^2 + 5n + 3 = \Omega \big(g(n^2) \big)$ ? Sì.\par
@@ -104,6 +110,10 @@ Data $g(n)$, indichiamo con $\Theta \big( g(n) \big)$ il \emph{limite asintotico
 	\Theta \big( g(n) \big) = \{ f(n) \ \vert \ \exists c_1, c_2 > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \\ 
 	\Rightarrow c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n) \}
 \end{multline*}
+
+\begin{center}
+	\includegraphics[width=0.80\textwidth]{img/plots/plottheta.png}
+\end{center}
 
 \paragraph{Esempi}
 \begin{align*}
