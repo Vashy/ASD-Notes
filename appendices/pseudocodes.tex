@@ -1,0 +1,46 @@
+\section{Raccolta algoritmi}
+
+\subsection{Insertion Sort}
+Per approfondire, vedi la sezione \ref{insertionsort} 
+\input{pseudocodes/insertion-sort.tex}
+
+\subsection{Merge Sort}
+Vedi la sezione \ref{mergesort}
+\input{pseudocodes/merge-sort.tex}
+\input{pseudocodes/merge.tex}
+
+\subsection{Insertion Sort ricorsivo}
+
+\input{pseudocodes/insertion-sort-rec.tex}
+\input{pseudocodes/insert.tex}
+
+\subsubsection{Correttezza di Insertion-Sort(A,j)}
+Procediamo per induzione:
+\begin{itemize}
+	\item[] $(j \leq 1) \quad$ Caso base. Array già ordinato, non faccio nulla $\Rightarrow$ ok;
+	\item[] $(j > 1) \quad$ Per ipotesi induttiva, la chiamata \texttt{Insertion-Sort(A,j-1)}
+	ordina \texttt{A[1$\twodots$j-1]}. Assumendo la correttezza di \texttt{Insert(A,j-1)}, esso
+	``inserisce'' \texttt{A[j]} $\Rightarrow$ produce \texttt{A[1$\twodots$j]} ordinato.
+\end{itemize}
+
+\subsubsection{Correttezza di Insert(A,j)}
+Anche qui, dimostrazione per induzione:
+\begin{itemize}
+	\item[] $(j = 1) \quad$ Caso base. \texttt{A[1]} da inserire nell'array vuoto. Non fa nulla
+	$\Rightarrow$ ok;
+	\item[] $(j > 1) \quad$ Due sottocasi:
+	\begin{itemize}
+		\item \texttt{A[j]} $\geq$ \texttt{A[j-1]}: non faccio nulla, \texttt{A[1$\twodots$j]} già
+		ordinato;
+		\item \texttt{A[j]} $<$ \texttt{A[j-1]}: scambio le chiavi delle due celle. Il nuovo \texttt{A[j]}
+		sarà sicuramente maggiore di qualsiasi altro elemento che lo precede, poiché, per precondizione di 
+		\texttt{Insert}, \texttt{A[1$\twodots$j-1]} era ordinato, e dato che valeva \texttt{A[j-1]} $\geq$ 
+		\texttt{A[j]}, il nuovo \texttt{A[j]} (che è il precedente \texttt{A[j-1]}) sarà sicuramente l'elemento con il valore più alto. 
+		Dopodichè, chiamo \texttt{Insert(A,j-1)} per ordinare la cella \texttt{A[j-1]}.
+ 	\end{itemize}
+\end{itemize}
+
+\subsection{CheckDup}
+Algoritmo che verifica la presenza di duplicati in \texttt{A[p$\twodots$r]} e, 
+solo se non ci sono, ordina l'array.
+\input{pseudocodes/check-dup.tex}

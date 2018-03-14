@@ -1,0 +1,10 @@
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A,j)$}
+\li \If $j < 1$
+\li     \Then
+		$\proc{Insertion-Sort}(A,j-1)$
+        \Comment ordina \texttt{A[1$\twodots$j-1]}
+\li         $\proc{Insert}(A,j)$
+        \Comment inserisce \texttt{A[j]} in modo ordinato in \texttt{A}
+        \End
+\end{codebox}

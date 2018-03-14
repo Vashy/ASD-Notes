@@ -1,0 +1,12 @@
+\begin{codebox}
+\Procname{$\proc{Insert}(A,j)$}
+\zi	\Comment Precondizione: \texttt{A[1$\twodots$j-1]} è ordinato
+\li	\If $(j > 1) \ \kw{and} \ (A[j] < A[j-1])$
+\li		\Then
+			$A[j] \leftrightarrow A[j-1]$
+		\Comment scambia le celle \texttt{j} e \texttt{j-1}
+\zi		\Comment se le celle sono state scambiate, ordina 
+\zi		\Comment il nuovo sottoarray \texttt{A[1$\twodots$j-1]}
+\li			$\proc{Insert}(A,j-1)$
+		\End
+\end{codebox}

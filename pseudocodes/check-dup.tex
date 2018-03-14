@@ -1,0 +1,11 @@
+\begin{codebox}
+\Procname{$\proc{Check-Dup}(A,p,r)$}
+\li \If $p < r$
+\li     \Then
+            $q \gets \floor{\frac{p + r}{2}}$ 
+        \Comment arrotondato per difetto
+\li         \Return $\proc{Check-Dup}(A,p,q)$
+\li         \mbox{ or } $\proc{Check-Dup}(A,q+1,r)$
+\li         \mbox{ or } $\proc{DMerge}(A,p,q,r)$
+        \End
+\end{codebox}

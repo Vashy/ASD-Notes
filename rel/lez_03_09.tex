@@ -115,8 +115,14 @@ delle ricorrenze}:
 \end{cases}
 \]
 
-Proviamo ad ``indovinare'' la soluzione\footnote{In classe, è stato visto anche un esempio con un albero. Ho scelto di ometterlo per la poca praticità nel rappresentarlo in \LaTeX.}. Assomiglia a \texttt{Merge Sort},
-quindi ipotizziamo abbia una complessità con un andamento simile a 
+In generale, si può benissimo trascurare il caso base per poter ottenere espressioni meno verbose, in questo 
+caso otterremmo:
+\begin{displaymath}
+	T(n) = 2T(\frac{n}{2})+ 6n
+\end{displaymath}
+Per questa volta, facciamo il procedimento per intero.
+Proviamo a ``indovinare'' la soluzione\footnote{In classe, è stato visto anche un esempio con un albero. Ho scelto di ometterlo per la poca praticità nel rappresentarlo in \LaTeX.}. Assomiglia a \texttt{Merge Sort},
+quindi ipotizziamo abbia una complessità con un andamento simile 
 \begin{displaymath}
 	T(n) = an \log n + bn + c
 \end{displaymath}

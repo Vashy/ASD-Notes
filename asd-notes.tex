@@ -26,15 +26,13 @@
 
 \usepackage{graphicx} %img/media
 
-%\usepackage[toc]{glossaries}
-
 \usepackage{enumitem} %lists
 \usepackage[perpage]{footmisc} %footnote, starting at 1 every page
 
-%\usepackage{listings} %coding environment
-
 \usepackage{mathtools} %math package
 \usepackage{amssymb} % N, R ... symbols
+
+\usepackage{appendix}
 
 %floor and ceil
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
@@ -54,8 +52,6 @@
 \let\oldnorm\norm
 \def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
 \makeatother
-
-\usepackage{fancyhdr} %header e footer
 
 \usepackage{clrscode3e} %algorithms pseudocode
 \RequirePackage{graphics} % needed for \scalebox command
@@ -79,20 +75,20 @@
 \date{\today}
 \title{Appunti di Algoritmi}
 
+
+\usepackage{fancyhdr} %header e footer
+
 %header/footer setup
 \fancyhf{}
-\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
-\fancyhead[LO]{\small\scshape\nouppercase{\rightmark}}
-\fancyhead[L,RO]{\small\thepage}
-\lhead{\rightmark}
-\rhead{\nouppercase{\leftmark}}
+%\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
+\fancyhead[L]{\small\scshape\nouppercase{\rightmark}}
+%\fancyhead[L,R]{\small\thepage}
+\lhead{\nouppercase{\rightmark}}
+%\rhead{\nouppercase{\leftmark}}
 \cfoot{\thepage}
 %\lfoot{\authorName}
 
 \pagestyle{fancy}
-
-%\input{glossary.tex}
-%\makeglossaries
 
 \begin{document}
 
@@ -134,9 +130,17 @@
 \input{rel/lez_03_07.tex} \newpage
 \input{rel/lez_03_08.tex}
 \input{rel/lez_03_09.tex}
+\input{rel/lez_03_14.tex}
+%\input{rel/lez_03_15.tex}
+%\input{rel/lez_03_16.tex}
 
-%glossaries
-%\glsaddall
-%\printglossaries
+
+\newpage
+
+\appendix
+\appendixpage
+\addappheadtotoc
+
+\input{appendices/pseudocodes.tex}
 
 \end{document}

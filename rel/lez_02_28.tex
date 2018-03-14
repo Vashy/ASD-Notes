@@ -19,25 +19,24 @@
 
 \noindent \textbf{e.g.}\footnote{For the sake of example.} Ordinamento dei numeri di una \texttt{Rubrica}.
 L'idea è quella di trovare tutte le permutazioni di ogni numero.\par
-
-\begin{center}
-	30 numeri: \textit{complessità} $30! \cong 2 \times 10^{32}$ns $\Rightarrow$ \\
-	$3^{19}$ anni (con \textit{ns} = nanosecondi)
-\end{center}
+\begin{gather*}
+	\text{30 numeri: \textit{complessità} } 30! \cong 2 \times 10^{32}ns \Rightarrow \\
+	3^{19} \text{anni (con \textit{ns} = nanosecondi)}
+\end{gather*}
 
 \paragraph{std::vector} È un esempio nel \texttt{C++} delle ragioni per cui 
 si studia questa materia. Nella documentazione della \texttt{STL}, 
 sono riportati i seguenti:
 
 \begin{itemize}
-	\item \texttt{Random access}: complessità O(1);
-	\item \texttt{Insert}: complessità O(1) ammortizzato.
+	\item \texttt{Random access}: complessità $O(1)$;
+	\item \texttt{Insert}: complessità $O(1)$ ammortizzato.
 \end{itemize}
 
 Il \texttt{random access} è l'accesso a un elemento casuale del \texttt{vector}. 
-O(1) implica che l'accesso avviene in tempo costante (pari a 1). \par
+$O(1)$ implica che l'accesso avviene in tempo costante (pari a 1). \par
 Per \texttt{insert} si intende l'inserimento di un nuovo elemento in coda. 
-Avviene in tempo O(1) ammortizzato: questo perchè ogni N inserimenti, è 
+Avviene in tempo $O(1)$ ammortizzato: questo perchè ogni N inserimenti, è 
 necessario un resize del vector e una copia di tutti gli elementi nel nuovo vettore
 (questa procedura è nascosta al programmatore).
 
@@ -85,7 +84,7 @@ tale che
 	\item \texttt{Merge Sort}.
 \end{itemize}
 
-\subsection{Insertion Sort}
+\subsection{Insertion Sort} \label{insertionsort}
 \href{https://en.wikipedia.org/wiki/Insertion_sort}{Insertion Sort} un algoritmo di \emph{sorting incrementale}. Viene applicato naturalmente ad esempio quando si vogliono ordinare le carte nella propria mano in una partita a scala 40: si prende ogni carta a partire da sinistra, e la si posiziona in ordine crescente.\par
 \paragraph{Astrazione} Prendiamo ad esempio il seguente array:
 
