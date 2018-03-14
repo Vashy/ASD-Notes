@@ -4,7 +4,7 @@
 
 \subsubsection{Induzione ordinaria} 
 
-Proprietà $P(n)$, e.g., $ = $ ``Se $n$ è pari, $n+1$ è dispari'' oppure 
+Proprietà $P(n)$, e.g.  $P(n) = $ ``Se $n$ è pari, $n+1$ è dispari'' oppure 
 ``tutti i grafi con $n$ nodi \dots ''.\par
 Per dimostrare che $P(n)$ vale per ogni $n$
 \begin{itemize}
@@ -57,12 +57,18 @@ T^{MS}(n_1)+T^{MS}(n_2)+an+b  & \quad \text{altrimenti}
 con 
 
 \begin{itemize}
-	\item[] $T^{MS}(n_1) = \floor{\frac{n}{2}}$
-	\item[] $T^{MS}(n_2) = \ceil{\frac{n}{2}}$
+	\item[] $n_1 = \floor{\frac{n}{2}}$
+	\item[] $n_2 = \ceil{\frac{n}{2}}$
 \end{itemize}
 
-%\subsubsection{Complessità }
+\[ T^{MS}(n) =
+\begin{cases}
+c_0       & \quad \text{se } n \leq 1 \\
+T^{MS}(\floor{\frac{n}{2}})+T^{MS}(\ceil{\frac{n}{2}})+an+b  & \quad \text{altrimenti}
+\end{cases}
+\]
 
+\begin{preventpagebreak}
 \begin{align*}
 	T^{MS}(n) \\
 	an+b
@@ -81,9 +87,10 @@ an_{11}+b && an_{12}+b && an_{21}+b && an_{22}+b
 \begin{align*}
 	c_0 && c_0 && \dots && \dots && \dots && c_0 && c_0 \\
 \end{align*}
+\end{preventpagebreak}
 
-Otteniamo $c_0$ ripetuto $n$ volte all'ultimo livello dell'albero. Vediamo nel dettaglio la complessità
-nelle varie iterazioni.
+Otteniamo $c_0$ ripetuto $n$ volte all'ultimo livello dell'albero. L'altezza dell'albero è circa 
+$\log_2 n$. Vediamo nel dettaglio la complessità nelle varie iterazioni.
 \begin{itemize}
 	\item[] $\boldsymbol{i=0}$ \hspace{0.5cm} $an+b$
 	\item[] $\boldsymbol{i=1}$ \hspace{0.5cm} $a(n_1+n_2)+2b \approx an+2b$
@@ -108,26 +115,23 @@ Poniamo $n=2^h$. Abbiamo
 
 \begin{gather*}
 	T^{IS}(n) = a'n^2 + b'n + c' \\
-	T^{MS}(n) = an \log_2n + b''n + c''
+	T^{MS}(n) = a''n \log_2n + b''n + c''
 \end{gather*}
 
 Posso calcolare il limite del rapporto:
 \begin{displaymath}
-	\lim_{n \to +\infty} \frac{T^{MS}(n)}{T^{IS}(n)} = \lim_{n \to +\infty} \frac{an \log_2n + b''n + c''}{a'n^2 + b'n + c'} = 0
+	\lim_{n \to +\infty} \frac{T^{MS}(n)}{T^{IS}(n)} = \lim_{n \to +\infty} \frac{a''n \log_2n + b''n + c''}{a'n^2 + b'n + c'} = 0
 \end{displaymath}
 
 Per definizione
 \begin{gather*}
 	\forall \varepsilon > 0 \ \exists n_0 : \forall n \geq n_0 \quad \frac{T^{MS}(n)}{T^{IS}(n)} < \varepsilon \\
-	\Downarrow
+	\Downarrow \\
+	T^{MS}(n) < \varepsilon T^{IS}(n) = \frac{T^{IS}}{m} \qquad \text{(Ponendo, ad esempio, $\varepsilon = \frac{1}{m}$)}
 \end{gather*}
-\begin{align*}
-	T^{MS}(n) < \varepsilon T^{IS}(n) = \frac{T^{IS}}{m} && \text{(Ponendo, ad esempio, $\varepsilon = \frac{1}{m}$)}
-\end{align*}
 
 Detto a parole, c'è un certo $n$ oltre il quale, ad esempio, \texttt{Merge Sort} su un \emph{Commodore 64} 
-esegue più velocemente di un \texttt{Insertion Sort} su una macchina moderna, come mostrato nella seguente 
-tabella.
+esegue più velocemente di un \texttt{Insertion Sort} su una macchina moderna. Possiamo vedere una comparazione tra i due algoritmi nella seguente tabella.
 \begin{center}
 	\begin{tabular}{l|c|c}
 		$n$ & $T^{IS}(n)=n^2$ & $T^{MS}(n)=n \log n$ \\

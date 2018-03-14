@@ -9,7 +9,7 @@ Rivediamo l'algoritmo:
 
 Diamo il nome $c_0$ alla chiamata del metodo, \texttt{InsertionSort(A)};
 A ogni riga numerata, diamo il nome $c_1, c_2,\twodots ,c_8$
-\footnote{($c_1$ corrisponde alla riga 1, $c_2$ alla riga 2 e così via)}.\par
+\footnote{($c_1$ corrisponde alla riga 1, $c_2$ alla riga 2 e così via).}.\par
 Vediamo il \emph{costo} di ogni istruzione:
 
 \begin{itemize}
@@ -31,7 +31,7 @@ Vediamo il \emph{costo} di ogni istruzione:
 
 $\boldsymbol{t_j}$ dipende, oltre che da $n$, dall'istanza dell'array
 che stiamo considerando.
-È chiaro che questo calcolo non da indicazioni chiare sull'effettiva
+È chiaro che questo calcolo non da indicazioni precise sull'effettiva
 complessità dell'algoritmo.\par
 
 \bigskip
@@ -121,7 +121,7 @@ Un algoritmo di sorting \emph{divide et impera} si può suddividere in 3 fasi:
 \href{https://en.wikipedia.org/wiki/Merge_sort}{Merge Sort}\footnote{Si %
 consiglia di dare uno sguardo all'algoritmo anche da altre fonti, poichè presentarlo %
 graficamente in \LaTeX, come è stato visto a lezione, non è facile.} è un 
-esempio di algoritmo divide et impera. Andiamo ad analizzarlo.
+esempio di algoritmo \emph{divide et impera}. Andiamo ad analizzarlo.
 
 \paragraph{Astrazione} Consideriamo il seguente array A.
 \begin{center}
@@ -200,10 +200,9 @@ fatto per 2 e 5: metto in prima posizione 4 e in seconda posizione 7. La situazi
 	\end{tabular}
 \end{center}
 
-So che i blocchi ottenuti contengono elementi ordinati. Data questa assunzione, posso ragionare 
-nel seguente modo: considero il primo elemento dei due blocchi (il 2 in questo caso) e lo metto 
-in prima posizione. Ora considero il successivo elemento di quel blocco e lo stesso elemento del 
-blocco che non è stato selezionato, e inserisco nell'array l'elemento minore. Continuo fino ad 
+So che i blocchi ottenuti contengono elementi ordinati. Con questa assunzione, posso ragionare 
+nel seguente modo: considero il primo elemento dei due blocchi (2 e 4 in questo caso) e metto 
+in prima posizione il minore tra i due. Ora considero il successivo elemento del blocco che è stato scelto e lo stesso elemento dell'altro blocco, e inserisco nell'array l'elemento minore. Continuo fino ad 
 ottenere un blocco ordinato.
 
 \begin{center}
@@ -214,7 +213,7 @@ ottenere un blocco ordinato.
 	\end{tabular}
 \end{center}
 
-Faccio lo stesso ragionamento con la parte di array originale \texttt{A[5$\twodots$8]}, ottenendo
+Faccio lo stesso procedimento con la parte di array originale \texttt{A[5$\twodots$8]}, ottenendo
 
 \begin{center}
 	\begin{tabular}{|l|l|l|l|}
@@ -230,8 +229,9 @@ Faccio lo stesso ragionamento con la parte di array originale \texttt{A[5$\twodo
 	\end{tabular}
 \end{center}
 
-A questo punto, i blocchi da 4 contengono elementi tra loro ordinati. Faccio lo stesso procedimento
-usato per comporli, per ottenere l'array originale ordinato. Considero:
+A questo punto, i blocchi da 4 contengono elementi tra loro ordinati. Faccio lo stesso ragionamento
+usato per comporli, per ottenere l'array originale ordinato. Considero\footnote{Questo procedimento è stato applicato %
+anche ai passaggi precedenti; qui è spiegato più rigorosamente.}:
 \begin{itemize}[noitemsep]
     \item \texttt{L[1$\twodots$4] $=$ A[1$\twodots$4]}: indice $i = 1$ per scorrerlo;
     \item \texttt{R[1$\twodots$4] $=$ A[5$\twodots$8]}: indice $j = 1$ per scorrerlo;

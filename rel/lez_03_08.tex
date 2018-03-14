@@ -9,7 +9,7 @@ Rivediamo le complessità di Insertion Sort e Merge Sort:
 	T^{MS} = an \log_2 n + bn + c
 \end{gather*}
 
-A noi interessa calcolare $T(n)$ per $n$ ``grande''. Non consideriamo le costanti moltiplicative, che sono non fondamentali. Ecco una lista di possibili complessità ordinate in senso decrescente (le prime due categorie appartengono alla classe dei \emph{problemi NP}, ossia non trattabili):
+A noi interessa calcolare $T(n)$ per $n$ ``grande''. Non consideriamo le costanti moltiplicative, che sono non fondamentali. Ecco una lista di possibili complessità ordinate in senso decrescente (le prime due categorie appartengono alla classe degli \emph{NP problems}, ossia non trattabili):
 
 \begin{itemize}[noitemsep]
 	\item $3^n$
@@ -34,7 +34,7 @@ f, g: \mathbb{R}^+ \rightarrow \mathbb{R}^+
 	\item $g(n)$ è la funzione che, moltiplicata per un'opportuna costante $c_i$, dopo un certo $n$, fa da 
 	limite superiore o inferiore per ogni punto di $f(n)$.
 \end{itemize}
-
+\newpage
 \subsubsection{Limite asintotico superiore}
 Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico superiore}, definito come segue:
 \begin{displaymath}
@@ -78,7 +78,7 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 		\text{ok per } c = 3, \ n_0 = 0
 	\end{gather*}
 \end{itemize}
-
+\newpage
 \subsubsection{Limite asintotico inferiore}
 Data $g(n)$, indichiamo con $\Omega \big(g(n) \big)$ il \emph{limite asintotico inferiore}, definito come segue:
 \begin{displaymath}
@@ -123,7 +123,7 @@ Data $g(n)$, indichiamo con $\Theta \big( g(n) \big)$ il \emph{limite asintotico
 	& c_1 = 1 \quad c_2 = 3 \quad n_0 = 0 && \qquad \Downarrow \\
 	& && \frac{f_1(n)}{n_3} \rightarrow 0
 \end{align*}
-
+\newpage
 \subsection{Metodo del limite}
 $f(n),g(n) > 0 \quad \forall n$ \par \medskip
 Se $\lim_{n \to +\infty} \frac{f(n)}{g(n)}$ esiste, allora:
@@ -164,6 +164,6 @@ Rivediamo \texttt{Insertion Sort} con le notazioni asintotiche:
 \end{displaymath}
 Vale anche la proprietà seguente:
 \begin{align*}
-	2n^3 + \Theta (n^2) = O(n^3) (&\subseteq \Theta (n^3)) \\
-	& = \Theta (n^3)
+	2n^k + \Theta (n^{k-1}) = O(n^k) (&\subseteq \Theta (n^k)) \\
+	& = \Theta (n^k) \quad \forall k > 0
 \end{align*}

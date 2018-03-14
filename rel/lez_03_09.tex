@@ -10,7 +10,7 @@ complessità $f(n)$, allora P è $O \big( f(n) \big)$. \par \smallskip
 Vediamo un paio di esempi:
 \begin{itemize}
 	\item \texttt{Insertion Sort} algoritmo di ordinamento $O(n^2)$;
-	\item \texttt{Merge Sort} algoritmo di ordinamento $O(n \log n)$;
+	\item \texttt{Merge Sort} algoritmo di ordinamento $O(n \log n)$.
 \end{itemize}
 
 \paragraph{Limite inferiore per complessità di P}
@@ -28,7 +28,7 @@ Operazione disponibile: \texttt{A[k]} $\leftrightarrow$ \texttt{A[k+1]} (scambio
 $k$ e $k+1$).
 \begin{align*}
 	\# inv(A) & = \text{numero di inversioni di } A \\
-	& = \abs{\{ (i,j) \ \vert \ 1 \leq i \leq j \leq n \land A[i] > A[j] \}}
+	& = \Big{\vert} \ \{ (i,j) \ \vert \ 1 \leq i \leq j \leq n \land A[i] > A[j] \} \ \Big{\vert}
 \end{align*}
 
 \begin{enumerate}
@@ -124,7 +124,7 @@ Facciamo la prova induttiva.
 
 \begin{align*}
 	(n = 1) \quad T(1) & = 4 \\
-	& = a \cdot 1 \cdot \log 1 + b \cdot + c \\
+	& = a \cdot 1 \cdot \log 1 + b \cdot 1 + c  && (\log 1 = 0)\\
 	& = b + c && \text{ok se } b + c = 4 \\
 	(n > 1) \quad T(n) & = 2T \big( \frac{n}{2} \big) + 6n \\
 \end{align*}
@@ -133,14 +133,14 @@ Facciamo la prova induttiva.
 	T \big( \frac{n}{2} \big) & = a \frac{n}{2} \cdot \log \frac{n}{2} + b \frac{n}{2} + c \\
 	\text{Calcolo ora } T(n) \\
 	T(n) & = an \log_2 \frac{n}{2} + bn + 2c + 6n = \\
-	& = an \log_2n - an \log_22 + bn + 6n + 2c = \\
-	& = an \log_2n + n(b + 6 - a) + 2c \\
+	& = an \log_2n - an \log_22 + bn + 6n + 2c =  && (\log_22 = 1)\\
+	& = an \log_2n + n(b + 6 - a) + 2c = \\
 	& = an \log_2n + bn + c \\
 	& \qquad \Downarrow
 \end{align*}
 \begin{align*}
-	b + 6 - a = b \Rightarrow & a = 6 \\
-	2c = c \Rightarrow & c = 0 \\
+	b + 6 - a = b \Rightarrow \ & a = 6 \\
+	2c = c \Rightarrow \ & c = 0 \\
 	& b + c = 4 \Rightarrow b = 4 \\
 	T(n) &= an \log n + bn + c \\
 	&= 6n \log n + 4n

@@ -62,6 +62,13 @@
 
 \newcommand{\authorName}{Timoty Granziero}
 
+%prevent page break
+\newenvironment{preventpagebreak}
+{\par\nobreak\vfil\penalty0\vfilneg
+	\vtop\bgroup}
+{\par\xdef\tpd{\the\prevdepth}\egroup
+	\prevdepth=\tpd}
+
 %liste
 \renewcommand{\labelitemi}{$\circ$}
 \renewcommand{\labelitemii}{$\cdot$}
@@ -124,7 +131,7 @@
 
 \input{rel/lez_02_28.tex} \newpage
 \input{rel/lez_03_02.tex} 
-\input{rel/lez_03_07.tex}
+\input{rel/lez_03_07.tex} \newpage
 \input{rel/lez_03_08.tex}
 \input{rel/lez_03_09.tex}
 
