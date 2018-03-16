@@ -39,8 +39,23 @@ Anche qui, dimostrazione per induzione:
 		Dopodichè, chiamo \texttt{Insert(A,j-1)} per ordinare la cella \texttt{A[j-1]}.
  	\end{itemize}
 \end{itemize}
-
+ 
 \subsection{CheckDup}
 Algoritmo che verifica la presenza di duplicati in \texttt{A[p$\twodots$r]} e, 
 solo se non ci sono, ordina l'array.
+
+Se \texttt{A[p$\twodots$q]} e \texttt{A[q+1$\twodots$r]} ordinati e privi di duplicati:
+\begin{itemize}[noitemsep]
+	\item Se \texttt{A[p$\twodots$r]} non contiene duplicati, ordina e restituisce \texttt{false};
+	\item altrimenti, restituisce \texttt{true}.
+\end{itemize}
+
 \input{pseudocodes/check-dup.tex}
+\input{pseudocodes/dmerge.tex}
+
+
+\subsubsection{Correttezza di DMerge(A,p,q,r)}
+\begin{itemize}
+	\item \texttt{A[p$\twodots$k-1]} è ordinato, contiene \texttt{L[1$\twodots$i-1]}$\cup$\texttt{R[1$\twodots$j-1]};
+	\item \texttt{A[p$\twodots$k-1]} $<$ \texttt{L[1$\twodots$n1]}, \texttt{R[1$\twodots$n2]}.
+\end{itemize}

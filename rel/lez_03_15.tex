@@ -1,0 +1,102 @@
+\section{Lezione del 15/03/2018}
+
+\subsection{Master Theorem} \label{mastertheorem}
+Dato un problema con \texttt{size} $n$, vogliamo dividerlo in $a$ sottoproblemi 
+con \mbox {\texttt{size} $\frac{n}{b}$}. Otteniamo la seguente ricorrenza (ricordiamo che
+il caso base è omesso per semplicità):
+\[
+    T(n) = a \cdot T\Big(\frac{n}{b}\Big) + f(n)
+\]
+con $a \geq 1, \ b > 1$, allora possiamo confrontare
+\begin{itemize}
+    \item $f(n)$;
+    \item $n^{\log_b a}$.
+\end{itemize}
+Tre possibili casi:
+\begin{enumerate}
+    \item Se $f(n) = O(n^{\log_b a - \varepsilon})$ per qualche $\varepsilon > 0$,
+    allora $$T(n) = \Theta \big( n^{\log_b a} \big)$$
+    
+    \item Se $f(n) = \Theta (n^{\log_b a})$ allora 
+    $$T(n) = \Theta \big( n^{\log_b a} \cdot \log n \big)$$
+    
+    \item Se $f(n) = \Omega (n^{\log_b a} + \varepsilon)$ per qualche $\varepsilon > 0$,
+    e vale la \emph{regolarità}
+    $$ \exists 0 < k < 1 \text{ tale che } a \cdot f(\frac{n}{b}) \leq k \cdot f(n)$$
+    allora
+    $$ T(n) = \Theta \big( f(n) \big) $$ 
+\end{enumerate}
+
+\paragraph{Breve ``dimostrazione'' sul perchè $\boldsymbol{n^{\log_b a}}$} 
+\begin{gather*}
+    T(n) = f(n) + af\Big(\frac{n}{b}\Big) + a^2f\Big(\frac{n}{b^2}\Big) + \dots + a^{\log_b n}f\Big(\frac{n}{b^{\log_b n}}\Big) + c \cdot a^{\log_b n} \\
+    a^{\log_b n} = \big(b^{\log_b a}\big)^{\log_b n} = \big(b^{\log_b n}\big)^{\log_b a} = n^{\log_b a} \\
+    \text{Nota bene: } af\Big(\frac{n}{b}\Big) \leq k \cdot f(n) \text{ con } k < 1
+\end{gather*}
+
+Vediamo ora i casi in cui sarà possibile finire, e le conclusioni legati ad essi.
+\begin{enumerate}[label=\Alph*)]
+    \item $$\lim_{n \to \infty} \frac{f(n)}{n^{\log_b a}} = l (> 0) \neq \infty$$
+    $$\text{\emph{Caso 2}} \Rightarrow T(n) = \Theta \big( n^{\log_b a} \cdot \log n \big)$$
+
+    \item $$\lim_{n \to \infty} \frac{f(n)}{n^{\log_b a}} = 0 $$
+    \begin{align*}
+        \text{Potrei essere nel \emph{Caso 1}} & \Rightarrow \text{se } \lim_{n \to \infty} \frac{f(n)}{n^{\log_b a - \varepsilon}} = l \neq \infty \ (\varepsilon > 0) \\
+        & \Rightarrow T(n) = \Theta \big( n^{\log_b a} \big)
+    \end{align*}
+    \item 
+    \begin{align*}
+    \lim_{n \to \infty} \frac{f(n)}{n^{\log_b a}} = \infty \quad & \& \ \exists \varepsilon > 0 : 
+    \lim_{n \to \infty} \frac{f(n)}{n^{\log_b a + \varepsilon}} = l \neq 0 \\
+    & \& \ \text{\emph{Regolarità}} \Rightarrow \emph{Caso 3:} \quad T(n) = \Theta (f(n))
+    \end{align*}
+
+\end{enumerate}
+
+\subsubsection{Esercizi (Master Theorem)}
+\begin{itemize}[label=$\bullet$]
+    \item $T^{MS} = 2T\big(\frac{n}{2}\big) + a'n + b'$ \par
+    Abbiamo (rispetto alla forma $T(n) = a \cdot T\big(\frac{n}{b}\big) + f(n)$)
+    \begin{gather*}
+        a = 2, \ b = 2 \\
+        f(n) = a'n + b' \qquad n^{\log_2 2} = n
+    \end{gather*}
+    È chiaro che le due funzioni hanno lo stesso andamento (di ordine $\Theta(n)$):
+    \begin{gather*}
+        a'n + b' = \Theta (n) \\
+        \text{\emph{Caso 2}} \Rightarrow T(n) = \Theta \Big(n^{\log_2 2} \log n \Big) = \Theta (n \log n)
+    \end{gather*}
+
+    \item $T(n) = 5T\big( \frac{n}{2} \big) + 2n^2 + n \log n$ \par
+    Abbiamo (rispetto alla forma $T(n) = a \cdot T\big(\frac{n}{b}\big) + f(n)$)
+    \begin{gather*}
+        a = 5, \ b = 2 \\
+        f(n) = n^2 + n \log n \qquad n^{\log_2 5} \quad (\log_2 5 > 2) \\
+        0 < \varepsilon < \log_2 5 - 2 \Rightarrow 
+            \lim_{n \to \infty} \frac{2n^2 + n \log n}{n^{\log_2 5 - \varepsilon}} = 0 
+            \Rightarrow f(n) = O(n^{\log_2 5}) \\
+        \text{\emph{Caso 1}} \Rightarrow T(n) = \Theta \big( n^{\log_2 5} \big)
+    \end{gather*}
+
+    \item $T(n) = 5T(\frac{n}{2}) + n^3$ per esercizio.
+
+    \item $T(n) = 5T(\frac{n}{2}) + n^3 \log n$ \par
+    Abbiamo 
+    \begin{gather*}
+        a = 5, \ b = 2 \\
+        f(n) = n^3 \log n \qquad n^{\log_2 5} \quad (\log_2 5 < 3) \\
+        0 < \varepsilon < 3 - \log_2 5 \Rightarrow
+            \lim_{n \to \infty} \frac{n^3 \log n}{n^{\log_2 5 + \varepsilon}} = \infty
+    \end{gather*}
+    Possibile \emph{caso 3}. \emph{Regolarità}?
+    \begin{gather*}
+        af\Big(\frac{n}{b}\Big) \leq kf(n) \quad \text{per } 0 < k < 1 \text{ opportuno} \\
+        5 \Big(\frac{n}{2}\Big)^3 \log \frac{n}{2} = \frac{5}{8}n^3 \log \frac{n}{2} 
+            \leq \frac{5}{8} n^3 \log n \leq kn^3 \log n \quad \text{ per } 0 < k \leq \frac{5}{8} < 1 \\
+            \Downarrow \\
+            \text{\emph{Caso 3}: } T(n) = \Theta \big(f(n)\big) = \Theta(n^3 \log n)
+    \end{gather*}
+
+    \item $T(n) = 27T(\frac{n}{3}) + n^3 \log n$ 
+\end{itemize}
+
