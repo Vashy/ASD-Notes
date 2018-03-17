@@ -34,7 +34,7 @@ Tre possibili casi:
     \text{Nota bene: } af\Big(\frac{n}{b}\Big) \leq k \cdot f(n) \text{ con } k < 1
 \end{gather*}
 
-Vediamo ora i casi in cui sarà possibile finire, e le conclusioni legati ad essi.
+Vediamo ora i casi in cui sarà possibile finire, e le conclusioni legate ad essi.
 \begin{enumerate}[label=\Alph*)]
     \item $$\lim_{n \to \infty} \frac{f(n)}{n^{\log_b a}} = l (> 0) \neq \infty$$
     $$\text{\emph{Caso 2}} \Rightarrow T(n) = \Theta \big( n^{\log_b a} \cdot \log n \big)$$
@@ -98,5 +98,67 @@ Vediamo ora i casi in cui sarà possibile finire, e le conclusioni legati ad ess
     \end{gather*}
 
     \item $T(n) = 27T(\frac{n}{3}) + n^3 \log n$ 
-\end{itemize}
+    \begin{gather*}
+        f(n) = n^3 \log n \qquad n^{\log_3 27} \quad (\log_3 27 = 3) \\
+        \lim_{n \to \infty} \frac{n^3 \log n}{n^{3 + \varepsilon}} = +\infty \quad \forall \varepsilon > 0 
+            \text{, non possiamo dimostrare 3}\\
+        \Rightarrow \text{Non siamo in \emph{nessun} caso del Master Theorem.}
+    \end{gather*}
+    Anche valutando la \emph{regolarità}, ricadiamo in un assurdo. Dobbiamo dimostrare che
+    $af \big( \frac{n}{b} \big) < kf(n) \text{ per qualche } k > 0$
+    \begin{gather*}
+        27 \Big( \frac{n}{3} \Big)^3 \log \frac{n}{3} = n^3(\log n - \log 3) \ \cancel{<} \ k n^3 \log n \; \text{ per nessun } k > 0\\
+        \text{Infatti } \frac{(\log n - \log 3)n^3}{n^3 \log n} \rightarrow 1
+    \end{gather*}
 
+    (Posso usare il Metodo di Sostituzione)
+    $$T(n) =  27T\Big(\frac{n}{3}\Big) + n^3 \log n$$
+    Costruiamo l'albero delle ricorrenze:
+    \begin{itemize}
+        \item \emph{radice}: costo $n^3 \log n$;
+        \item ogni nodo ha 27 figli.
+        \begin{itemize}
+            \item i 27 figli del primo livello hanno costo $(\frac{n}{3})^3 \log \frac{n}{3}$;
+            \item i $27^2$ figli del secondo livello hanno costo $(\frac{n}{9})^3 \log \frac{n}{9}$;
+            \item \dots
+            \item le $27^n$ foglie terminali hanno costo $O(1)$.
+        \end{itemize}
+    \end{itemize}
+
+    \begin{align*}
+        T(n) & = \displaystyle\sum_{j=0}^{\log_3 n} n^3 \log \frac{n}{3^j} = 
+            n^3 \displaystyle\sum_{j=0}^{\log_3 n}(\log n - j \log 3) + cn = \\
+        & = n^3(\log n)^2 - n^3 \log 3 \displaystyle\sum_{j=0}^{\log_3 n}j + cn 
+            \qquad \Big(\displaystyle\sum_{j=0}^{\log_3 n}j \cong (\log_3 n)^2 \Big) \\
+        T(n) & = 27T\Big(\frac{n}{3}\Big) + n^3 \log n \\
+        T(n) & = \Theta \big(n^3 (\log n)^2\big) \qquad \text{ipotesi ricavata}
+    \end{align*}
+    
+    Devo dimostrare che valgano le seguenti condizioni:\par $T(n) = \Omega \big(n^3 (\log n)^2\big)$
+    \begin{enumerate}
+        \item $T(n) = O \big(n^3 (\log n)^2\big)$
+        \begin{align*}
+            T(n) & \leq c \cdot n^3 \big(n^3 (\log n)^2\big) \qquad c > 0 \\
+            T(n) & = 27T\Big(\frac{n}{3}\Big) + n^3 \log n \qquad \\
+            & \Big(\text{ipotesi induttiva } T\Big(\frac{n}{3} \Big) 
+                \leq c \cdot \Big(\frac{n}{3} \Big)^3 \Big(\log \frac{n}{3} \Big)^2 \ \Big)\\
+            & \leq 27 c \Big(\frac{n}{3} \Big)^3 \Big(\log \frac{n}{3} \Big)^2 + n^3 \log n = \\
+            & = \frac{\cancel{27} cn^3}{\cancel{27}} (\log n - \log 3)^2 + n^3 \log n = \\
+            & = cn^3 \Big((\log n)^2 - 2\log 3 \log n + (\log 3)^2 \Big) + n^3 \log n = \\
+            & = cn^3 (\log n)^2 - n^3 \Big(\log n (2c \log 3 - 1) - c (\log 3)^2 \Big) \\
+            & \leq cn^3(\log n)^2
+        \end{align*}
+        Per un $n$ abbastanza grande, vale la disuguaglianza con un opportuno valore di $c$:
+        $$c > \frac{1}{2 \log 3}$$
+
+        \item $T(n) = \Omega \big(n^3 (\log n)^2\big)$
+        \begin{align*}
+            & \exists d > 0 : T(n) \geq dn^3(\log n)^2 \\
+            & \geq 27\Big(\frac{n}{3} \Big)^3 \Big(\log \frac{n}{3} \Big)^2 + n^3 \log n \\
+            & = \dots = dn^3 (\log n)^2 - n^3 \Big(\log n (2d \log 3 - 1) - d (\log 3)^2 \Big) \\
+            & \geq dn^3 (\log n)^2 
+        \end{align*}
+        Per un $n$ abbastanza grande, vale la disuguaglianza con un opportuno valore di $d$:
+        $$2d\log 3 -1 < 0 \qquad \text{ok per } 0 < d < \frac{1}{2\log 3}$$
+    \end{enumerate}
+\end{itemize}

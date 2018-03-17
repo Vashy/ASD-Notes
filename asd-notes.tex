@@ -1,94 +1,6 @@
-\documentclass[12pt,a4paper]{article}
+\input{config.tex}
 
-\usepackage[english,italian]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref} 
-\hypersetup{
-    bookmarks=true,         % show bookmarks bar?
-    % unicode=false,          % non-Latin characters in Acrobat’s bookmarks
-    % pdftoolbar=true,        % show Acrobat’s toolbar?
-    pdfmenubar=true,        % show Acrobat’s menu?
-    % pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={Note di Algoritmi},    % title
-    pdfauthor={Timoty Granziero},     % author
-    % pdfsubject={},   % subject of the document 
-    % pdfcreator={Creator},   % creator of the document
-    % pdfproducer={Producer}, % producer of the document
-    % pdfkeywords={keyword1, key2, key3}, % list of keywords
-    % pdfnewwindow=true,      % links in new PDF window
-    colorlinks=true,       % false: boxed links; true: colored links
-    linkcolor=black,          % color of internal links (change box color with linkbordercolor)
-    % citecolor=green,        % color of links to bibliography
-    % filecolor=magenta,      % color of file links
-    urlcolor=cyan           % color of external links
-}
-
-\usepackage{graphicx} %img/media
-
-\usepackage{enumitem} %lists
-\usepackage[perpage]{footmisc} %footnote, starting at 1 every page
-
-\usepackage{mathtools} %math package
-\usepackage{amssymb} % N, R ... symbols
-
-\usepackage{appendix}
-
-%floor and ceil
-\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
-\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
-
-%abs and norm
-\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
-\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
-
-% Swap the definition of \abs* and \norm*, so that \abs
-% and \norm resizes the size of the brackets, and the 
-% starred version does not.
-\makeatletter
-\let\oldabs\abs
-\def\abs{\@ifstar{\oldabs}{\oldabs*}}
-%
-\let\oldnorm\norm
-\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
-\makeatother
-
-\usepackage{clrscode3e} %algorithms pseudocode
-\RequirePackage{graphics} % needed for \scalebox command
-
-\newcommand{\authorName}{Timoty Granziero}
-
-%prevent page break
-\newenvironment{preventpagebreak}
-{\par\nobreak\vfil\penalty0\vfilneg
-	\vtop\bgroup}
-{\par\xdef\tpd{\the\prevdepth}\egroup
-	\prevdepth=\tpd}
-
-%liste
-\renewcommand{\labelitemi}{$\circ$}
-\renewcommand{\labelitemii}{$\cdot$}
-\renewcommand{\labelitemiii}{$\diamond$}
-\renewcommand{\labelitemiv}{$\ast$}
-
-\author{\authorName}
-\date{\today}
-\title{Appunti di Algoritmi}
-
-
-\usepackage{fancyhdr} %header e footer
-
-%header/footer setup
-\fancyhf{}
-\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
-\fancyhead[L]{\small\scshape\nouppercase{\rightmark}}
-%\fancyhead[L,R]{\small\thepage}
-\lhead{\nouppercase{\rightmark}}
-\rhead{\nouppercase{\leftmark}}
-\cfoot{\thepage}
-%\lfoot{\authorName}
-
-\pagestyle{fancy}
+% \includeonly{rel/lez_03_15} 
 
 \begin{document}
 
@@ -125,22 +37,15 @@
 
 \newpage
 
-\input{rel/lez_02_28.tex} \newpage
-\input{rel/lez_03_02.tex} 
-\input{rel/lez_03_07.tex} \newpage
-\input{rel/lez_03_08.tex}
-\input{rel/lez_03_09.tex}
-\input{rel/lez_03_14.tex}
-\input{rel/lez_03_15.tex}
-%\input{rel/lez_03_16.tex}
+\include{rel/lez_02_28} 
+\include{rel/lez_03_02} 
+\include{rel/lez_03_07} 
+\include{rel/lez_03_08}
+\include{rel/lez_03_09}
+\include{rel/lez_03_14}
+\include{rel/lez_03_15}
+%\include{rel/lez_03_16} 
 
-
-\newpage
-
-\appendix
-\appendixpage
-\addappheadtotoc
-
-\input{appendices/pseudocodes.tex}
+\include{appendices/pseudocodes}
 
 \end{document}
