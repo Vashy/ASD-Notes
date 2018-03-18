@@ -1,8 +1,8 @@
 \section{Lezione del 14/03/2018}
 \paragraph{Esercizio (importante)} 
 \begin{align*}
-	T(n) & = 2T(\frac{n}{2}) + 6n \\
-		& = 2T(\frac{n}{2}) + \Theta (n) = \Theta (n \log n) \\
+	T(n) & = 2T\Big(\frac{n}{2}\Big) + 6n \\
+		& = 2T\Big(\frac{n}{2}\Big) + \Theta (n) = \Theta (n \log n) \\
 		\text{vale } \exists c & > 0 \ \exists n_0 : \forall n \geq n_0 \Rightarrow \Theta(n) \leq cn
 \end{align*}
 Voglio dimostrare che 
@@ -29,8 +29,18 @@ un valore accettabile).
 	& \qquad d \geq \frac{c}{\log 2}
 \end{align*}
 
-\subparagraph{2.} $T(n) \geq dn \log n$ è analoga.
-
+\subparagraph{2.} $T(n) = \Omega (n \log n)$ è analoga.
+\[
+	\exists \delta > 0 : \forall n > n_0 \Rightarrow T(n) \geq \delta n \log n
+\]
+Ho l'ipotesi induttiva $T(\frac{n}{2}) \geq \delta \frac{n}{2} \log \frac{n}{2}$
+\begin{align*}
+	T(n) & \geq 2\delta \frac{n}{2} \log \frac{n}{2} + cn = \\
+	& = \delta n \log n - \delta n \log 2 + cn = \\
+	& = \delta n \log n + n(c - \delta \log 2) \geq \delta n \log n \\
+	& \quad \text{Deve valere } c - \delta \log 2 \geq 0 \\
+	& \quad \Rightarrow 0 < \delta \leq \frac{c}{\log 2}
+\end{align*}
 \paragraph{Esercizio} $T(n) = T\big(\frac{n}{3} \big) + T\big(\frac{2n}{3} \big) + \Theta (n)$
 $\quad (\Theta (n) \leq c \cdot n)$\par
 Ipotizzo un andamento simile a Merge Sort: $\Theta (n \log n)$. Dimostro:  
@@ -39,22 +49,38 @@ Ipotizzo un andamento simile a Merge Sort: $\Theta (n \log n)$. Dimostro:
 	\item $T(n) = \Omega (n \log n)$
 \end{enumerate}
 
-\subparagraph{1.} $\exists d > 0 : \forall n > n_0 \Rightarrow T(n) \leq dn \log n$.\par
+\subparagraph{1.} $T(n) = \Omega (n \log n)$
+$$\exists d > 0 : \forall n > n_0 \Rightarrow T(n) \leq dn \log n$$
 Ometto il caso base. L'ipotesi induttiva è la seguente:
 \[ 
 	T(n) \leq d \frac{n}{3} \log \frac{n}{3} + d \frac{2n}{3} \log \frac{2n}{3} + cn
 \]
-Calcoli \dots
+Procedo con i calcoli \dots
 \begin{align*}
 	T(n) & \leq T\Big(\frac{n}{3} \Big) + T\Big(\frac{2n}{3} \Big) + cn \\
 	& \leq d \frac{n}{3} \log \frac{n}{3} + \frac{2n}{3} \log \frac{2n}{3} = \\
 	& = \frac{dn}{3} \Big(\log n - \log 3 \Big) + d \frac{2n}{3} \Big(\log n - \log \frac{2}{3} \Big) + cn = \\
 	& = dn \log n - \frac{dn}{3} \Big( \log 3 - 2 \log \frac{2}{3} \Big) + cn = \\
-\end{align*}
-\begin{align*}
 	& = dn \log n - \frac{dn}{3} \Big( \log 3 - \log \frac{4}{9} \Big) + cn = \\
 	& = dn \log n - n \Big( \frac{d}{3} \log \frac{27}{4} - c \Big) \leq dn \log n\\
+	& \quad \frac{d}{3} \log \frac{27}{4} - c \geq 0 \\
 	& \Rightarrow d \geq \frac{3c}{\log \frac{27}{4}} \qquad (\log \frac{27}{4} > 1 \text{ poiché } arg > 1)
 \end{align*}
 
-\subparagraph{2.} $T(n) = \Omega (n \log n)$ è analoga $\Rightarrow \text{vale } T(n) = \Theta (n \log n)$
+\subparagraph{2.} $T(n) = \Omega (n \log n)$ è analoga %$\Rightarrow \text{vale } T(n) = \Theta (n \log n)$
+$$\exists \delta > 0 : \forall n > n_0 \Rightarrow T(n) \geq \delta n \log n $$
+L'ipotesi induttiva è la seguente:
+\[ 
+	T(n) \geq \delta \frac{n}{3} \log \frac{n}{3} + \delta \frac{2n}{3} \log \frac{2n}{3} + cn
+\]
+Calcoli \dots
+\begin{align*}
+	T(n) & \geq T\Big(\frac{n}{3} \Big) + T\Big(\frac{2n}{3} \Big) + cn \\
+	& \geq \delta \frac{n}{3} \log \frac{n}{3} + \frac{2n}{3} \log \frac{2n}{3} = \\
+	& = \delta \frac{n}{3} \Big(\log n - \log 3 \Big) + \delta \frac{2n}{3} \Big(\log n - \log \frac{2}{3} \Big) + cn = \\
+	& = \delta n \log n + \frac{\delta n}{3} \Big( - \log 3 + 2 \log \frac{2}{3} \Big) + cn = \\
+	& = \delta n \log n + \frac{\delta n}{3} \Big( - \log 3 + \log \frac{4}{9} \Big) + cn = \\
+	& = \delta n \log n + n \Big( - \frac{\delta}{3} \log \frac{27}{4} + c \Big) \geq \delta n \log n\\
+	& \quad - \frac{\delta}{3} \log \frac{27}{4} + c \geq 0 \\
+	& \quad \Rightarrow 0 < \delta \leq \frac{3c}{\log \frac{27}{4}}
+\end{align*}
