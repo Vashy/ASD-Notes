@@ -1,0 +1,17 @@
+\begin{codebox}
+\Procname{\proc{Sum}$(A,\id{key})$}
+\li	$n \gets \attrib{A}{length}$
+\li	\proc{sort}$(A)$
+		\Comment complessità $O(n \log n)$
+\li	$i \gets 1, \ j \gets n$
+\li \While $(i \leq j) \kw{ and } (A[i] + A[j] \neq \id{key})$
+\li 	\Do
+			\If $A[i] + A[j] < \id{key}$
+\li				\Then
+					$i \gets i + 1$
+\li				\Else
+\li					$j \gets j - 1$
+				\End
+		\End
+\li	\Return $i \leq j$	
+\end{codebox}

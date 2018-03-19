@@ -1,0 +1,17 @@
+\begin{codebox}
+\Procname{\proc{SumV}$(A,\id{key})$}
+\li	$V[0 \twodots \id{key}] \leftarrow \const{false}$
+		\Comment $\Theta (key) = O(top) = O(1)$
+\li	$i \gets 1$
+\li $\id{found} \gets \const{false}$
+\li \While $(i \leq n) \kw{ and } not \ \id{found}$
+\li 	\Do
+			\If $A[i] \leq \id{key}$
+\li				\Then
+					$V[A[i]] \gets \const{true}$
+\li					$\id{found} \gets V[\id{key} - A[i]]$
+				\End
+\li 		$i \gets i + 1$
+		\End
+\li	\Return $\id{found}$
+\end{codebox}

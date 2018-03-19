@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{\proc{SumB}$(A,\id{key})$}
+\li	$n \gets \attrib{A}{length}$
+\li	$i \gets j \gets 1$
+\li \While $(i \leq n) \kw{ and } (A[i] + A[j] \neq \id{key})$
+\li 	\Do
+			\If $j = n$
+\li				\Then
+					$i \gets i + 1$
+\li				\Else
+\li					$j \gets j + 1$
+				\End
+		\End
+\li	\Return $i \leq n$				
+\end{codebox}

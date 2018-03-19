@@ -18,7 +18,7 @@ Vedi la sezione \ref{mergesort}
 \input{pseudocodes/insertion-sort-rec.tex}
 \input{pseudocodes/insert.tex}
 
-\subsubsection{Correttezza di Insertion-Sort(A,j)}
+\subsubsection{Correttezza di Insertion-Sort(A, j)}
 Procediamo per induzione:
 \begin{itemize}
 	\item[] $(j \leq 1) \quad$ Caso base. Array già ordinato, non faccio nulla $\Rightarrow$ ok;
@@ -27,7 +27,7 @@ Procediamo per induzione:
 	``inserisce'' \texttt{A[j]} $\Rightarrow$ produce \texttt{A[1$\twodots$j]} ordinato.
 \end{itemize}
 
-\subsubsection{Correttezza di Insert(A,j)}
+\subsubsection{Correttezza di Insert(A, j)}
 Anche qui, dimostrazione per induzione:
 \begin{itemize}
 	\item[] $(j = 1) \quad$ Caso base. \texttt{A[1]} da inserire nell'array vuoto. Non fa nulla
@@ -62,4 +62,56 @@ Se \texttt{A[p$\twodots$q]} e \texttt{A[q+1$\twodots$r]} ordinati e privi di dup
 \begin{itemize}
 	\item \texttt{A[p$\twodots$k-1]} è ordinato, contiene \texttt{L[1$\twodots$i-1]}$\cup$\texttt{R[1$\twodots$j-1]};
 	\item \texttt{A[p$\twodots$k-1]} $<$ \texttt{L[1$\twodots$n1]}, \texttt{R[1$\twodots$n2]}.
+\end{itemize}
+
+\subsection{SumKey}
+Dato \texttt{A[i$\twodots$n]} e \texttt{key} intera, \texttt{Sum(A,key)} restituisce:
+\begin{itemize}
+	\item \texttt{true} se $\exists i, j \in [1,n] : key = A[i] + A[j]$;
+	\item \texttt{false} altrimenti.
+\end{itemize}
+
+Vediamo una prima versione, non efficiente, dell'algoritmo. Ha complessità $O(n^2)$.
+\input{pseudocodes/sumB.tex}
+
+Ecco ora una versione più efficiente, che però richiede un \texttt{sorting} preventivo, che quindi causa \emph{side effect}. Si assume un 
+algoritmo di sorting con complessità $O(n \log n)$. Con questa premessa, la ricerca della coppia di valori
+ha complessità $O(n)$ nel caso peggiore. Nel complesso, vale quindi:
+$$O(n \log n + n) = O(n \log n)$$
+\input{pseudocodes/sum.tex}
+
+\subsubsection{Correttezza di Sum(A, key)}
+Valgono i seguenti invarianti:
+\begin{enumerate}[label=(\arabic*)]
+	\item \label{sum:cond1}$\forall h \in [1, i-1], \; \forall k \in [h, n] \Rightarrow A[h] + A[k] \neq key$
+	\item \label{sum:cond2}$\forall k \in [j+1,n], \; \forall h \in [1,k] \Rightarrow A[k] + A[h] \neq key$
+\end{enumerate}
+Supponiamo di trovarci in $A[i] + A[j] < key$
+\begin{itemize}[noitemsep]
+	\item[$\rightarrow$] incremento $i$;
+	\item[\ref{sum:cond1}] \textbf{non} cambia;
+	\item[\ref{sum:cond2}] (vogliamo dimostrare) $\forall k \in [i,n] \quad A[i] + A[k] \neq key$.\par
+		Distinguiamo \underline{2 casi}.
+		\begin{itemize}
+			\item Siccome vale $A[k] \leq A[j]$, allora
+				$$A[i] + A[k] \leq A[i] + A[j] > key$$
+			\item $k \in [j+1,n]$ quindi
+			$$A[i] + A[k] \neq key \text{ per (2)}$$
+		\end{itemize}
+		Se esco perché $i > j$, \textbf{non} c'è una soluzione poiché
+		$$(1) + (2) \Rightarrow \forall h \leq k \quad A[h] + A[k] \neq key$$ 
+\end{itemize}
+
+Presetiamo ora una terza soluzione, che però richiede un costo in memoria direttamente proporzionale al valore $max$ (che chiameremo $top$)
+dell'array considerato, poiché richiede di allocare un array $V$ di booleani di dimensione dipendente da $top$, in cui il valore \texttt{A[i]} corrisponde alla cella \texttt{V[A[i]]}. Assumiamo
+\begin{gather*}
+	A[i] \geq 0 \quad \forall i \in [i,n], \ key \leq top \\
+	V[v] = \text{\texttt{true} sse } \exists i : A[i] = v 
+\end{gather*}
+\input{pseudocodes/sumV.tex}
+
+Complessità:
+\begin{itemize}
+	\item $O(n)$ se $top$ costante;
+	\item $O(n \cdot key)$ altrimenti.
 \end{itemize}
