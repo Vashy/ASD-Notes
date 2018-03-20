@@ -1,0 +1,30 @@
+\section{Esercizi}
+\subsection{Ricorrenze}
+
+\begin{itemize}[label=$\bullet$]
+	\item $T(n) = aT(n-1) + b \qquad a, b > 1$
+	\begin{itemize}
+		\item \emph{radice}: costo $b$;
+		\item la radice ha $a$ figli di costo $b$;
+		\item \dots
+		\item foglie terminali $O(1)$.
+	\end{itemize}
+	Esplicitando il caso base della ricorrenza otteniamo:
+	\[ 
+		T(n) =
+		\begin{cases}
+			c & n = 0 \\
+			aT(n-1) + b & n > 0
+		\end{cases}
+	\]
+	\begin{align*}
+		T(n) & = b + ab + a^2b + \dots + a^{n-1}b + a^nc \\
+		& = b \displaystyle\sum_{j=0}^{n-1}a^j + a^nc \hspace{1cm} \text{(dimostrare per induzione)}
+	\end{align*}
+	\begin{description}
+		\item[$(a=1)$] $T(n) = nb + c = \Theta(n)$
+		\item[$(a<1)$] $T(n) = \frac{1-a^n}{1-a} \cdot b + a^n c = \Theta(1)$ \par
+		$\text{(valgono } \frac{1-a^n}{1-a} \leq \frac{1}{1-a}, \; a^nc < c \text{)}$
+		\item[$(a>1)$] $T(n) = \frac{a^n-1}{a-1}b + a^n c = \Theta(a^n)$
+	\end{description}
+\end{itemize}
