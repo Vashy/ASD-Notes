@@ -1,0 +1,104 @@
+\section{Lezione del 21/03/2018}
+\paragraph{Ordinamento} Finora abbiamo visto due algoritmi di ordinamento, in cui avevamo le seguenti 
+premesse:
+\begin{itemize}
+	\item[] \texttt{IN}: $a_1\dots a_n$;
+	\item[] \texttt{OUT}: permutazione $a'_1\dots a'_n$ ordinata.
+\end{itemize}
+In particolare, abbiamo concluso che:
+\begin{itemize}
+	\item \texttt{Insertion Sort}: $O(n^2)$, basato su scambi;
+	\item \texttt{Merge Sort}: $\Theta(n \log n)$, ma con un costo in termini di \emph{memoria}.
+\end{itemize}
+
+\paragraph{Memoria} 
+\begin{itemize}
+	\item \texttt{Insertion Sort}: 
+	$$input \ + \ 1 \text{ variabile} \Rightarrow 
+		\text{spazio \emph{costante} } \Theta (1) \text{ (detto ``in loco'')}$$
+	\item \texttt{Merge Sort}: spazio con costo lineare.
+	\begin{align*}
+		S_{MS}(n) & = max\Big{\{} S\Big( \Big{\lfloor}{\frac{n}{2}}\Big{\rfloor} \Big), 
+		\ S\Big( \Big{\lceil}{\frac{n}{2}}\Big{\rceil} \Big), \ \Theta (n) \Big{\}} \\
+		& = \Theta (n)
+	\end{align*}
+\end{itemize}
+
+\subsection{Heapsort}
+L'\href{https://en.wikipedia.org/wiki/Heapsort}{Heapsort}\footnote{Anche qui, si consiglia di dare %
+un occhio ad altre fonti. In classe, sono stati viste molte rappresentazioni grafiche degli heap, %
+e, come già detto, in \LaTeX $\ $non è per me facile rappresentarli.} è un algoritmo di ordinamento 
+basato su 
+una struttura chiamata \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{heap}, che prende le caratteristiche positive di 
+\texttt{Insertion Sort} e \texttt{Merge Sort}:
+\begin{itemize}[noitemsep]
+	\item in ``loco'' (spazio $\Theta (1)$);
+	\item complessità $\Theta(n \log n)$.
+\end{itemize}
+
+\paragraph{Cos'è un heap?} Un \texttt{heap} è una struttura dati basata sugli alberi che
+soddisfa la ``proprietà di heap'': se A è un genitore di B, allora la chiave di A è ordinata rispetto
+alla chiave di B conformemente alla relazione d'ordine applicata all'intero heap.\par
+Seguono alcune definizioni.
+\begin{description}
+	\item[Altezza:] è la distanza dalla radice alla foglia più distante;
+	\item[Albero completo:] è un albero di altezza $h$ con $\displaystyle\sum_{i=0}^h 2^i - 1$ nodi;
+	\item[Albero quasi completo:] è un albero completo a tutti i livelli eccetto l'ultimo, in cui 
+	possono mancare delle foglie.
+\end{description}
+
+Gli heap verranno rappresentati in array monodimensionali, nel modo descritto di seguito:
+$$\forall i > 0 $$
+\begin{itemize}
+	\item \texttt{A[i]} è il nodo genitore;
+	\item \texttt{A[2i]} è il figlio sx del nodo \texttt{A[i]};
+	\item \texttt{A[2i+1]} è il figlio dx.
+\end{itemize}
+Inoltre, ogni array \texttt{A} sarà dinamico, e avrà:
+\begin{itemize}
+	\item $A.length$ potenziale spazio, capacità massima dell'array;
+	\item $A.heapsize$ celle effettive dell'array.
+\end{itemize}
+
+Vediamo alcune funzioni di utilità che verranno usate.
+\input{pseudocodes/heapsort/left.tex}
+\input{pseudocodes/heapsort/right.tex}
+\input{pseudocodes/heapsort/parent.tex}
+
+\subsubsection{Max Heap}
+\emph{Max Heap} è uno heap che soddisfa la seguente proprietà:
+\begin{gather*}
+	\forall \text{ nodo } A[i], \\
+	A[i] \geq \text{discendenti} \\
+	\Downarrow \\
+	A[i] \geq A[\text{\emph{Left(i)}}], \ A[\text{\emph{Right(i)}}]
+\end{gather*}
+\paragraph{Osservazioni}
+\begin{itemize}[label=$\bullet$]
+	\item Uno heap con un solo elemento è un \emph{Max Heap}.
+	\item Dati due Max Heap $T_1$ e $T_2$ e un nodo $N$, possiamo ``combinarli'' in uno heap con
+	$N$ come radice, $T_1$ come \emph{left} e $T_2$ come \emph{right}.
+\end{itemize}
+
+Ecco ora una procedura che, dato un nodo $i$, trasforma in un Max Heap il sotto-albero eradicato in esso (con radie $i$).
+
+\input{pseudocodes/heapsort/max-heapify.tex}
+
+L'algoritmo ha un costo di $O(h)$, con $h$ altezza del sotto-albero radicato in $i$, con 
+$$O(h) \cong O(\log n) \qquad \text{(Omessa la dimostrazione)}$$
+Ora vogliamo scrivere una procedura che costruisce un \emph{Max Heap} da un array qualunque. \par
+Quali sono i nodi foglia?
+\begin{itemize}
+	\item Se $i \geq \floor{\frac{n}{2}} + 1$
+	\begin{align*}
+		2i & = 2\Big( \frac{n}{2} + 1 \Big) \geq n + 2 - 1 = n + 1 \\
+		& \Rightarrow i \text{ foglia}
+	\end{align*}
+	\item Se $i \leq \floor{\frac{n}{2}}$
+	\begin{align*}
+		2i & = 2 \floor{\frac{n}{2}} \leq n \\
+		& \Rightarrow i \text{ non foglia}
+	\end{align*}
+\end{itemize}
+
+\input{pseudocodes/heapsort/build-max-heap.tex}

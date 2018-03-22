@@ -1,0 +1,8 @@
+\begin{codebox}
+\Procname{\proc{BuildMaxHeap}$(A)$}
+\li $\attrib{A}{heapsize} = \attrib{A}{length}$
+\li \For $i \gets \floor{\attrib{A}{length}/2} \kw{ down} \To 1$
+\li 	\Do
+			$\proc{MaxHeapify}(A,i)$
+		\End
+\end{codebox}
