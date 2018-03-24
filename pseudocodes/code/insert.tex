@@ -1,0 +1,6 @@
+\begin{codebox}
+\Procname{\proc{Insert}$(A,x)$}
+\li $\attrib{A}{heapsize} = \attrib{A}{heapsize} + 1$
+\li $A[\attrib{A}{heapsize}] \gets x$
+\li $\proc{MaxHeapifyUp}(A,\attrib{A}{heapsize})$
+\end{codebox}

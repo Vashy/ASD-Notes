@@ -1,0 +1,12 @@
+\begin{codebox}
+\Procname{\proc{HeapSort}$(A)$}
+\li \proc{BuildMaxHeap}(A) 
+    \Comment $O(n)$
+\li \For $i \gets \attrib{A}{length}$ \kw{down} \To $2$
+\li     \Do
+            $A[1] \leftrightarrow A[i]$
+\li         $\attrib{A}{heapsize} \gets \attrib{A}{heapsize} - 1 $
+\li         $\proc{MaxHeapify}(A,1)$
+                \Comment $O(\log n)$
+        \End
+\end{codebox}

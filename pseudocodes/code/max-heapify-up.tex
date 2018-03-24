@@ -1,0 +1,8 @@
+\begin{codebox}
+\Procname{\proc{MaxHeapifyUp}$(A,i)$}
+\li \If $(i > 1) \kw{ and } (A[i] > A[\proc{Parent}(i)])$
+\li     \Then
+            $A[i] \leftrightarrow A[\proc{Parent}(i)]$
+\li         $\proc{MaxHeapifyUp}(A,\proc{Parent}(i))$
+        \End
+\end{codebox}

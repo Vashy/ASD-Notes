@@ -24,7 +24,7 @@ In particolare, abbiamo concluso che:
 	\end{align*}
 \end{itemize}
 
-\subsection{Heapsort}
+\subsection{Heapsort} \label{heapsort} 
 L'\href{https://en.wikipedia.org/wiki/Heapsort}{Heapsort}\footnote{Anche qui, si consiglia di dare %
 un occhio ad altre fonti. In classe, sono stati viste molte rappresentazioni grafiche degli heap, %
 e, come già detto, in \LaTeX $\ $non è per me facile rappresentarli.} è un algoritmo di ordinamento 
@@ -85,7 +85,7 @@ Ecco ora una procedura che, dato un nodo $i$, trasforma in un Max Heap il sotto-
 \input{pseudocodes/heapsort/max-heapify.tex}
 
 L'algoritmo ha un costo di $O(h)$, con $h$ altezza del sotto-albero radicato in $i$, con 
-$$O(h) \cong O(\log n) \qquad \text{(Omessa la dimostrazione)}$$
+$$O(h) \cong O(\log n) \qquad \text{(omessa la dimostrazione)}$$
 Ora vogliamo scrivere una procedura che costruisce un \emph{Max Heap} da un array qualunque. \par
 Quali sono i nodi foglia?
 \begin{itemize}
@@ -102,3 +102,110 @@ Quali sono i nodi foglia?
 \end{itemize}
 
 \input{pseudocodes/heapsort/build-max-heap.tex}
+L'algoritmo esegue $\frac{n}{2}$ volte \texttt{MaxHeapify}, che ha un costo di $O(n \log n)$, 
+tuttavia questa stima è molto pessimistica.\par
+Definiamo: 
+\begin{itemize}[noitemsep]
+	\item $h_T$ altezza del cammino più lungo dello heap;
+	\item $h_T - 1$ di conseguenza è l'altezza dell'albero meno l'ultimo livello, che è
+	generalmente incompleto.
+\end{itemize}
+
+\begin{align*}
+	n & = \Big( 2^{(h_T-1)+1} - 1\Big) + 1 \\
+	& = 2^{h_T} \\
+	& h_T \leq \log n \\
+	& n \geq 2^{h_T}
+\end{align*}
+\begin{align*}
+	T(n) & = \displaystyle\sum_{h = 1}^{\floor{\log n}} 2^{h_T - h} \cdot O(h) \\
+	& \hspace{1.4cm} (2^{h_T - h} = \text{\# chiamate a \texttt{MaxHeapify} al livello } h) \\
+	& = \displaystyle\sum_{h = 1}^{\floor{\log n}} \frac{2^{h_T}}{2^h}O(h) \qquad (2^{h_T} = n) \\
+	& = O \Big( \big(\displaystyle\sum_{h = 1}^{\floor{\log n}} \frac{h}{2^h} \big) n \Big) = O(n) 
+		\qquad \Big( \displaystyle\sum_{h = 1}^{\floor{\log n}} \frac{h}{2^h} \leq \displaystyle\sum_{h = 1}^{\infty} \frac{h}{2^h} 
+		= \frac{\frac{1}{2}}{(1 - \frac{1}{2})^2} = 2 \Big)
+\end{align*}
+
+%22/03/2018%
+
+Passiamo ora all'algoritmo di ordinamento \texttt{Heapsort}. La radice di un 
+\emph{Max Heap} contiene il valore massimo. Quindi, la prima operazione, e quella su cui si basa \texttt{Heapsort}, 
+consiste nel mettere la radice in ultima posizione.
+\begin{align*}
+\text{Es. \texttt{A}: }& \text{9 8 7 5 7 4 0 4 3 6 1 2 \hspace{1cm}} \text{è un max heap.} \\
+\Rightarrow & \text{8 7 5 7 4 0 4 3 6 1 2 9} \hspace{1.2cm} \text{ignoro l'ultimo elemento, chiamo} \\
+& \hspace{5.2cm}\text{\texttt{MaxHeapify} sulla radice e itero.}
+\end{align*}
+
+Poi chiama \texttt{MaxHeapify} sul resto dell'array per renderlo un \emph{Max Heap}, e itera il procedimento 
+sul nuovo array.
+
+\input{pseudocodes/heapsort/heapsort.tex}
+
+\paragraph{Costo?} Il costo complessivo è di $O(n \log n)$.
+
+\subsection{Code con priorità} \label{codeconpriorita}
+$S$ insieme dinamico di oggetti. \par
+$x$ è l'indice, $\attrib{x}{key}$ è il corrispondente valore relativo a quell'indice.
+Voglio poter eseguire le seguenti operazioni:
+\begin{itemize}[noitemsep]
+	\item \texttt{Insert(S, x)}
+	\item \texttt{Max(S)}
+	\item \texttt{ExtractMax(S)}
+	\item \texttt{IncreaseKey(S, x, $\Delta$)}
+	\item \texttt{ChangeKey(S, x, $\Delta$)}
+	\item \texttt{Delete(S, x)}
+\end{itemize}
+\paragraph{Idea} Uso un \emph{Max Heap} (A).
+
+\input{pseudocodes/code/max.tex}
+La procedura \texttt{Max(A)} ha complessità costante $\Theta (1)$.
+
+\input{pseudocodes/code/extract-max.tex}
+La procedura \texttt{ExtractMax(A)} ha la stessa complessità di \texttt{MaxHeapify}: \\
+$O(\log n)$.
+\bigskip
+
+Per \texttt{Insert}, le cose diventano più delicate. L'idea è quella di inserire
+in coda ad A: in questo modo, l'unico elemento che potrebbe compromettere la proprietà di 
+\emph{Max Heap} è la cella di indice $i$ (nel nostro caso, l'ultima). Deve vale la proprietà:
+\begin{gather*}
+	\text{Per ogni } j \neq i \\
+	A[j] \leq \text{antenati}
+\end{gather*}
+Non possiamo dire nulla su $i$. Va ristabilita la proprietà di \emph{Max Heap}: per fare ciò 
+usiamo la procedura \texttt{MaxHeapifyUp}.
+\input{pseudocodes/code/max-heapify-up.tex}
+
+\paragraph{Correttezza di MaxHeapifyUp}
+\subparagraph{Casi base} 
+\begin{itemize}
+	\item[] \texttt{(i = 1)} ok, non faccio nulla;
+	\item[] \texttt{(A[i] $\leq$ A[Parent(i)])} ok, la proprietà di \emph{Max Heap} è mantenuta.
+\end{itemize}
+\subparagraph{Induzione}
+\begin{itemize}
+	\item[] \texttt{(A[i] > A[Parent(i)])} scambio le due celle. I discendenti (sotto-alberi) della nuova
+	cella \texttt{A[i]} mantengono la proprietà di \emph{Max Heap}.
+\end{itemize}
+
+\paragraph{Costo?} $O(\log i)$, nel caso peggiore $O(\log n)$.
+\bigskip
+
+Ecco ora lo pseudocodice della funzione \texttt{Insert}.
+\input{pseudocodes/code/insert}
+\texttt{Insert} ha costo $O(\log n)$, lo stesso di \texttt{MaxHeapifyUp}.
+
+\input{pseudocodes/code/increase-key}
+\texttt{IncreaseKey} ha costo $O(\log n)$.
+
+\input{pseudocodes/code/change-key} 
+\texttt{ChangeKey} è come \texttt{IncreaseKey}, ma può utilizzare valori di $\delta$ qualsiasi, ed è
+corretto per la seguente proprietà:
+\begin{gather*}
+	\text{Se per ogni } j \neq i \quad A[j] \geq \text{discendenti} \\
+	\Rightarrow \text{dopo \texttt{MaxHeapify} ho un \emph{MaxHeap}}
+\end{gather*}
+
+\input{pseudocodes/code/delete-key}
+\texttt{DeleteKey} ha costo $O(\log n)$.

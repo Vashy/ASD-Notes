@@ -1,0 +1,9 @@
+\begin{codebox}
+\Procname{\proc{ExtractMax}$(A)$}
+\li $\id{max} \gets A[1]$
+\li $A[1] \gets A[\attrib{A}{heapsize}]$
+\li $\attrib{A}{heapsize} \gets \attrib{A}{heapsize} - 1$
+\li $\proc{MaxHeapify}(A,1)$
+        \Comment ripristina le proprietà di \emph{MaxHeap}
+\li \Return $\id{max}$
+\end{codebox}
