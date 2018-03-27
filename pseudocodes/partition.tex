@@ -1,0 +1,18 @@
+\begin{codebox}
+\Procname{\proc{Partition}$(A,p,r)$}
+\li $x \gets A[r]$ 
+	\Comment pivot \texttt{A[r]}
+\li $i \gets p - 1$
+\zi \Comment \texttt{A[p, i]} $\leq x$
+\zi \Comment \texttt{A[i+1, j-1]} $> x$
+\li \For $j \gets p$ \To $r-1$
+\li 	\Do
+			\If $A[j] \leq x$
+\li 			\Then
+					$i \gets i + 1$
+\li 				$A[i] \leftrightarrow A[j]$
+				\End
+		\End
+\li $A[i+1] \leftrightarrow A[r]$
+\li \Return $i + 1$
+\end{codebox}

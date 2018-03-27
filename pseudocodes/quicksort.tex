@@ -1,0 +1,9 @@
+\begin{codebox}
+\Procname{\proc{Quicksort}$(A,p,r)$}
+\li \If $p < r$
+\li 	\Then
+			$q \gets \proc{Partition}(A,p,r)$
+\li 		$\proc{Quicksort}(A,p,q)$
+\li 		$\proc{Quicksort}(A,q+1,r)$
+		\End
+\end{codebox}

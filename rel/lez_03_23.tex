@@ -1,0 +1,304 @@
+\section{Lezione del 23/03/2018}
+
+\subsection{Quicksort}
+Il \href{https://en.wikipedia.org/wiki/Quicksort}{Quicksort} è probabilmente l'algoritmo di ordinamento
+più utilizzato e sulla pratica efficiente, nonostante abbia un caso pessimo di $O(n^2)$.
+\begin{itemize}
+	\item Caso pessimo $O(n^2)$;
+	\item Caso medio e migliore $O(n \log n)$;
+	\item costanti basse.
+\end{itemize}
+Si basa sul paradigma del \textit{divide et impera}:
+\begin{itemize}
+	\item \textit{Divide}
+	\begin{itemize}[label=$\rightarrow$]
+		\item Secglie un \textit{pivot} $x$ in \texttt{A[p, r]};
+		\item partiziona in \texttt{A[p, q-1] $\leq x$} e \texttt{A[q+1, r] $\geq x$};
+	\end{itemize}
+	\item \textit{Impera} \par
+	Ricorre su \texttt{A[p, q-1]} e \texttt{A[q+1, r]};
+	\item \textit{Combina}\par
+	(Non fa nulla).
+\end{itemize}
+
+\paragraph{Pseudocodice} Segue lo pseudocodice del \texttt{Quicksort}.
+\input{pseudocodes/quicksort}
+\input{pseudocodes/partition}
+
+\subsubsection{Correttezza di Quicksort(A, p, r)}
+\begin{description}
+	\item[Caso base] array già ordinato, 0 o 1 elemento.
+	\item[Induzione] Abbiamo, dopo \texttt{Partition}
+	\begin{center}
+		\begin{tabular}{| l | l | l |}
+			\hline
+			$\leq$ \texttt{A[q]} & \texttt{A[q]} & $\geq$ \texttt{A[q]} \\
+			\hline 
+		\end{tabular}
+	\end{center}
+	\texttt{Quicksort(A, p, q)} 
+	\begin{tabular}{|l|l|l|}
+		\hline
+		$\leq$ \texttt{A[q]}, ord & \texttt{A[q]} & $>$ \texttt{A[q]} \\
+		\hline
+	\end{tabular} \par
+	\texttt{Quicksort(A, q+1, r)} 
+	\begin{tabular}{|l|l|l|}
+		\hline
+		$\leq$ \texttt{A[q]}, ord & \texttt{A[q]} & $>$ \texttt{A[q]}, ord \\
+		\hline
+	\end{tabular}
+\end{description}
+
+\paragraph{Esempio}
+
+Dato l'array $A$, scelgo come \emph{pivot} $x$ l'ultimo elemento.
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		9 & 6 & 0 & 8 & 4 & 2 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\emph{pivot: }
+	\begin{tabular}{|l|}
+		\hline
+		2 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\texttt{i} punta alla cella 0 (ossia nessuna cella) \par
+\texttt{j} punta alla cella 1:
+\begin{tabular}{|l|}
+	\hline
+	9 \\
+	\hline
+\end{tabular}
+
+$9 > 2$? Sì $\Rightarrow$ \texttt{j++} \par
+$6 > 2$? Sì $\Rightarrow$ \texttt{j++} \par
+$0 > 2$? No $\Rightarrow$ \texttt{i++}, \texttt{A[i]} $\leftrightarrow$ \texttt{A[j]}, \texttt{j++} \par
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		0 & 6 & 9 & 8 & 4 & 2 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\emph{pivot: }
+	\begin{tabular}{|l|}
+		\hline
+		2 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\texttt{i} punta alla cella 1: 
+\begin{tabular}{|l|}
+	\hline
+	0 \\
+	\hline
+\end{tabular} \par
+\texttt{j} punta alla cella 4:
+\begin{tabular}{|l|}
+	\hline
+	9 \\
+	\hline
+\end{tabular}
+
+$8 > 2$? Sì $\Rightarrow$ \texttt{j++} \par
+$4 > 2$? Sì $\Rightarrow$ \texttt{j++} \par
+Scambio \texttt{A[i+1]} con \texttt{x}, ottenendo \par
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		0 & 2 & 9 & 8 & 4 & 6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+I primi due ($i+1$) elementi sono ordinati: 
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		0 & 2 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Chiamo ricorsivamente \texttt{Quicksort} con $q = i + 1$.
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		9 & 8 & 4 & 6 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\emph{pivot: }
+	\begin{tabular}{|l|}
+		\hline
+		6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\texttt{i} punta alla cella 0 (ossia nessuna cella) \par
+\texttt{j} punta alla cella 1:
+\begin{tabular}{|l|}
+	\hline
+	9 \\
+	\hline
+\end{tabular}
+
+$9 > 6$? Sì $\Rightarrow$ \texttt{j++} \par
+$8 > 6$? Sì $\Rightarrow$ \texttt{j++} \par
+$4 > 6$? No $\Rightarrow$ \texttt{i++}, \texttt{A[i]} $\leftrightarrow$ \texttt{A[j]}, \texttt{j++} \par
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		4 & 8 & 9 & 6 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\emph{pivot: }
+	\begin{tabular}{|l|}
+		\hline
+		2 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\texttt{i} punta alla cella 1: 
+\begin{tabular}{|l|}
+	\hline
+	4 \\
+	\hline
+\end{tabular} \par
+\texttt{j} punta alla cella 4:
+\begin{tabular}{|l|}
+	\hline
+	6 \\
+	\hline
+\end{tabular}, quindi ho finito. \par
+Scambio \texttt{A[i+1]} con \texttt{x}, ottenendo \par
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		4 & 6 & 9 & 8 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+I primi due ($i+1$) elementi sono ordinati: 
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		4 & 6 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Chiamo ricorsivamente \texttt{Quicksort} con $q = i + 1$.
+
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		9 & 8 \\
+		\hline
+	\end{tabular}
+	\hspace{1cm}
+	\emph{pivot: }
+	\begin{tabular}{|l|}
+		\hline
+		8 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\texttt{i} punta alla cella 0 (ossia nessuna cella) \par
+\texttt{j} punta alla cella 1:
+\begin{tabular}{|l|}
+	\hline
+	9 \\
+	\hline
+\end{tabular}
+
+$9 > 8$? Sì $\Rightarrow$ \texttt{j++} \par
+Ho finito, scambio \texttt{A[i+1]} con \texttt{x}, ottenendo \par
+\begin{center}
+	\begin{tabular}{|l|l|}
+		\hline
+		8 & 9 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Guardando l'array completo ottengo il risultato atteso:
+\begin{center}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		0 & 2 & 4 & 6 & 8 & 9 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsubsection{Complessità di Quicksort}
+
+\texttt{Partition} costa $\Theta (n)$
+\begin{align*}
+	T^{QS} = \Theta (n) + T^{QS}(q - p) \ + \ &T^{QS}(n - (q - p) - 1) \\
+	& q - p < n
+\end{align*}
+
+\paragraph{Caso peggiore}
+\begin{align*}
+	T^{QS} = & \Theta (n) + T^{QS}(n - 1) = \Theta (n^2) \qquad (\Theta (n) = cn)\\
+	& T(n) \\
+	& cn \\
+	& cn-1 \\
+	& cn-2 \\
+	&\dots \\
+	& d
+\end{align*}
+\begin{align*}
+	\displaystyle\sum^{n-1}_{j=1} c(n-j) + d & = \displaystyle\sum^{n}_{k=1} ck + d = \\
+	& = c\displaystyle\sum^{n}_{k=1}k + d \qquad \left(\frac{c(n+1)n}{2} + d = \Theta (n^2) \right)\\
+\end{align*}
+\[ T(n) = \Theta(n^2) \Rightarrow
+	\begin{cases}
+	= O(n^2) \\
+	= \Omega(n^2)
+	\end{cases}
+\]
+
+\begin{itemize}[label=$\bullet$]
+	\item $T(n) = O(n^2)$
+	\begin{align*}
+		T(n) = \ & O(n^2) \Rightarrow T(n) \leq cn^2 \qquad \forall n \geq n_0, \; c > 0 \\
+		= \ & T(n - 1) + \Theta(n) \leq dn \\
+		\leq \ & c(n - 1) + dn \\
+		= \ & cn^2 - 2cn + c + dn \leq cn^2 \\
+		& 2cn - dn - c \geq 0 \\
+		& n (2c - d) - c \geq 0 \qquad \text{ok, } c > \frac{d}{2} \\
+		T(n) = \ & O(n^2)
+	\end{align*}
+
+	\item $T(n) = \Omega(n^2)$ analogo.
+\end{itemize}
+
+\paragraph{Caso migliore}
+$$T(n) = 2 T\left( \frac{n}{2} \right) + \Theta (n) = \Theta(n \log n)$$
+
+\paragraph{Caso medio} Qualunque partizionamento proporzionale da complessità $\Theta (n \log n)$, come ad esempio
+$$T(n) = T \left( \frac{n}{10} \right) + T \left( \frac{9n}{10} \right) + \Theta (n) = \Theta (n \log n)$$
+
+Solo il caso in cui una delle due partizioni è costante, si ricade nel caso pessimo. Per ovviare al
+problema, si può utilizzare una versione di \texttt{Partition} che rende impossibile il partizionamento costante.
+
+\input{pseudocodes/randomized-partition}
