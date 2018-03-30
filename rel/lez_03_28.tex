@@ -1,0 +1,134 @@
+\section{Lezione del 28/03}
+
+\subsection{Quicksort a tre partizioni}
+\texttt{Quicksort} con \texttt{RandomizedPartition} funziona bene ed 
+evita, quasi in ogni circostanza, di imbattersi nel caso pessimo, ad 
+eccezione di un caso particolare: se in \emph{input} viene dato un 
+array con tutti gli elementi uguali, si ottiene il temuto caso pessimo $O(n^2)$.\par
+Per ovviare al problema, è sufficiente partizionare Quicksort in tre
+partizioni invece di due. Dato un \emph{pivot} $x$, partizioniamo $A$ nel
+seguente modo:
+
+\begin{center}
+    \begin{tabular}{|l|l|l|}
+        \hline 
+        $< x$ & $= x$ & $> x$ \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Durante l'algoritmo, la disposizione sarà questa:
+
+\begin{center}
+    \begin{tabular}{|l|l|l|l|}
+        \hline 
+        $< x$ & $= x$ & $\quad$ & $> x$ \\
+        \hline
+    \end{tabular}
+\end{center}
+(La cella vuota è la regione ancora da esplorare).
+
+\input{pseudocodes/tripartition} 
+
+\input{pseudocodes/quicksort-2}
+
+\subsection{Limite inferiore}
+
+\begin{itemize}[label=]
+    \item \texttt{Input}: $a_1 \dots a_n$
+    \item \texttt{Output}: permutazione $a'_1 \dots a'_n$ tale che
+    $$a'_1 \leq a'_2 \leq \dots \leq a'_n$$
+\end{itemize}
+
+\paragraph{Confronti e assegnamenti} 
+
+Osservazioni:
+\begin{itemize}[label=$\rightarrow$]
+    \item Se ``conto'' solo alcune operazioni il limite inferiore
+    vale in generale. Consideriamo solo l'operatore di confronto;
+    \item Elementi tutti distinti $(a_i \neq a_j \text{ se } i \neq j)$,
+    l'operatore di confronto $==$ restituisce sempre $\const{False}$.
+\end{itemize}
+
+\subsubsection{Albero di Decisioni}
+
+È una rappresentazione ``astratta'' delle possibili esecuzioni di un 
+algoritmo di ordinamento su un input di dimensione fissata $A[1 \dots n]$.
+
+\begin{itemize}[label=$\rightarrow$]
+    \item nodi interni: 
+    $$i \ : \ j \Rightarrow \text{confronta } A[i] \leq A[j]$$
+    \item \emph{foglie} (ogni foglia è una possibile permutazione)
+\end{itemize}
+
+Rivediamo una versione di \texttt{Insertion Sort} basato su scambi.
+\input{pseudocodes/insertion-sort-swaps}
+\clearpage
+Ecco un esempio di \emph{Albero delle Decisioni} per l'array $A[a_1,a_2,a_3]$ 
+con 
+$$a_1 = 1, \; a_2 = 2, \; a_3 = 3$$
+\begin{figure}[!hb] 
+    \centering
+    \includegraphics[width=\textwidth]{img/decision-tree.png}
+    \caption{Albero delle decisioni per l'array $A[1,2,3]$}
+\end{figure}
+
+\paragraph{Osservazione} 
+$$ \text{Altezza dell'albero di decisione} = \text{limite inferiore per caso pessimo}$$
+\begin{align*}
+    \text{per }& \text{IS} \ \quad n^2 \\
+    \text{per }& \text{MS} \quad n \log n
+\end{align*}
+
+\emph{In generale}, le foglie contengono \underline{tutte} le permutazioni.
+$$\# foglie \geq n! \qquad (\# foglie \leq 2^h)$$
+\begin{align*}
+    h & \geq \log_2 n! \\
+    & \geq \log_2 \left( n(n-1)(n-2) \dots \frac{n}{2}\right) \\
+    & \geq \log_2 \left( \frac{n}{2}\left(\frac{n}{2}-1\right)\left(\frac{n}{2}-2\right) \dots \frac{n}{2}\right) = \\
+    & = \log_2 \left( \frac{n}{2} \right)^{(\frac{n}{2})} 
+        = \frac{n}{2} \left( \log_2 n - \log_22\right)
+        = \frac{n}{2} (\log_2 n - 1) = \Theta (n \log n)
+\end{align*}
+
+\subsection{Ordinamento in tempo lineare}
+Esistono degli algoritmi di ordinamento che, in certe condizioni e per certi input, permettono
+di ordinare in tempo lineare $\Omega (n)$
+
+\subsubsection{Counting Sort}
+Assumo
+\begin{itemize}[label=$-$]
+    \item interi;
+    \item in $[0,k]$
+\end{itemize}
+
+\begin{itemize}[label=]
+    \item \texttt{Input}: $A[1\twodots n]$ con $A[j] \in [0,k] \forall j$;
+    \item \texttt{Output}: $B[1\twodots n]$ permutazione ordinata di $A$;
+    \item \texttt{Supporto}: $C[0\twodots k]$.
+\end{itemize}
+
+\input{pseudocodes/counting-sort} 
+
+\paragraph{Costo?} 
+\begin{align*}
+    C[0,k] \leftarrow 0 && \Theta(k) \\
+    \text{\texttt{for j=1}} \dots && \Theta(n) \\
+    \text{\texttt{for i=1}} \dots && \Theta(k) \\
+    \text{\texttt{for j=A.length}} \dots && \Theta(n)
+\end{align*}
+$$\text{Somma } \Theta(n+k) \text{ con } k = \Theta(1) \Rightarrow \Theta(n)$$
+
+\paragraph{Problema di memoria} Il problema di \texttt{Counting Sort} è la memoria. 
+Infatti, al crescere di $k$, la memoria richiesta per allocare \texttt{C} cresce esponenzialmente.
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        Dimensione $k$ & Memoria occupata da \texttt{C[]} \\
+        \hline
+        1 Byte $= 8$ bit & $2^8 \text{Bytes} = 256 \text{Bytes}$ \\
+        2 Bytes $= 16$ bit & $2^{16} \text{Byte} \cdot 2 \text{Bytes} = 256 \text{Megabytes}$ \\
+        8 Bytes $= 64$ bit & $2^{64} \text{Byte} \cdot 8 \text{Bytes} = 512 \text{Terabytes}$ \\
+        \hline
+    \end{tabular}
+\end{center}

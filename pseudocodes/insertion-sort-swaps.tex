@@ -1,0 +1,14 @@
+\begin{codebox}
+    \Procname{$\proc{Insertion-Sort}(A)$}
+    \li $n \gets \attrib{A}{length}$
+    \li \For $j \gets 2$ \To $n$
+        \Comment il primo elemento è già ordinato
+    \li		\Do
+    			$i \gets j-1$
+    \li			\While $i > 1$ and $A[i] > A[i+1]$
+    \li				\Do
+                        $A[i] \leftrightarrow A[i+1]$
+    \li					$i \gets i-1$
+                    \End
+            \End
+    \end{codebox}

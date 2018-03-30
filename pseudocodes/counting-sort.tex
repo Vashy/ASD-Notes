@@ -1,0 +1,19 @@
+\begin{codebox}
+\Procname{\proc{CountingSort}$(A,B,k)$}
+\li $C[0\twodots k] \leftarrow 0$
+\li \For $j \gets 1$ \To $\attrib{A}{length}$
+\zi     \Then
+        \Comment $C[x] = \# elem$ in $A$ con valore $x$
+\li         $C[A[j]] \gets C[A[j]] + 1$ 
+        \End
+\li \For $i \gets 1$ \To $k$
+\zi     \Then
+        \Comment $C[x] = \# elem$ in $A$ con valore $\leq x$
+\li            $C[i] \gets C[i-1] + C[i]$ 
+        \End
+\li \For $j \gets \attrib{A}{length}$ \To $1$
+\li     \Then
+            $B[C[A[j]]] \gets A[j]$
+\li         $C[A[j]] \gets C[A[j]] - 1$
+        \End
+\end{codebox}

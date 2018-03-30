@@ -1,0 +1,24 @@
+\begin{codebox}
+\Procname{\proc{Tripartition}$(A,p,r)$}
+\li $x \gets A[r]$
+\li $i \gets p-1$
+\li $k \gets p$
+\li $j \gets r$
+\li \While $k < j$
+\li     \Do
+            \If $A[k] < x$
+\li             \Then
+                    $i \gets  i + 1$
+\li                 $A[i] \leftrightarrow A[k]$
+\li                 $k \gets k + 1$
+\li             \Else \If $A[k] > x$
+\li                 $j \gets j - 1$
+\li                 $A[j] \Leftrightarrow A[k]$
+\li             \Else
+\li                 $k \gets k + 1$
+                \End
+        \End
+\zi \Comment $k = j$
+\li $A[j] \Leftrightarrow A[r]$
+\li \Return $(i+1,j)$ \Comment restituisce una coppia di valori
+\end{codebox}
