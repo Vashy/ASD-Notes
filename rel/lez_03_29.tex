@@ -1,0 +1,109 @@
+\section{Lezione del 29/03/2018}
+
+\subsection{Radix Sort}
+Il \href{https://en.wikipedia.org/wiki/Radix_sort}{Radix Sort} è un algoritmo di ordinamento in tempo
+lineare $O(n)$, come \texttt{Counting Sort}, che risolve i problemi di memoria di quest'ultimo.
+
+L'idea è quella di ordinare cifra per cifra, dalla cifra meno significativa alla più significativa con un 
+algoritmo \emph{stabile}\footnote{Un algoritmo di ordinamento stabile è un algoritmo che ordina e
+non scambia mai due chiavi se non è necessario (e.g. due celle con la stessa chiave).}.
+\begin{align*}
+	\text{(iniziale)} && \text{(terza cifra)} && \text{(seconda cifra)} && \text{(prima cifra)} \\
+	329 && 720 && 720 && 329 \\
+	457 && 355 && 329 && 355 \\
+	657 && 436 && 436 && 436 \\
+	839 && 457 && 839 && 457 \\
+	436 && 657 && 355 && 657 \\
+	720 && 329 && 457 && 720 \\
+	355 && 839 && 657 && 839 \\
+\end{align*}
+
+\texttt{Input}: \texttt{A[1$\twodots$n]} con \texttt{A[i]} di $d$ cifre e base $b$,
+\texttt{A[i]}$= a_d a_{d-1}\dots a_1$.
+
+\input{pseudocodes/radix-sort}
+
+\subsubsection{Correttezza di RadixSort(A, d)}
+\begin{description}
+	\item[Inizializzazione] ok;
+	\item[Mantenimento] Se $A^{j-1}$ è ordinato e ordino rispetto alla $j$-esima cifra con
+	un algoritmo stabile, allora $A^j$ è ordinato.
+	$$i < i' \Rightarrow A^j[i] \leq A^j[i']$$
+	\begin{align*}
+		\text{Siano } & A^j[i] = a_j a_{j-1} \dots a_1 \\
+		& A^j[i'] = a'_j a'_{j-1} \dots a_1
+	\end{align*}
+	
+	Posso distinguere due casi:
+	\begin{enumerate}
+		\item \begin{align*}
+			a_j \neq a'_j & \Rightarrow a_j < a'_j \\
+			& \Rightarrow A^j[i] < A^j[i']
+		\end{align*}
+		\item \begin{align*}
+			a_j = a'_j & \Rightarrow A^j[i] \leq A^j[i'] \qquad \text{(stabilità)}\\
+			& \Rightarrow A^j[i] = a_j A^j[i] \leq \\
+			& \leq A^j[i'] = a'_j A^{j-1}[i']
+		\end{align*}
+	\end{enumerate}
+\end{description}
+
+\paragraph{Costo?} 
+\begin{gather*}
+	d \text{ volte \texttt{CountingSort} } \; \Theta(n+b) \Rightarrow \Theta\big(d(n+b)\big) = \Theta(n) \\
+	\text{con } d = \Theta(1), \text{ base } b = \Theta(n) 
+\end{gather*}
+
+\subsection{Strutture dati elementari}
+\begin{itemize}[noitemsep]
+	\item \emph{Tabelle hash}
+	\item \emph{Alberi di ricerca}
+\end{itemize}
+Entrambe le strutture dati sono \emph{insiemi dinamici}: per un dato $x$, abbiamo:
+\begin{itemize}[noitemsep]
+	\item $x.key$;
+	\item $Insert(x)$;
+	\item $Delete(x)$;
+	\item $Search(x)$.
+\end{itemize}
+\subsubsection{Tabelle Hash}
+\begin{gather*}
+	U \text{ universo delle chiavi} \\
+	U = \{ 0, 1, \dots, \abs{U} - 1 \} \\
+	T[0 \twodots \abs{U} - 1] \text{ tabella hash}	
+\end{gather*}
+\[ T[k] \text{ contiene} \quad
+	\begin{cases}
+		\text{elemento } x \text{ con } x.key = k & \text{se c'è} \\
+		\bot & \text{altrimenti}
+	\end{cases}
+\]
+
+\input{pseudocodes/hash/insert}
+\input{pseudocodes/hash/delete}
+\input{pseudocodes/hash/search}
+
+\paragraph{Problema} e.g. consideriamo che la \emph{key} sia di 8 caratteri (e 8 bit per rappresentare
+un carattere). Risulta molto costosa in termini di memoria la tabella hash.
+\begin{gather*}
+	2^8 \dots 2^8 \\
+	(2^8)^8 = 2^{64} \cong 10^{19}
+\end{gather*}
+
+\paragraph{Idea} 
+\begin{gather*}
+	U = \{ 0, 1, \dots , \abs{U} - 1 \} \\
+	T[0 \dots m-1] \qquad m << \abs{U}
+\end{gather*}
+La ``traduzione'' per ottenere $x.key$ da $x$ cosa comporta?
+\begin{gather*}
+	h : U \rightarrow \{ 0, 1, \dots , m-1 \} \text{ funzione di \emph{hashing}}\\
+	n = \# elem \text{ memorizzati nella tabella } T
+\end{gather*}
+Se $n > m$, esisteranno $x_1, x_2 : h(x_1.key) = h(x_2.key)$.\par
+\bigskip 
+Abbiamo \emph{due soluzioni}:
+\begin{enumerate}
+	\item \textbf{Chaining};
+	\item \textbf{Open Addressing}.
+\end{enumerate}

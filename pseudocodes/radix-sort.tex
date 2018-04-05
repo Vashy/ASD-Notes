@@ -1,0 +1,10 @@
+\begin{codebox}
+\Procname{\proc{RadixSort}$(A,d)$}
+\li \For $j \gets 1$ \To $d$
+\li \Then
+		$\text{ordina $A$ rispetto alla cifra $j$}$
+		\Comment $A^j[i] = a_j a_{j-1} \dots a_1$
+\zi 	$\text{con}$ \proc{CountingSort}
+		\Comment $A^{j-1} ordinato$
+	\End
+\end{codebox}
