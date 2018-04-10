@@ -20,7 +20,7 @@ Tre possibili casi:
     \item Se $f(n) = \Theta (n^{\log_b a})$ allora 
     $$T(n) = \Theta \big( n^{\log_b a} \cdot \log n \big)$$
     
-    \item Se $f(n) = \Omega (n^{\log_b a} + \varepsilon)$ per qualche $\varepsilon > 0$,
+    \item Se $f(n) = \Omega (n^{\log_b a + \varepsilon})$ per qualche $\varepsilon > 0$,
     e vale la \emph{regolarità}
     $$ \exists 0 < k < 1 \text{ tale che } a \cdot f(\frac{n}{b}) \leq k \cdot f(n)$$
     allora
