@@ -41,9 +41,11 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 	O \big(g(n) \big) = \{ f(n) \ \vert \ \exists c > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \Rightarrow (0 \leq) f(n) \leq c \cdot g(n) \}
 \end{displaymath}
 
-\begin{center}
+\begin{figure}[!htb]
+	\centering
 	\includegraphics[width=0.80\textwidth]{img/plots/plotO.png}
-\end{center}
+	\caption{Rappresentazione del limite asintotico superiore per $f(n)$}
+\end{figure}
 
 \paragraph{Esempi}
 \begin{itemize}
@@ -78,6 +80,7 @@ Data $g(n)$, indichiamo con $O \big(g(n) \big)$ il \emph{limite asintotico super
 		\text{ok per } c = 3, \ n_0 = 0
 	\end{gather*}
 \end{itemize}
+
 \newpage
 \subsubsection{Limite asintotico inferiore}
 Data $g(n)$, indichiamo con $\Omega \big(g(n) \big)$ il \emph{limite asintotico inferiore}, definito come segue:
@@ -85,9 +88,11 @@ Data $g(n)$, indichiamo con $\Omega \big(g(n) \big)$ il \emph{limite asintotico 
 	\Omega \big(g(n) \big) = \{ f(n) \ \vert \ \exists c > 0 \quad \exists n_0 (\in \mathbb{N}) \ \vert \ \forall n \geq n_0 \Rightarrow c \cdot g(n) \leq f(n) \}
 \end{displaymath}
 
-\begin{center}
+\begin{figure}[!htb]
+	\centering
 	\includegraphics[width=0.80\textwidth]{img/plots/plotomega.png}
-\end{center}
+	\caption{Rappresentazione del limite asintotico inferiore per $f(n)$}
+\end{figure}
 
 \paragraph{Esempi}
 \begin{itemize}
@@ -111,9 +116,11 @@ Data $g(n)$, indichiamo con $\Theta \big( g(n) \big)$ il \emph{limite asintotico
 	\Rightarrow c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n) \}
 \end{multline*}
 
-\begin{center}
+\begin{figure}[!htb]
+	\centering
 	\includegraphics[width=0.80\textwidth]{img/plots/plottheta.png}
-\end{center}
+	\caption{Rappresentazione del limite asintotico stretto per $f(n)$}
+\end{figure}
 
 \paragraph{Esempi}
 \begin{align*}

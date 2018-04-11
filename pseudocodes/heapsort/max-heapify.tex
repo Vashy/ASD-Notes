@@ -5,11 +5,16 @@
 \li \If $(l \leq \attrib{A}{heapsize}) \kw{ and } (A[l] > A[i])$
 \li 	\Then
 			$\id{max} \gets l$
-		\Else 
+\li		\Else 
 \li			$\id{max} \gets i$			
+		\End
+\li \If $(r \leq \attrib{A}{heapsize}) \kw{ and } (A[r] > A[max])$
+\li 	\Then
+			$\id{max} \gets r$
 		\End
 \li \If $(\id{max} \neq i)$
 \li 	\Then 
 			$A[i] \leftrightarrow A[\id{max}]$
 \li			$\proc{MaxHeapify}(A,\id{max})$
+		\End
 \end{codebox}

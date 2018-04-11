@@ -80,11 +80,20 @@ Vediamo alcune funzioni di utilità che verranno usate.
 	$N$ come radice, $T_1$ come \emph{left} e $T_2$ come \emph{right}.
 \end{itemize}
 
-Ecco ora una procedura che, dato un nodo $i$, trasforma in un Max Heap il sotto-albero eradicato in esso (con radie $i$).
+Ecco ora una procedura che, dato un nodo $i$, trasforma in un Max Heap il sotto-albero eradicato in esso (con radice $i$).
 
-\input{pseudocodes/heapsort/max-heapify.tex}
+\input{pseudocodes/heapsort/max-heapify}
 
-L'algoritmo ha un costo di $O(h)$, con $h$ altezza del sotto-albero radicato in $i$, con 
+\paragraph{Correttezza di MaxHeapify} 
+\begin{itemize}
+	\item \textbf{Caso base}: $max = i, \ A[i] \geq A[l], A[r]$;
+	\item \textbf{Induzione}: $max \neq i$, distinguo 2 casi:
+	\begin{itemize}
+		\item $max = l, \ A[l] \geq A[i], A[r]$;
+		\item $max = r, \ A[r] \geq A[i], A[l]$.
+	\end{itemize}
+\end{itemize}
+\paragraph{Costo?} L'algoritmo ha un costo di $O(h)$, con $h$ altezza del sotto-albero radicato in $i$, con 
 $$O(h) \cong O(\log n) \qquad \text{(omessa la dimostrazione)}$$
 Ora vogliamo scrivere una procedura che costruisce un \emph{Max Heap} da un array qualunque. \par
 Quali sono i nodi foglia?
@@ -102,7 +111,8 @@ Quali sono i nodi foglia?
 \end{itemize}
 
 \input{pseudocodes/heapsort/build-max-heap.tex}
-L'algoritmo esegue $\frac{n}{2}$ volte \texttt{MaxHeapify}, che ha un costo di $O(n \log n)$, 
+L'algoritmo esegue $\frac{n}{2}$ volte \texttt{MaxHeapify} (che ha costo $O(\log n)$),
+ottenendo un costo totale di $O(n \log n)$, 
 tuttavia questa stima è molto pessimistica.\par
 Definiamo: 
 \begin{itemize}[noitemsep]
