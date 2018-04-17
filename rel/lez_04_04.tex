@@ -1,0 +1,28 @@
+\section{Lezione del 04/04/2018}
+
+\subsection{Chaining}
+Il \emph{Chaining} propone come soluzione quella di mettere sulla tabella liste dinamiche
+di elementi, invece che singoli elementi, in modo che in caso si incorra in una cella
+già occupata dopo un \emph{hashing}, l'elemento venga inserito in coda (o in testa) alla
+lista.
+
+\paragraph{Idea} \texttt{T[i]} $=$ lista elementi $x$ tali che $h(x.key) = i$
+
+\input{pseudocodes/hash/chaining/insert}
+\input{pseudocodes/hash/chaining/delete}
+\input{pseudocodes/hash/chaining/search}
+\texttt{Search} ha una complessità di $O(n)$, e questo è inaccettabile.
+\begin{gather*}
+	n = \# \text{elementi inseriti} \\
+	m = \text{dimensione di } T \\
+	\alpha = \frac{n}{m} \quad \text{fattore di carico} \\
+	\alpha \text{ può essere }<, \ = \text{ oppure } > \text{ di } 1
+\end{gather*}
+
+\subsubsection{Hashing uniforme semplice}
+Ogni elemento di \emph{input} è "mandato" da $h$ con la stessa probabilità $\left( \frac{1}{m} \right)$
+in una delle $m$ celle.
+
+\paragraph{Caso medio} $\Theta(1 + \alpha)$, 1 è l'accesso alla tabella.\par
+Consideriamo $n_j$ il $j$-esimo elemento della cella $n$.
+$$E[n_j] = \displaystyle\sum_{i = 1}^{n} \frac{1}{m} \cdot 1 = \frac{n}{m} = \alpha$$
