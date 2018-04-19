@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{\proc{Insert}$(T,x)$}
+\li $i \gets 0$
+\li \Repeat
+\li     $j \gets h(\attrib{x}{\id{key}},i)$
+\li     \If $(T[j] = \const{nil}) \kw{ or } (T[j] = \const{deleted})$ 
+        \Comment posizione libera
+\li         \Then
+                $T[j] \gets x$
+\li             \Return $j$
+            \End
+\li     $i \gets i + 1$
+\li \Until $i = m$
+\li \kw{error}
+\end{codebox}

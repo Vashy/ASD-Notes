@@ -1,0 +1,13 @@
+\begin{codebox}
+\Procname{\proc{Search}$(T,k)$}
+\li $i \gets 0$
+\li \Repeat 
+\li     $j \gets h(k,i)$
+\li     \If $\attrib{T[j]}{\id{key}} = k$
+\li         \Then
+                \Return $j$
+            \End
+\li     $i \gets i + 1$
+\li \Until $(i = m)$ \kw{ or } $(T[i] = \const{nil})$
+\li \Return \const{not found}
+\end{codebox}

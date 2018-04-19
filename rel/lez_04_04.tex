@@ -1,6 +1,6 @@
 \section{Lezione del 04/04/2018}
 
-\subsection{Chaining}
+\subsection{Chaining}\label{hash:chaining}
 Il \emph{Chaining} propone come soluzione quella di mettere sulla tabella liste dinamiche
 di elementi, invece che singoli elementi, in modo che in caso si incorra in una cella
 già occupata dopo un \emph{hashing}, l'elemento venga inserito in coda (o in testa) alla
@@ -20,9 +20,123 @@ lista.
 \end{gather*}
 
 \subsubsection{Hashing uniforme semplice}
-Ogni elemento di \emph{input} è "mandato" da $h$ con la stessa probabilità $\left( \frac{1}{m} \right)$
+Ogni elemento di \emph{input} è ``mandato'' da $h$ con la stessa probabilità $\left( \frac{1}{m} \right)$
 in una delle $m$ celle.
 
 \paragraph{Caso medio} $\Theta(1 + \alpha)$, 1 è l'accesso alla tabella.\par
-Consideriamo $n_j$ il $j$-esimo elemento della cella $n$.
+Consideriamo $n_1,n_2,\dots,n_{m-1}$ la lunghezza delle $m$ liste. La lunghezza attesa
+di una lista è:
 $$E[n_j] = \displaystyle\sum_{i = 1}^{n} \frac{1}{m} \cdot 1 = \frac{n}{m} = \alpha$$
+
+\paragraph{Ricerca di una chiave} La chiave può essere:
+\begin{itemize}
+	\item \emph{Assente}. \texttt{Search(k)}, \texttt{k} non c'è.
+	\begin{itemize}
+		\item Calcolo \texttt{h(k)} $\rightarrow$ ($\Theta(1)$);
+		\item Accedo a \texttt{T[h(k)] = j} $\rightarrow$ ($\Theta(1)$);
+		\item Scorro $n_j$ elementi ($n_j = \alpha$) $\rightarrow (\Theta(\alpha)$).  
+	\end{itemize}
+	Nel complesso, ho $\Theta(1+\alpha)$
+
+	\item \emph{Presente}. \texttt{Search(k)}, \texttt{k} presente.
+	\begin{itemize}
+		\item \texttt{h(k)} e \texttt{T[h(k)]}\par
+			$$\text{Se } x_1, x_2,\dots x_n \text{ sono gli elementi inseriti}$$
+		Costo della ricerca di $x_i$:
+		\begin{align*}
+			& 1 + \# elem \quad x_j : j > 1, \ h(x_i.key) = h(x_j.key) \\
+			& = 1 + \displaystyle\sum_{j=i+1}^n \left(prob \ h(x_i.key) = h(x_j.key)\right) \\
+			& = 1 + \displaystyle\sum_{j=i+1}^n \frac{1}{m} = 1 + \frac{n-i}{m}
+		\end{align*}
+		\begin{align*}
+			& \frac{1}{n} \displaystyle\sum_{i=1}^n \left( 1 + \frac{n-i}{m} \right) \\
+			& = \frac{1}{n} \left( n + \displaystyle\sum_{i=1}^n \frac{n-i}{m} \right) 
+				= \frac{1}{n} \left( n + \frac{1}{m} \displaystyle\sum_{z=0}^{n-1} z \right) \\
+			& = 1 + \frac{1}{m \cdot n} \cdot \frac{n(n-1)}{2} = 1 + \frac{n}{2m} - \frac{1}{2m} \cdot \left(\frac{n}{n} \right) \\
+			& \hspace{5cm} \left(\frac{n}{m} = \alpha\right) \\
+			& = 1 + \frac{\alpha}{2} - \frac{\alpha}{2n} = \Theta(1+\alpha)
+		\end{align*}
+
+		\begin{gather*}
+			\text{Se } n \leq c \cdot m \text{ per qualche costante positiva } c \text{ allora}\\ 
+			\alpha \leq c \Rightarrow \Theta(1)
+		\end{gather*}
+	\end{itemize}
+	\item $h : U \implies \{ 0,1,\dots,m-1 \} \Rightarrow h(x) = 0$
+\end{itemize}
+
+\subsubsection{Funzioni Hash} Una \emph{funzione hash} deve soddisfare la proprietà di
+\emph{hashing uniforme}, ossia 
+\begin{quote}
+	``Ogni chiave ha la stesso probabilità $\frac{1}{m}$ di essere mandata in una
+	qualsiasi delle $m$ celle, indipendentemente dalle chiavi inserite precedentemente.''
+\end{quote} 
+Consideriamo:
+\begin{itemize}
+	\item $x \in [0,1)$ ($0 \leq x < 1$), $x$ chiave, estratta in modo indipendente dalla distribuzione
+	uniforme (\underline{non realistica}).
+	\item Allora $h(x) = \floor{mx}$ soddisfa la proprietà di \emph{hashing uniforme}.
+\end{itemize} 
+
+L'ipotesi di hash uniforme semplice dipende dalle probabilità con cui vengono estratti gli elementi da
+inserire; probabilità che in genere non sono note.
+Le funzioni hash che descriveremo assumono che le chiavi siano degli interi non negativi.
+
+\paragraph{Metodo della divisione} 
+$$U = \{ 0, 1, \twodots, \abs{\cup} - 1 \}$$
+$$h(k) = k \mod n$$
+\begin{itemize}
+	\item $m = 2^p$ caso pessimo;
+	\item $m = 2^p - 1$ caso non buono. $2^p$ cifre base.
+\end{itemize}
+La soluzione migliore è quella di scegliere chiavi lontane dalle potenze di 2, meglio
+ancora se numeri primi.
+
+\paragraph{Metodo della moltiplicazione}
+$$k \in U$$
+$$0 < A < 1 \text{ fissato}$$
+$$h(k) = m(k A \mod 1) \qquad \text{Miglior } A : \frac{\sqrt{5}-1}{2}$$
+\begin{align*}
+	m & = 2^p \quad w = \# \text{bit parola} \\
+	A & = \frac{q}{2^w} \quad 0 < q < 2 \\
+	& m(k A \mod 1) \\
+	& = m \left( k \frac{q}{2^w} \mod 1 \right) && (\text{\emph{shift} di $w$ bit, prendo la parte decimale} \\
+	& && k a \mod 1 \text{ e la moltiplico per } m = 2^p) 
+\end{align*}
+
+\subsubsection{Hashing Universale} 
+Per avere una distribuzione più uniforme delle chiavi nelle liste e non dipendente dall'input,
+possiamo usare la \emph{randomizzazione}. \par
+Insieme $H$ di funzioni di hash. Scelgo randomicamente da $H$. \par
+Sotto certe ipotesi ottengo per \texttt{Search}:
+$$\Theta(1 + \alpha)$$
+
+\paragraph{Def (Hashing universale)} $\forall k_1,k_2 \in U \ k_1 \neq k_2$
+\begin{gather*}
+	\left| \left\{ h \in H : h(k_1) = h(k_2) \right\} \right| \leq \frac{|H|}{m} \\
+	\frac{\left| \left\{ h \in H : h(k_1) = h(k_2) \right\} \right|}{|H|} \leq \frac{1}{m}
+\end{gather*}
+
+Con il \emph{chaining}, $H$ è universale per ogni $k \in U, \ j = h(k)$
+\[ \text{Costo medio } \Theta(1+\alpha)
+	\begin{cases}
+		k \text{ non è in } T \rightarrow E[n_j] \leq \alpha \\
+		k \text{ è in } T \rightarrow E[n_j] \leq 1 + \alpha
+	\end{cases}
+\]
+
+\subsection{Open Addressing} \label{hash:openaddessing}
+
+$h(k,i)$: $k$ è la chiave, $i$ è il tentativo.\par
+Provo con $h(k,0)$: se capito in una cella occupata, provo con $h(k,1)$, poi $h(k,2)$
+e così via, fino a che non trovo una cella libera.
+
+Per esplorare tutta la tabella:
+$$h(k,0), h(k,1), \dots, h(k,m-1)$$
+che è una permutazione di 
+$$0,1,\dots,m-1$$
+
+\input{pseudocodes/hash/open-addressing/insert}
+\input{pseudocodes/hash/open-addressing/search} 
+
+% 05/04/2018
