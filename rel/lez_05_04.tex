@@ -1,0 +1,168 @@
+\section{Lezione del 05/04/2018}
+
+\subsection{Open Addressing} \label{hash:openaddessing}
+
+$h(k,i)$: $k$ è la chiave, $i$ è il tentativo.\par
+Provo con $h(k,0)$: se capito in una cella occupata, provo con $h(k,1)$, poi $h(k,2)$
+e così via, fino a che non trovo una cella libera.
+
+Per esplorare tutta la tabella:
+$$h(k,0), h(k,1), \dots, h(k,m-1)$$
+che è una permutazione di 
+$$0,1,\dots,m-1$$
+
+\input{pseudocodes/hash/open-addressing/insert}
+\input{pseudocodes/hash/open-addressing/search}
+\input{pseudocodes/hash/open-addressing/delete}
+L'\emph{Open Addressing} risulta una soluzione inefficiente in caso
+avvengano molte cancellazioni.
+
+\subsubsection{Hashing uniforme}
+
+Per ogni elemento di input, tutte ($m!$) le sequenze di ispezione
+sono equiprobabili.
+
+\subsubsection{Funzioni di Hash}
+\begin{enumerate}
+    \item \textbf{Ispezione lineare}. Sia $h'(x)$ funzione di hash ``ordinaria''. Se 
+        ricado in una cella occupata, mi sposto su quella immediatamente successiva.
+        $$h(k,i) = (h'(k)+i) \mod m$$
+        Caratteristiche:
+        \begin{itemize}
+            \item è semplice;
+            \item poche permutazioni ($m$ dipende solo da $h'(k)$);
+            \item causa addensamenti di celle occupate (\emph{addensamento primario}).
+        \end{itemize}
+    \item \textbf{Ispezione quadratica}. Fisso $h'(k)$.
+    $$h(k,i) = h'(k) + c_1i + c_2i^2 \qquad c_2 \neq 0$$
+
+    \begin{codebox}
+        \Procname{Inserimento di $k$}
+        \zi $j \gets h'(k)$
+        \zi $i \gets 0$
+        \zi \While $(i < m)$ \kw{and} $(T[j] \neq \const{nil}/\const{deleted})$
+        \zi \Do
+                $i \gets i + 1$
+        \zi     $j \gets (j + 1) \mod n$
+            \End
+    \end{codebox}
+
+    \begin{description}
+        \item[$(i=0) \quad$] $j = h'(k)$
+        \item[$(i=1) \quad$] $j = (h'(k)+1) /mod m$
+        \item[$\vdots$] 
+        \item[$(i=l) \quad$] 
+        \begin{align*}
+            j & = \left( h'(k) + \displaystyle\sum_{i=1}^{l}i \right) \mod m \\
+            & = \left( h'(k) + \frac{l(l+1)}{2} \right) \mod m \\
+            & = \left( h'(k) + \frac{1}{2}l + \frac{1}{2}l^2 \right) \mod m \\
+            & m = 2^p \text{ permutazione}
+        \end{align*}
+    \end{description}
+    \item \textbf{Doppio Hash}. Fisso $h_1(k)$, $h_2(k)$
+    $$h(k,i) = (h_1(k) + i \cdot h_2(k)) \mod m$$
+    \emph{Osservazioni}:
+    \begin{itemize}
+        \item I salti sono di dimensione $h_2(k)$ all'incrementare di $i$; 
+        \item Ci sono $m^2$ sequenze di ispezione;
+        \item $h_2(k)$ e $m$ primi tra loro $ \quad (MCD = 1)$;
+        \item $i, i<m \quad h(k,i) = h(k,i') \Rightarrow i = i' \ \quad (\text{\emph{iniettività}})$
+        $$h(k, \_) : \{ 0, \_, m-1 \} \rightarrow \{ 0,\_, m-1 \}$$
+        $$\text{\emph{iniettiva}} \Rightarrow \text{\emph{biiettiva}}$$
+        \begin{gather*}
+            h(k,i) = h(k,i') \\
+            (h_1(k) + ih_2(k)) \mod m = (h_1(k) + i'h_2(k)) \mod m \\
+            ((i - i')h_2(k)) \mod m = (i h_2(k) - i'h_2(k)) \mod m = 0 \\
+            (i - i') \mod m = 0 \\
+            i \geq i' \quad i - i' < m \\ 
+            \Rightarrow i - i' = 0 \\
+            \Rightarrow i = i'
+        \end{gather*}
+        Scelgo $m = 2^p, \ h_2(k) = 1 + 2h_2'(k)$, $h_2'(k)$ qualunque.\par
+        \emph{es.} $h_2(k) = 1 + k \mod m' \quad$ con $m' < m$
+    \end{itemize}
+    \end{enumerate}
+
+\paragraph{Costo?}
+Il costo della \texttt{Search} con \emph{hashing uniforme} si può riassumere come segue.
+$$0 \leq \alpha = \frac{n}{m} \leq 1$$
+
+\paragraph{Ricerca di una chiave non presente}
+\begin{enumerate}[label=(\alph*)]
+    \item $\frac{1}{1-\alpha} \quad$ se $\alpha < 1$
+    \item $m \quad$ se $\alpha = 1$ 
+\end{enumerate}
+
+\subparagraph{Probabilità di ispezionare la i-esima cella}
+\begin{center}
+    \begin{tabular}{c|l}
+        \textbf{cella} & \textbf{probabilità} \\
+        \hline
+        $i = 0$ & 1 \\
+        $i = 1$ & prob. cella 0 occupata: $\frac{n}{m}$ \\
+        $i = 2$ & prob. cella 1 occupata: $\frac{n}{m} \cdot \frac{n-1}{m-1}$ \\
+        $\dots$ \\
+        $i$ & $\frac{n}{m} \cdot \frac{n-1}{m-1} \dots \frac{n-i+1}{m-i+1} \leq \alpha \cdot \alpha \dots \alpha = \alpha^i$
+    \end{tabular}
+\end{center}
+
+Valore atteso per \#celle ispezionate
+$$1 + \alpha + \alpha^2 + \dots + \alpha^{i-1} + \dots + \alpha^{m-1}$$
+
+\begin{enumerate}[label=(\alph*)]
+    \item $\alpha < 1 \Rightarrow \frac{1 - \alpha^m}{1 - \alpha} \leq \frac{1}{1-\alpha}$ 
+    \item $m$ 
+\end{enumerate}
+
+\paragraph{Ricerca di una chiave presente}
+\begin{enumerate}[label=(\alph*)]
+    \item $\frac{1}{\alpha} \log \left( \frac{1}{1-\alpha} \right) \quad \alpha < 1$
+    \item $1 + \log m \quad \alpha = 1$
+\end{enumerate}
+
+Finora, ho inserito $x_0,x_1,\dots, x_i,\dots,x_n$.
+\begin{gather*}
+    \text{costo \texttt{Search} chiave $x_i$ presente} \\
+    = \text{costo \texttt{Search} chiave $x_i$ assente} \\
+    \text{in }  x_0,\dots,x_{i-1} \quad \frac{1}{1-\alpha_i}, \ \alpha_i = \frac{i}{m}
+\end{gather*}
+
+Numero medio:
+\begin{align*}
+    & \frac{1}{n} \displaystyle\sum_{i=0}^{n-1}\frac{1}{1-\alpha_i} 
+        = \frac{1}{n} \displaystyle\sum_{i=0}^{n-1} \frac{m}{m-i} 
+        = \frac{m}{n}\displaystyle\sum_{i=0}^{n-1} \frac{1}{m-i} \qquad \left(\frac{m}{n} = \frac{1}{\alpha} \right)\\
+    & = \frac{1}{\alpha} \displaystyle\sum_{l=m-n+1}^{m}\frac{1}{l} \qquad (m-i \rightarrow m-n+1) 
+\end{align*}
+
+\begin{itemize}
+    \item Se $\alpha < 1$ %SISTEMARE, <= di cosa?
+    \begin{align*}
+        & \leq \frac{1}{\alpha} \int_{n-m}^{m}\frac{1}{x} \mathrm{d}x \\ 
+        & = \frac{1}{\alpha}\left( \log m - \log (m-n) \right) = \frac{1}{\alpha}\left( \log \frac{m}{m-n} \right) \\
+        & = \frac{1}{\alpha} \log \frac{1}{\frac{m-n}{m}} \\ 
+        & = \frac{1}{\alpha} \log \left( \frac{1}{1-\left( \frac{n}{m} \right)} \right)
+            = \frac{1}{\alpha} \log \left( \frac{1}{1-\alpha } \right)
+    \end{align*}
+
+    \item Se $\alpha = 1$
+    \begin{align*}
+        \displaystyle\sum_{l = 1}^{m} \frac{1}{l} & = 1 + \displaystyle\sum_{l=2}^m \frac{1}{l} 
+            \leq \int_1^m \frac{1}{x} \mathrm{d}x \\
+        & = 1 + \left( \log m - \log 1 \right) = 1 + \log m
+    \end{align*}
+\end{itemize}
+
+Confrontiamo le complessità dei due casi.
+
+\begin{center}
+    \begin{tabular}{l|l|l}
+        $\alpha$ & $\frac{l}{1-\alpha}$ & $\frac{1}{\alpha} \log \left( \frac{1}{1-\alpha} \right)$ \\
+        \hline
+        $\alpha = 0.3$  & 1.43 & 1.19 \\
+        $\alpha = 0.5$  & 2.00 & 1.39 \\
+        $\alpha = 0.7$  & 3.33 & 1.72 \\
+        $\alpha = 0.9$  & 10 & 2.56 \\
+        $\alpha = 0.99$ & 100 & 4.65         
+    \end{tabular}
+\end{center}

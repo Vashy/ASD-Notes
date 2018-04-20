@@ -125,18 +125,5 @@ Con il \emph{chaining}, $H$ è universale per ogni $k \in U, \ j = h(k)$
 	\end{cases}
 \]
 
-\subsection{Open Addressing} \label{hash:openaddessing}
-
-$h(k,i)$: $k$ è la chiave, $i$ è il tentativo.\par
-Provo con $h(k,0)$: se capito in una cella occupata, provo con $h(k,1)$, poi $h(k,2)$
-e così via, fino a che non trovo una cella libera.
-
-Per esplorare tutta la tabella:
-$$h(k,0), h(k,1), \dots, h(k,m-1)$$
-che è una permutazione di 
-$$0,1,\dots,m-1$$
-
-\input{pseudocodes/hash/open-addressing/insert}
-\input{pseudocodes/hash/open-addressing/search} 
 
 % 05/04/2018
