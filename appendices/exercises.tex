@@ -28,3 +28,139 @@
 		\item[$(a>1)$] $T(n) = \frac{a^n-1}{a-1}b + a^n c = \Theta(a^n)$
 	\end{description}
 \end{itemize}
+
+\subsection{Esercizi svolti il 06/04/2018} \label{exs:6-4-2018}
+
+\paragraph{Gap} Abbiamo un \emph{gap} se $i < n$ t.c. $A[i+1] - A[i] > 1$.
+
+Mostrare per induzione che se $A[n] - A[1] \geq n$ allora c'è un gap.
+
+\subparagraph{Sol.}
+\begin{itemize}
+	\item \underline{Base}
+	\begin{itemize}
+		\item $n = 1 \Rightarrow A[1] - A[1] = 0$;
+		\item $n = 2 \Rightarrow A[2] - A[1] > 1$ allora 1 è un gap.
+	\end{itemize}
+	\item \underline{Passo induttivo} $n > 2$
+		Se $A[n] - A[1] \geq n$ abbiamo due casi:
+		\begin{enumerate}
+			\item Se $A[n] - A[n-1] > 1$ allora $A[n-1]$ è un \emph{gap};
+			\item Se $A[n] - A[n-1] \leq 1$ allora
+			\begin{gather*}
+				A[n-1] - A[1] = \left( A[n] - A[1] \right) - \left( A[n] - A[n-1] \right) \\
+				(\text{valgono } A[n-1]-A[1] \geq n \text{ e } A[n]-A[n-1] \leq 1) \\
+				A[n-1] - A[1] \geq n-1 \Rightarrow A[1\twodots n-1] \text{ contiene un \emph{gap}}
+			\end{gather*}
+		\end{enumerate}
+\end{itemize}
+
+\input{pseudocodes/gap}
+
+Valutiamo la complessità con il \emph{Master Theorem}.
+
+$$T(n) = T\left( \frac{n}{2} \right) + \Theta(1)$$
+Abbiamo $a = 1, \ b = 2$. Confronto $f(n) = \Theta(1)$ con $n^{\log_2 1} = 1$.\par
+Siamo nel \emph{secondo caso} del Master Theorem, poichè le due funzioni hanno lo stesso
+andamento $\Rightarrow \Theta (\log^{\log_2 1} \log n) = \Theta(\log n)$
+
+\paragraph{Select} \texttt{Select(A, k)}, ritorna il $k$-esimo elemento 
+dell'array \texttt{A} se fosse ordinato.
+
+\subparagraph{Sol.} Ci sono diverse soluzioni al problema.
+
+\begin{enumerate}[label=($\arabic*$)]
+	\item Trasformo $A$ in un \emph{MinHeap}, ed estraggo il minimo $k$ volte.
+	\begin{codebox}
+	\Procname{\proc{Select}$(A,k)$}
+	\li	$\proc{BuildMaxHeap}(A)$ \Comment $\Theta(n)$
+	\li \For $i \gets 1$ \To $k$
+	\li \Do
+			$x \gets \proc{ExtractMin}(A)$ \Comment $k \cdot O(\log n)$
+		\End
+	\li \Return $x$
+	\end{codebox}
+
+	Complessità: $O(n + k \log n)$
+
+	\item Soluzione alternativa.
+	\begin{codebox}
+		\Procname{\proc{Select}$(A,k)$}
+		\li	$\proc{BuildMaxHeap}(A,k)$ \Comment $\Theta(k)$
+		\li \For $i \gets k+1$ \To $n$
+		\li \Do
+				\If $A[i] < A[1]$ \Comment $O((n-k) \log k)$
+		\li		\Then
+					$A[i] \leftrightarrow A[1]$
+		\li			$\proc{MaxHeapify}(A,1,k)$
+				\End
+			\End
+		\li \Return $A[1]$
+	\end{codebox}
+
+	Complessità: $O(k + (n-k) \log k) \cong O(n \log k)$
+\end{enumerate}
+
+\paragraph{Inversioni} Quante \emph{inversioni} ci sono in $A$? Implementare un algoritmo
+\emph{Divide ed Impera} con complessità $O(n \log n)$ 
+
+\subparagraph{Def (inversione)} Una coppia di indici $i, j$ tali che $i < j$ è un \emph{inversione}
+per l'array $A$ se e solo se $A[i] > A[j]$.
+
+\subparagraph{Sol.} Possiamo distinguere tre casi:
+\begin{itemize}
+	\item $i,j \in [p,q]$;
+	\item $i, j \in [q+1,r]$;
+	\item $i \in [p,q], j \in [q+1,r]$.
+\end{itemize}
+
+La soluzione che adotteremo conterà le inversioni dei tre casi separatamente, e restituirà
+la somma dei tre valori ottenuti.
+
+\begin{multline*}
+	\proc{\# Inv}(p,r) = \proc{\# Inv}(p,q) + \proc{\# Inv}(q+1,r) \\
+	+ | \{ (i,j) : i \in [p,q], j \in [q+1,r], A[i] > A[j] \} |
+\end{multline*}
+
+\begin{codebox}
+\Procname{\proc{Inv}$(A,p,r)$}
+\zi \Comment restituisce $\verb|#| inv$ e ordina l'array $A$
+\li \If $p < r$ 
+\li \Then
+		$q = \frac{p+r}{2}$
+\li		\Return $\proc{Inv}(A,p,q) + \proc{Inv}(A,q+1,r) + \proc{MergeInv}(A,p,q,r)$
+\li	\Else
+\li		\Return $0$
+	\End
+\end{codebox}
+
+\begin{enumerate}[label=($\alph*$)]
+	\item $\proc{Inv}$ non cambia gli elementi in $A[p,q]$ e $A[q+1,r]$;
+	\item Il numero di inversioni ``a cavallo'' non cambia;
+	\item $i,j$ inversione $A[i] > A[j]$ \par
+		$\Rightarrow (i',j) \quad i' \in [i,q]$ inversione. 
+\end{enumerate}
+
+\begin{codebox}
+\Procname{\proc{MergeInv}$(A,p,q,r)$}
+\li $n_1 \gets q - p + 1$
+\li $n_2 \gets r - q$
+\li $L[1,n_1] \gets A[p,q]$
+\li $R[1,n_2] \gets A[q+1,r]$
+\li $L[n_1+1] \gets R[n_2+1] \gets \infty$
+\li $i \gets j \gets 1$
+\li $\id{inv} \gets 0$
+\li \For $k \gets p$ \To $r$
+\li \Do
+		\If $L[i] \leq R[j]$
+\li		\Then
+			$A[k] \gets L[i]$
+\li 		$i \gets i + 1$
+\li 	\Else
+\li 		$A[k] \gets R[j]$
+\li 		$j \gets j + 1$
+\li 		$\id{inv} \gets \id{inv} + n_1 - i + 1$ 
+		\End
+	\End
+\li \Return $\id{inv}$
+\end{codebox}

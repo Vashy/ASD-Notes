@@ -1,0 +1,32 @@
+\begin{codebox}
+\Procname{\proc{Insert}$(H, \id{node})$}
+\li \If $\attrib{H}{size} = 0$
+\li     \Then
+            $\attrib{\id{node}}{p} \gets \const{nil}$
+\li         $\attrib{H}{root} \gets \id{node}$
+\li         $\attrib{H}{size} = 1$
+\li     \Else
+\li         $x \gets root$
+\li         $\attrib{H}{size} \gets \attrib{H}{size} + 1$
+\li         $p \gets \proc{bitvector}(\attrib{H}{size})$
+            \Comment $p$ letto come vettore di bit
+\li         $k \gets \# \text{bit di p più significativo a 1}$
+\li         \For $i \gets k-1$ \kw{down} \To $1$
+\li             \Do 
+                    \If $p[i] = 0$
+\li                     \Then
+                            $x \gets \attrib{x}{left}$
+\li                     \Else 
+\li                         $x \gets \attrib{x}{right}$
+                    \End
+            \End
+\li         \If $p[0] = 0$
+\li             \Then
+                    $\attrib{x}{left} \gets \id{node}$
+\li             \Else
+\li                 $\attrib{x}{right} \gets \id{node}$
+            \End
+    \End
+\li $\attrib{\id{node}}{left} \gets \attrib{\id{node}}{right} \gets \const{nil}$
+\li $\proc{MaxHeapifyUp}(H, \id{node})$
+\end{codebox}

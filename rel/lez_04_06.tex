@@ -1,0 +1,24 @@
+\section{Lezione del 06/04/2018}
+
+\subsection{Max Heap con coda dinamica}
+Implementiamo un \texttt{Max Heap}, solo che è implementato con una
+coda dinamica invece che con un normale array.
+
+Ogni \emph{nodo} $x$ ha 3 campi dato:
+\begin{itemize}[noitemsep]
+    \item \texttt{x.left};
+    \item \texttt{x.right};
+    \item \texttt{x.p}.
+\end{itemize}
+
+$H$ è lo \emph{heap} ($\const{nil}$ se vuoto):
+\begin{itemize}[noitemsep]
+    \item \texttt{H.root};
+    \item \texttt{H.size}.
+\end{itemize}
+
+Abbiamo \texttt{MaxHeapify} e \texttt{MaxHeapifyUp} invariate.
+
+\input{pseudocodes/heap-dinamico/insert} 
+
+Raccolta esercizi della lezione: \ref{exs:6-4-2018}.

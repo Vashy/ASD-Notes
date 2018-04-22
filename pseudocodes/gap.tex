@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{\proc{Gap}$(A,p,r)$} 
+\zi \Comment pre: $r - p > 1$
+\li \If $p = r + 1$
+\li     \Then \Return $p$
+\li     \Else
+\li         $q \gets \frac{p+r}{2}$
+\li     \If $A[q] - A[p] > q - p + 1$
+\li         \Then
+                $\proc{Gap}(A,p,r)$
+\li         \Else
+\li             $\proc{Gap}(A,q+1,r)$
+        \End
+    \End
+\end{codebox}
