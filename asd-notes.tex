@@ -1,6 +1,6 @@
 \input{config.tex}
 
-% \includeonly{rel/lez_05_04}
+% \includeonly{rel/lez_04_26}
 
 \begin{document} 
 
@@ -30,6 +30,12 @@
 	
 \end{titlepage}
 
+\tikzset{every tree node/.style={minimum width=2em,draw,circle},
+	blank/.style={draw=none},
+	edge from parent/.style=
+	{draw,edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+	level distance=1.5cm}
+
 \newpage
 \tableofcontents
 
@@ -51,6 +57,8 @@
 \include{rel/lez_04_04}
 \include{rel/lez_04_05}
 \include{rel/lez_04_06}
+\include{rel/lez_04_26}
+%\include{rel/lez_04_27}
 
 \include{appendices/pseudocodes}
 \include{appendices/exercises}

@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{\proc{Successor}$(x)$}
+\li \If $\attrib{x}{right} \neq \const{nil}$
+\li \Then 
+		\Return \proc{Min}$(\attrib{x}{right})$
+\li \Else
+\li 	$y \gets \attrib{x}{p}$
+\li 	\While $(y \neq \const{nil}) \kw{ and } (x = \attrib{y}{right})$
+\li 	\Do
+			$x \gets y$
+\li 		$y \gets \attrib{x}{p}$
+		\End
+\li 	\Return $y$
+	\End
+\end{codebox}

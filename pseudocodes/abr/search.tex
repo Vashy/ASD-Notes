@@ -1,0 +1,11 @@
+\begin{codebox}
+\Procname{\proc{Search}$(x,k)$}
+\li \If $(x = \const{nil}) \kw{ or } (\attrib{x}{key} = k)$
+\li \Then
+		\Return $x$
+\li \Else \If $k < \attrib{x}{key}$
+\li 	\Return \proc{Search}$(\attrib{x}{left},k)$
+\li \Else 
+\li 	\Return \proc{Search}$(\attrib{x}{right},k)$
+	\End
+\end{codebox}

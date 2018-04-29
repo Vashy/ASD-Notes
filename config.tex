@@ -56,6 +56,8 @@
 \usepackage{clrscode3e} %algorithms pseudocode
 \RequirePackage{graphics} % needed for \scalebox command
 
+\usepackage{tikz-qtree} %trees
+
 \newcommand{\authorName}{Timoty Granziero}
 
 %prevent page break
@@ -80,11 +82,11 @@
 
 %header/footer setup
 \fancyhf{}
-\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
+%\fancyhead[R]{\small\scshape\nouppercase{\leftmark}}
 \fancyhead[L]{\small\scshape\nouppercase{\rightmark}}
 %\fancyhead[L,R]{\small\thepage}
 \lhead{\nouppercase{\rightmark}}
-\rhead{\nouppercase{\leftmark}}
+%\rhead{\nouppercase{\leftmark}}
 \cfoot{\thepage}
 %\lfoot{\authorName}
 

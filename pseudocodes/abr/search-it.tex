@@ -1,0 +1,13 @@
+\begin{codebox}
+\Procname{\proc{Search-it}$(x,k)$}
+\li \While $(x \neq \const{nil}) \kw{ or } (\attrib{x}{key} \neq k)$
+\li \Do
+		\If $k < \attrib{x}{key}$
+\li 	\Then
+			$x \gets \attrib{x}{left}$
+\li 	\Else
+\li			$x \gets \attrib{x}{right}$
+		\End
+	\End
+\li \Return $x$
+\end{codebox}

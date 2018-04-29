@@ -1,0 +1,14 @@
+\begin{codebox}
+\Procname{\proc{Max}$(T)$}
+\li $x \gets \attrib{T}{root}$
+\li \If $x = \const{nil}$
+\li \Then
+		\Return \const{nil}
+\li \Else
+\li 	\While $\attrib{x}{right} \neq nil$
+\li 	\Do 
+			$x \gets \attrib{x}{right}$
+		\End
+	\End
+\li \Return $x$
+\end{codebox}
