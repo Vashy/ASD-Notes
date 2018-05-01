@@ -121,3 +121,50 @@ Se le chiavi fossero tutte distinte, allora il \emph{successore} di $x$
 \input{pseudocodes/abr/successor}
 
 \paragraph{Costo?} $O(h)$
+
+%27/04/2018
+
+\subsubsection{Inserimento}
+
+\input{pseudocodes/abr/insert}
+
+\paragraph{Costo?} $O(h)$
+
+\subsubsection{Eliminazione di un nodo}
+Distingueremo 2 casi nell'algoritmo:
+\begin{enumerate}[label=($\arabic*$)]
+	\item $z$ ha al più un figlio;
+	\item $z$ ha due figli.
+\end{enumerate}
+Per fare ciò, usiamo una funzione ausiliaria \texttt{Transplant}, con 
+costo $O(1)$.
+
+\input{pseudocodes/abr/transplant} 
+
+\begin{codebox}
+	\Procname{\proc{Delete}$(T,z)$}
+	\li \If $\attrib{z}{left} = \const{nil}$
+	\li \Then
+			$\proc{Transplant}(T,z,\attrib{z}{right})$
+	\li \Else \If $\attrib{z}{right} = \const{nil}$
+	\li     $\proc{Transplant}(T,z,\attrib{z}{left})$
+	\li \Else
+	\li     $y \gets \proc{Min}(\attrib{z}{right})$
+	\li     \If $\attrib{y}{p} \neq z$
+	\li     \Then
+				$\proc{Transplant}(T, y, \attrib{y}{right})$
+	\li         $\attrib{y}{right} \gets \attrib{z}{right}$
+	\li         $\attrib{\attrib{y}{right}}{p} \gets y$
+	\li         $\attrib{y}{left} \gets \attrib{z}{left}$
+	\li         $\attrib{\attrib{y}{left}}{p} \gets y$
+	\li         $\proc{Transplant}(T,z,y)$
+	\li     \Else
+	\li         $\attrib{y}{left} \gets \attrib{z}{left}$
+	\li         $\attrib{\attrib{y}{left}}{p} \gets y$
+	\li         $\proc{Transplant}(T,z,y)$
+			\End
+		\End
+\end{codebox}
+È possibile scrivere \texttt{Delete} in modo più compatto.
+
+\input{pseudocodes/abr/delete}

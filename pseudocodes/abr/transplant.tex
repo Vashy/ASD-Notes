@@ -1,0 +1,18 @@
+\begin{codebox}
+\Procname{\proc{Transplant}$(T,u,v)$}
+\li \If $\attrib{u}{p} = \const{nil}$
+\li \Then
+        $\attrib{T}{root} \gets v$
+\li \Else
+\li     \If $u = \attrib{\attrib{u}{p}}{left}$
+\li     \Then
+            $\attrib{\attrib{u}{p}}{left} \gets v$
+\li     \Else
+\li         $\attrib{\attrib{u}{p}}{right} \gets v$
+        \End
+    \End
+\li \If $v \neq \const{nil}$
+\li \Then
+        $\attrib{v}{p} \gets \attrib{u}{p}$
+    \End
+\end{codebox}

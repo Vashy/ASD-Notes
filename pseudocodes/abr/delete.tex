@@ -1,0 +1,20 @@
+\begin{codebox}
+\Procname{\proc{Delete}$(T,z)$}
+\li \If $\attrib{z}{left} = \const{nil}$
+\li \Then
+        $\proc{Transplant}(T,z,\attrib{z}{right})$
+\li \Else \If $\attrib{z}{right} = \const{nil}$
+\li     $\proc{Transplant}(T,z,\attrib{z}{left})$
+\li \Else
+\li     $y \gets \proc{Min}(\attrib{z}{right})$
+\li     \If $\attrib{y}{p} \neq z$
+\li     \Then
+            $\proc{Transplant}(T, y, \attrib{y}{right})$
+\li         $\attrib{y}{right} \gets \attrib{z}{right}$
+\li         $\attrib{\attrib{y}{right}}{p} \gets y$
+        \End
+\li     $\attrib{y}{left} \gets \attrib{z}{left}$
+\li     $\attrib{\attrib{y}{left}}{p} \gets y$
+\li     $\proc{Transplant}(T,z,y)$
+    \End
+\end{codebox}

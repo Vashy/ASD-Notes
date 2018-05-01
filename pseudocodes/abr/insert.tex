@@ -1,0 +1,28 @@
+\begin{codebox}
+\Procname{\proc{Insert}$(T,z)$}
+\li $x \gets \attrib{T}{root}$
+\li $y \gets \const{nil}$
+\li \While $x \neq \const{nil}$
+\li \Do
+        $y \gets x$
+\li     \If $\attrib{z}{key} < \attrib{x}{key}$
+\li     \Then
+            $x \gets \attrib{x}{left}$
+\li     \Else
+\li         $x \gets \attrib{x}{right}$
+        \End
+    \End
+\li $\attrib{z}{p} \gets y$
+\li \If $y = \const{nil}$
+\li \Then
+        $\attrib{T}{root} \gets z$
+\li \Else 
+\li     \If $\attrib{z}{key} < \attrib{y}{key}$
+\li     \Then
+            $\attrib{y}{left} \gets z$
+\li     \Else
+\li         $\attrib{y}{right} \gets z$
+        \End
+    \End
+\li \Return $z$
+\end{codebox}
