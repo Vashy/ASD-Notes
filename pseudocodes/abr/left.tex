@@ -1,0 +1,8 @@
+\begin{codebox}
+\Procname{\proc{Left}$(T,x)$}
+\li $\attrib{x}{right} \gets \attrib{y}{left}$
+\li $\attrib{\attrib{x}{right}}{p} \gets x$
+\li $\attrib{y}{left} \gets x$
+\li $\attrib{x}{p} \gets y$
+\li $\proc{Transplant}(T,x,y)$
+\end{codebox}

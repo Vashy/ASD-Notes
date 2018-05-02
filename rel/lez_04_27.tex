@@ -13,12 +13,12 @@ $T.nil$, con $T.nil.col = B$.
 
 \paragraph{Caratteristiche} \emph{RB-tree} è in realtà un ABR tale che:
 \begin{enumerate}[label=($\arabic*$)]
-    \item Ogni nodo $x$ ha $x.col \in \{R,B\}$;
-    \item La radice $root$ ha $root.col = B$;
-    \item Le foglie ($T.nil$) sono $B$;
-    \item Se $x$ è $R$, i figli sono $B$;
+    \item Ogni nodo $x$ ha $x.col \in \{R,B\}$; \label{rbtree:1}
+    \item La radice $root$ ha $root.col = B$; \label{rbtree:2}
+    \item Le foglie ($T.nil$) sono $B$; \label{rbtree:3}
+    \item Se $x$ è $R$, i figli sono $B$; \label{rbtree:4}
     \item Per ogni nodo $x$, ogni cammino da $x$ a una qualsiasi delle foglie
-    ha lo stesso numero di nodi $B$ (calcolato con $bh(x)$).
+    ha lo stesso numero di nodi $B$ (calcolato con $bh(x)$). \label{rbtree:5}
 \end{enumerate} 
 
 \begin{figure}[hbt]
@@ -70,3 +70,205 @@ La dimostrazione è per induzione su $h_x$ (altezza del sotto-albero radicato in
 
 \subsubsection{Complessità algoritmi RB-Trees}
 \texttt{Search, Succ, Min, Pred, Max} hanno un costo di $O(h) = O(\log n)$
+
+%2/5/2018
+
+\subsubsection{RB-Insert e RB-Delete}
+A differenza di quelle citate precedentemente, che risultano semplici
+sia come complessità asintotica che come implementazione, Bisogna porre 
+particolare attenzione a queste due procedure: \texttt{RB-Insert} e \texttt{RB-Delete}.
+
+Per ovviare a ciò, posso utilizzare le \emph{rotazioni}. Consideriamo il seguente albero,
+in cui $x$ e $y$ sono nodi normali, mentre $\alpha, \ \beta$ e $\gamma$ sono sotto-alberi
+(il colore dei nodi non ha importanza ai fini della procedura che andremo a 
+vedere)\footnote{Di conseguenza, applicandola a un \emph{RB-tree}, gli assiomi di validità potrebbero venire violati.}:
+\begin{center}
+	\begin{tikzpicture}
+	\Tree
+	[.$x$     
+		[.$\alpha$
+		]
+		[.$y$ 
+            [.$\beta$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+			[.$\gamma$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+Applichiamo la procedura \texttt{Left(T,x)}, ottenendo:
+\begin{center}
+	\begin{tikzpicture}
+	\Tree
+	[.$y$
+        [.$x$
+            [.$\alpha$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+            [.$\beta$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+		]
+		[.$\gamma$ ]
+	]
+	\end{tikzpicture}
+\end{center}
+
+\paragraph{Osservazione} La \emph{visita simmetrica} è identica per i due alberi:
+$$\alpha \rightarrow x \rightarrow \beta \rightarrow y \rightarrow \gamma$$
+
+\input{pseudocodes/abr/left}
+
+\paragraph{RB-Insert(T, z)} Voglio inserire $z$ nell'albero $T$.
+L'idea è quella di porre $z.col = \const{red}$ poichè meno insidioso\footnote{Andando a modificare il numero di nodi neri, cambia l'altezza nera, e la cosa è difficile da sistemare.}.
+\begin{itemize}
+    \item Se violo \ref{rbtree:2} $\Rightarrow z.col = \const{black}$;
+    \item Se violo \ref{rbtree:4}:
+    \begin{itemize}
+        \item Risolvo localmente;
+        \item Sposto verso l'alto il problema.
+    \end{itemize}
+\end{itemize}
+
+Abbiamo due \emph{macrocasi}. $z.p$ è figlio sinistro, oppure destro. Noi analizzeremo solo il primo: \textbf{z.p figlio sinistro}.
+\begin{center}
+	\begin{tikzpicture}
+	\Tree
+	[.$\boldsymbol{z.p.p}$
+        [.$\boldsymbol{\color{red} z.p}$
+            [.$\boldsymbol{\color{red} z}$
+            ]
+		]
+		[.$y$ 
+        \edge[blank]; \node[blank]{};
+        \edge[blank]; \node[blank]{};
+        ]
+    ]
+	\end{tikzpicture}
+\end{center}
+\clearpage
+Abbiamo due possibilità per $y$\footnote{I nodi con testo in rosso sono $\const{red}$, %
+quelli in grassetto sono $\const{black}$, e quelli normali possono essere sia rossi che neri.}:
+\begin{enumerate}
+    \item $y.col = \const{red}$. Ci è sufficiente invertire il colore di $z.p.p$ con quello dei figli.
+    \begin{center}
+        \begin{tikzpicture}
+        \Tree
+        [.$\boldsymbol{\color{red} z.p.p}$
+            [.$\boldsymbol{z.p}$
+                [.$\boldsymbol{\color{red} z}$
+                ]
+            ]
+            [.$\boldsymbol{y}$ 
+            \edge[blank]; \node[blank]{};
+            \edge[blank]; \node[blank]{};
+            ]
+        ]
+        \end{tikzpicture}
+    \end{center}
+    In questo modo, risolviamo localmente e rimandiamo il problema in alto.
+    \item $y.col = \const{black}$. Possiamo distinguere due sottocasi.
+    \begin{enumerate}[label=($2.\arabic*$)]
+        \item $z$ figlio destro. \label{rbinsert:2.1}
+        \begin{center}
+            \begin{tikzpicture}
+            \Tree
+            [.$\boldsymbol{z.p.p}$
+                [.$\boldsymbol{\color{red} z.p}$
+                    \edge[blank]; \node[blank]{};
+                    [.$\boldsymbol{\color{red} z}$
+                    ]
+                ]
+                [.$\boldsymbol{y}$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+                ]
+            ]
+            \end{tikzpicture}
+        \end{center}
+        Voglio finire nel caso \ref{rbinsert:2.2}. Applico \texttt{Left(T,z.p)}, ottenendo:
+        \begin{center}
+            \begin{tikzpicture}
+            \Tree
+            [.$\boldsymbol{z.p.p}$
+                [.$\boldsymbol{\color{red} z}$
+                    [.$\boldsymbol{\color{red} z.p}$ ]
+                    \edge[blank]; \node[blank]{};
+                ]
+                [.$\boldsymbol{y}$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+                ]
+            ]
+            \end{tikzpicture}
+        \end{center}
+
+        \item $z$ figlio sinistro. \label{rbinsert:2.2}
+        \begin{center}
+            \begin{tikzpicture}
+            \Tree
+            [.$\boldsymbol{z.p.p}$
+                [.$\boldsymbol{\color{red} z.p}$
+                    [.$\boldsymbol{\color{red} z}$ ]
+                    \edge[blank]; \node[blank]{};
+                ]
+                [.$\boldsymbol{y}$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+                ]
+            ]
+            \end{tikzpicture}
+        \end{center}
+        Scambio i colori di $x.p.p$ con $z.p$, ottenendo:
+        \begin{center}
+            \begin{tikzpicture}
+            \Tree
+            [.$\boldsymbol{\color{red} z.p.p}$
+                [.$\boldsymbol{z.p}$
+                    [.$\boldsymbol{\color{red} z}$ ]
+                    \edge[blank]; \node[blank]{};
+                ]
+                [.$\boldsymbol{y}$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+                ]
+            ]
+            \end{tikzpicture}
+        \end{center}
+        Applico \texttt{Right(T,z.p.p)}\footnote{Analoga di \texttt{Left}.}:
+        \begin{center}
+            \begin{tikzpicture}
+            \Tree
+            [.$\boldsymbol{z.p}$
+                [.$\boldsymbol{\color{red} z}$ 
+                    \edge[blank]; \node[blank]{};
+                    \edge[blank]; \node[blank]{};
+                ]
+                [.$\boldsymbol{\color{red} z.p.p}$ 
+                    \edge[blank]; \node[blank]{};
+                    [.$\boldsymbol{y}$ ]
+                ]
+            ]
+            \end{tikzpicture}
+        \end{center}
+    \end{enumerate}
+\end{enumerate}
+
+\input{pseudocodes/abr/rb-insert}
+\input{pseudocodes/abr/rb-insertfix}
+
+\subparagraph{Costo}
+$$\frac{h}{2} \cong \frac{\log n}{2} \approx \log n \text{ iterazioni senza rotazioni}
+    + \proc{Max} \text{ 2 rotazioni.}$$
+
+\paragraph{RB-Delete(T, z)}
+La \texttt{Delete} è ancora più problematica\footnote{Ho deciso di ometterla per non saper come rappresentarla in modo adeguato.%
+Darò solo una breve osservazione}. Se $z$ è rosso, non ho nessun problema, poichè l'altezza nera non viene toccata.
+Altrimenti, i problemi possono essere diversi (radice rossa, due nodi rossi adiacenti, altezza nera inconsistente, ecc\dots).

@@ -1,0 +1,30 @@
+\begin{codebox}
+\Procname{\proc{RB-InsertFix}$(T,z)$}
+\li \While $\attrib{\attrib{z}{p}}{col} = \const{red}$
+\li \Do
+        \If $\attrib{z}{p} = \attrib{\attrib{\attrib{z}{p}}{p}}{left}$
+        \Comment Macrocaso $z.p$ figlio sinistro
+\li     \Then
+            $y \gets \attrib{\attrib{\attrib{z}{p}}{p}}{right}$
+\li         \If $\attrib{y}{col} = \const{red}$ \Comment Caso 1
+\li         \Then
+                $\attrib{\attrib{\attrib{z}{p}}{p}}{col} \gets \const{red}$
+\li             $\attrib{\attrib{z}{p}}{col} \gets \const{black}$
+\li             $\attrib{y}{col} \gets \const{black}$
+\li             $z \gets \attrib{\attrib{z}{p}}{p}$
+\li         \Else \Comment Caso 2
+\li             \If $z = \attrib{\attrib{z}{p}}{right}$ \Comment Caso \ref{rbinsert:2.1}
+\li             \Then
+                    $\proc{Left}(T,\attrib{z}{p})$
+\li                 $z \gets \attrib{z}{left}$
+                \End
+\zi             \Comment Caso \ref{rbinsert:2.2}
+\li             $\attrib{\attrib{z}{p}}{col} \gets \const{black}$
+\li             $\attrib{\attrib{\attrib{z}{p}}{p}}{col} \gets \const{red}$
+\li             $\proc{Right}(T,\attrib{\attrib{z}{p}}{p})$
+            \End
+\li     \Else $\dots$ \Comment Macrocaso $z.p$ figlio destro
+        \End
+    \End
+\li $\attrib{\attrib{T}{root}}{col} \gets \const{black}$
+\end{codebox}
