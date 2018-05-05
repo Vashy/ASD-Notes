@@ -164,3 +164,41 @@ la somma dei tre valori ottenuti.
 	\End
 \li \Return $\id{inv}$
 \end{codebox}
+
+\subsection{Esercizio del 03/05/2018} \label{exs:3-5-2018}
+
+ABR con:
+\begin{itemize}[noitemsep]
+	\item $x.left$
+	\item $x.right$
+	\item $x.succ$
+	\item $\cancel{x.p}$, \underline{non} ho il padre.
+\end{itemize}
+
+\texttt{Search}, \texttt{Max} e \texttt{Min} restano invariate. Cambiano invece 
+\texttt{Insert}, \texttt{Succ} e c'è bisogno di una procedura \texttt{Parent}.
+
+\input{pseudocodes/abr/abr-succ/insert}
+
+\paragraph{Analisi di Insert} Scorro con $y$ l'albero.
+Chi sono $z.succ$ e il genitore di $z$? Distinguiamo due casi.
+\begin{enumerate}[label=$\alph*$)]
+	\item $z$ figlio destro di $y$. 
+		$$z.succ = y.succ \qquad y.succ = z$$
+	\item $z$ figlio sinistro di $y$.	
+		$$z.succ = y \qquad y.succ \text{ invariato}$$
+\end{enumerate}
+
+\subparagraph{Costo di Insert} $O(h)$
+
+\input{pseudocodes/abr/abr-succ/succ}
+
+\input{pseudocodes/abr/abr-succ/parent}
+
+\subparagraph{Costo di Parent} $O(h)$.
+
+\input{pseudocodes/abr/abr-succ/pred}
+
+\subparagraph{Costo di Pred} Essendoci un ciclo \texttt{while} che itera fino a
+$h$ volte, e in questo ciclo viene chiamata una procedura con complessità $O(h)$,
+abbiamo che \texttt{Pred} ha complessità $O(h^2)$.

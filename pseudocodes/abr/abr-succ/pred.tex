@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{$\proc{Pred}(T,z)$}
+\li \If $\attrib{x}{left} \neq \const{nil}$
+\li \Then
+        \Return $\proc{Max}(\attrib{x}{left})$
+\li \Else
+\li     $\proc{Parent}(T,x)$
+\li     \While $(p \neq \const{nil})$ \kw{and} $(x = \attrib{p}{left})$
+\li     \Do
+            $x \gets p$
+\li         $p \gets \proc{Parent}(T,x)$
+        \End
+\li     \Return $p$
+    \End
+\end{codebox}

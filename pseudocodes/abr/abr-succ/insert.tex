@@ -1,0 +1,32 @@
+\begin{codebox}
+\Procname{$\proc{Insert}(T,z)$}
+\li $x \gets \attrib{T}{root}$
+\li $y \gets \const{nil}$ \Comment parent
+\li $\id{pred} \gets \const{nil}$
+\li \While $x \neq \const{nil}$
+\li \Do
+        $y \gets x$
+\li     \If $\attrib{z}{key} < \attrib{x}{key}$
+\li     \Then
+            $x \gets \attrib{x}{left}$
+\li     \Else
+\li         $x \gets \attrib{x}{right}$
+\li         $\id{pred} \gets y$
+        \End
+    \End
+\li \If $y = \const{nil}$
+\li \Then
+        $\attrib{T}{root} \gets z$
+\li \Else \If $\attrib{z}{key} < \attrib{y}{key}$
+\li     $\attrib{y}{left} \gets z$
+\li \Else
+\li     $\attrib{y}{right} \gets z$
+    \End
+\li \If $\id{pred} \neq \const{nil}$
+\li \Then
+        $\attrib{z}{succ} \gets \attrib{\id{pred}}{succ}$
+\li     $\attrib{\id{pred}}{succ} \gets z$
+\li \Else
+\li     $\attrib{z}{succ} \gets y$
+    \End
+\end{codebox}

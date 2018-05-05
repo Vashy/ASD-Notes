@@ -4,11 +4,11 @@
 
 Vedremo due esempi, uno per gli RB-trees, e un altro per gli ABR.
 \begin{itemize}[noitemsep]
-    \item \emph{Statistiche d'ordine} %\ref{statistichedordine}
-    \item \emph{Interval Trees} %\ref{intervaltrees}
+    \item \emph{Statistiche d'ordine} (\ref{statistichedordine})
+    \item \emph{Interval Trees} (\ref{intervaltrees})
 \end{itemize}
 
-\subsubsection{Statistiche d'ordine}
+\subsubsection{Statistiche d'ordine} \label{statistichedordine}
 Struttura che parte da un RB-tree. Aggiungo:
 \begin{itemize}
     \item \texttt{Select(T,i)} $\equiv$ nodo $x$ che occuperebbe la posizione $i$
@@ -86,10 +86,97 @@ E la versione aggiornata di \texttt{Left}
 
 \input{pseudocodes/abr/stats/left}
 
-\subsection{Teorema dell'aumento degli RB-Trees}
+\subsubsection{Teorema dell'aumento degli RB-Trees}
 
 \paragraph{Def.} Sia $x.field$ un campo che si calcola in $O(1)$
 usando $x, x.left, x.right$ ($x.field = F(x, x.left, x.right)$).
 Allora è possibile modificare \texttt{RB-Insert} e \texttt{RB-Delete}
 in modo che mantengano aggiornato il campo $x.field$ con complessità
 asintotica $O(\log n)$.
+
+\subsubsection{Interval Trees} \label{intervaltrees}
+Gli \emph{Interval Trees} sono alberi binari di ricerca con un campo $x.int$, che a sua 
+volta presenta due campi:
+\begin{itemize}[noitemsep]
+    \item $int.low$, che è anche la chiave;
+    \item $int.high$.
+\end{itemize}
+E anche di un campo $x.max = \text{max estremo di intervallo per i nodi in } T_x$, ossia
+$$x.max = max 
+\begin{cases}
+    x.left.max \\
+    x.right.max \\
+    x.int.high
+\end{cases}$$
+L'idea è quella in cui ogni nodo rappresenti un intervallo. \par
+Vogliamo implementare le seguenti procedure:
+\begin{itemize}
+    \item \texttt{Insert(T,x)}
+    \item \texttt{Delete(T,x)}
+    \item \texttt{ISearch(T,i)} con $i = [low, high]$:
+    \begin{itemize}
+        \item $x$ tale che $x.int \cap i \neq \varnothing$;
+        \item $T.nil$ se un tale $x$ non c'è.
+    \end{itemize}
+\end{itemize} 
+
+\paragraph{Rotazioni} Prendiamo il seguente albero di esempio.
+
+\begin{center}
+	\begin{tikzpicture}
+	\Tree
+	[.$x$     
+		[.$\alpha$ ]
+		[.$y$ 
+            [.$\beta$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+			[.$\gamma$ 
+                \edge[blank]; \node[blank]{};
+                \edge[blank]; \node[blank]{};
+            ]
+		]
+	]
+    \end{tikzpicture}
+\end{center}
+Applico \texttt{Left(T,x)}, ottenendo
+\begin{center}
+    \begin{tikzpicture}
+        \Tree
+        [.$y$     
+            [.$x$ 
+                [.$\alpha$ ]
+                \edge[blank]; \node[blank]{};
+                [.$\beta$ ]
+            ]
+            [.$\gamma$ ]
+        ]
+    \end{tikzpicture}
+\end{center}
+
+Sistemo i massimi. \texttt{Left} costa ancora $O(1)$
+\begin{itemize}[noitemsep]
+    \item $y.max = x.max$
+    \item $x.max = max \{ x.int.high, x.left.max, x.right.max \}$
+\end{itemize}
+
+Vediamo \texttt{ISearch}.
+\input{pseudocodes/abr/intervaltree/isearch} 
+
+\subparagraph{Correttezza} 
+\begin{itemize}
+    \item \textbf{Else if}. Consideriamo in $x.left$ un intervallo $i'$.
+    Abbiamo 2 possibilità.
+    \begin{enumerate}[label=($\arabic*$)]
+        \item $i \cap i' \neq \varnothing$
+        \item $i \cap i' = \varnothing$, ovvero vale $i.high < i'.low$. 
+        Questo varrà per ogni nodo dei sotto-alberi, quindi è inutile ispezionare
+        gli antenati di quel sotto-albero.
+    \end{enumerate}
+    \item \textbf{Else}. $\forall i'$ in $x.left \Rightarrow i' \cap i \neq \varnothing$.
+\end{itemize}
+
+\subparagraph{Costo} $O(h) = O(\log n)$
+
+\paragraph{Esercizio} Vai a \ref{exs:3-5-2018}

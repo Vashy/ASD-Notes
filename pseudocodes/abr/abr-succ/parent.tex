@@ -1,0 +1,24 @@
+\begin{codebox}
+\Procname{$\proc{Parent}(T,x)$}
+\li $y \gets x$
+\li \While $\attrib{y}{right} \neq \const{nil}$
+\li \Do 
+        $y \gets \attrib{y}{right}$
+    \End
+\li $z \gets \attrib{z}{succ}$
+\li \If $z = \const{nil}$
+\li \Then
+        $w \gets \attrib{T}{root}$
+\li \Else
+\li     $w \gets \attrib{z}{left}$
+    \End
+\li \If $w = x$
+\li \Then
+        \Return $z$
+    \End
+\li \While $\attrib{w}{right} \neq x$
+\li \Do
+        $w \gets \attrib{w}{right}$
+    \End
+\li \Return $w$
+\end{codebox}
