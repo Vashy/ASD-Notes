@@ -1,0 +1,95 @@
+\section{Lezioni del 03-04/05/2018}
+
+\subsection{Arricchimento di Strutture Dati}
+
+Vedremo due esempi, uno per gli RB-trees, e un altro per gli ABR.
+\begin{itemize}[noitemsep]
+    \item \emph{Statistiche d'ordine} %\ref{statistichedordine}
+    \item \emph{Interval Trees} %\ref{intervaltrees}
+\end{itemize}
+
+\subsubsection{Statistiche d'ordine}
+Struttura che parte da un RB-tree. Aggiungo:
+\begin{itemize}
+    \item \texttt{Select(T,i)} $\equiv$ nodo $x$ che occuperebbe la posizione $i$
+        nei nodi ordinati per chiave (in una \emph{visita simmetrica});
+    \item \texttt{Rank(T,x)} $\equiv$ posizione $i$ (in una \emph{visita simmetrica}) 
+        che occupa il nodo $x$. 
+\end{itemize}
+
+Per implementare queste due procedure, ho bisogno di un nuovo campo dati. 
+Aggiungo il campo 
+$$x.size = \# \text{nodi radicati nel sottoalbero } T_x$$ 
+Valgono
+\begin{itemize}[label=,noitemsep]
+    \item $T.nil.size = 0$
+    \item $x.size = x.left.size + x.right.size + 1$
+\end{itemize}
+
+\paragraph{Esempio} In ogni nodo, tra le parentesi
+è riportato la $size$ di quel nodo. Ricordiamo che i nodi $nil$ ($T.nil$)
+hanno $size = 0$.
+
+\begin{center}
+    \begin{tikzpicture}
+    \Tree
+    [.$\boldsymbol{26}(7)$
+        [.$\boldsymbol{17}(1)$
+            [.$\boldsymbol{nil}$ ]
+            [.$\boldsymbol{nil}$ ]
+        ]
+        [.$\boldsymbol{\color{red} 41}(5)$
+            [.$\boldsymbol{30}(2)$ 
+                [.$\boldsymbol{nil}$ ]
+                [.$\boldsymbol{\color{red} 38}(1)$ 
+                    [.$\boldsymbol{nil}$ ]
+                    [.$\boldsymbol{nil}$ ]
+                ]
+            ]
+            [.$\boldsymbol{47}(2)$ 
+                [.$\boldsymbol{nil}$ ]
+                [.$\boldsymbol{\color{red} 50}(1)$ 
+                    [.$\boldsymbol{nil}$ ]
+                    [.$\boldsymbol{nil}$ ]
+                ]
+            ] 
+        ]
+    ]
+    \end{tikzpicture}
+\end{center}
+
+Vediamo un'implementazione non efficiente della procedura \texttt{Size}.
+
+\input{pseudocodes/abr/stats/size} 
+
+\subparagraph{Costo} Il costo è $O(n)$, che come preannunciato, non è efficiente.
+Questo perchè le procedure \texttt{Insert/Delete} di un RB-tree sono nel peggiore dei casi $O(h)$.
+
+\bigskip Questa procedura, \texttt{Select}, restituisce il nodo di posizione $i$
+in $T_x$.
+
+\input{pseudocodes/abr/stats/select} 
+
+\subparagraph{Costo di Select} $O(h) = O(\log n)$
+
+\texttt{Rank} restituisce la posizione $i$ che occupa il nodo $x$.
+
+\input{pseudocodes/abr/stats/rank}
+
+\subparagraph{Costo di Rank} $O(h) = O(\log n)$
+
+\bigskip Vediamo ora la variante di \texttt{RB-Insert} 
+
+\input{pseudocodes/abr/stats/rb-insert}
+
+E la versione aggiornata di \texttt{Left}
+
+\input{pseudocodes/abr/stats/left}
+
+\subsection{Teorema dell'aumento degli RB-Trees}
+
+\paragraph{Def.} Sia $x.field$ un campo che si calcola in $O(1)$
+usando $x, x.left, x.right$ ($x.field = F(x, x.left, x.right)$).
+Allora è possibile modificare \texttt{RB-Insert} e \texttt{RB-Delete}
+in modo che mantengano aggiornato il campo $x.field$ con complessità
+asintotica $O(\log n)$.

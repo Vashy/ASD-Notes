@@ -1,0 +1,10 @@
+\begin{codebox}
+\Procname{\proc{Left}$(T,x)$}
+\li $\attrib{x}{right} \gets \attrib{y}{left}$
+\li $\attrib{\attrib{x}{right}}{p} \gets x$
+\li $\attrib{y}{left} \gets x$
+\li $\attrib{x}{p} \gets y$
+\li $\proc{Transplant}(T,x,y)$
+\li $\attrib{y}{size} \gets \attrib{x}{size}$
+\li $\attrib{x}{size} \gets \attrib{\attrib{x}{left}}{size} + \attrib{\attrib{x}{right}}{size} + 1$
+\end{codebox}

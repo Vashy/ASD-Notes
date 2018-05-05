@@ -1,0 +1,15 @@
+\begin{codebox}
+\Procname{$\proc{Rank}(x)$}
+\li $r \gets \attrib{\attrib{x}{left}}{size} + 1$
+\li $y \gets x$
+\li \While $\attrib{y}{p} \neq \attrib{T}{nil}$
+    \Comment idea: $r$ contiene la posizione di $x$ in $T_y$
+\li \Do
+        \If $\attrib{\attrib{y}{p}}{right} = y$
+\li     \Then
+            $r \gets r + \attrib{\attrib{\attrib{y}{p}}{left}}{size} + 1$
+        \End
+\li     $y \gets \attrib{y}{p}$
+    \End
+\li \Return $r$
+\end{codebox}

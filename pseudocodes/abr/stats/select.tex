@@ -1,0 +1,13 @@
+\begin{codebox}
+\Procname{$\proc{Select}(x,i)$}
+\zi \Comment Pre: $x \neq T.nil, \ i : 1 \leq i \leq \attrib{x}{size}$
+\li $r \gets \attrib{\attrib{x}{left}}{size} + 1$
+\li \If $i = r$
+\li \Then
+        \Return $x$
+\li \Else \If $i < r$
+\li     \Return $\proc{Select}(\attrib{x}{left},i)$
+\li \Else 
+\li     \Return $\proc{Select}(\attrib{x}{right},i-r)$
+    \End
+\end{codebox}

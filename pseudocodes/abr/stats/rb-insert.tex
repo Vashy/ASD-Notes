@@ -1,0 +1,33 @@
+\begin{codebox}
+\Procname{\proc{RB-Insert}$(T,z)$}
+\zi \Comment (1) versione aggiornata di \texttt{Insert}
+\li $\attrib{z}{size} \gets 1$
+\li $x \gets \attrib{T}{root}$
+\li $y \gets \attrib{T}{nil}$ 
+\li \While $x \neq \attrib{T}{nil}$
+\li \Do
+        $\attrib{x}{size} \gets \attrib{x}{size} + 1$
+\li     $y \gets x$
+\li     \If $\attrib{z}{key} < \attrib{x}{key}$
+\li     \Then
+            $x \gets \attrib{x}{left}$
+\li     \Else
+\li         $x \gets \attrib{x}{right}$
+        \End
+    \End
+\li $\attrib{z}{p} \gets y$
+\li \If $y = \const{nil}$
+\li \Then
+        $\attrib{T}{root} \gets z$
+\li \Else 
+\li     \If $\attrib{z}{key} < \attrib{y}{key}$
+\li     \Then
+            $\attrib{y}{left} \gets z$
+\li     \Else
+\li         $\attrib{y}{right} \gets z$
+        \End
+    \End
+\zi \Comment (2) \texttt{RB-FixUp}
+\li $\attrib{z}{col} \gets \const{red}$
+\li $\proc{RB-FixUp}(T,z)$
+\end{codebox}

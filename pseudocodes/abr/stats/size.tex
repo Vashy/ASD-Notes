@@ -1,0 +1,12 @@
+\begin{codebox}
+\Procname{$\proc{Size}(x)$}
+\li \If $x = \attrib{T}{nil}$
+\li \Then
+        $\attrib{x}{size} \gets 0$
+\li \Else
+\li     $l \gets \proc{Size}(\attrib{x}{left})$
+\li     $r \gets \proc{Size}(\attrib{x}{right})$
+\li     $\attrib{x}{size} \gets l + r + 1$
+    \End
+\li \Return $\attrib{x}{size}$
+\end{codebox}
