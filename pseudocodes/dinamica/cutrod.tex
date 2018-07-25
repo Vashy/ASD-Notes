@@ -1,0 +1,12 @@
+\begin{codebox}
+    \Procname{$\proc{CutRod}(p,n)$}
+\li \If $n = 0$
+\li \Then \Return $0$
+\li \Else
+\li     $q \gets -1$
+\li     \For $i = 1$ \To $n$
+\li     \Do $q \gets \proc{Max}(q, P[i] + \proc{CutRod}(P,n-i))$ 
+        \End
+    \End
+\li \Return $q$
+\end{codebox}

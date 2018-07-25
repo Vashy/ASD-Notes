@@ -1,0 +1,15 @@
+\begin{codebox}
+    \Procname{$\proc{MemCutRod-aux}(p,j,r)$}
+\li \If $r[j] < 0$
+\li \Then \If $j = 0$ 
+\li     \Then $r[j] \gets 0$
+\li     \Else 
+\li         $q = -1$
+\li         \For $i \gets 1$ \To $j$
+\li         \Do $q \gets \proc{Max}(q, p[i]+\proc{MemCutRod-aux}(p,j-i,r))$
+\li             $r[j] \gets q$
+            \End
+        \End
+    \End
+\li \Return $r[j]$
+\end{codebox}

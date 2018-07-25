@@ -1,0 +1,13 @@
+\begin{codebox}
+    \Procname{$\proc{BottomUpCutRod}(p,n)$}
+\li $\text{alloco } r[1 \twodots n]$
+\li $r[0] \gets 0$
+\li \For $j \gets 1$ \To $n$ \Comment calcolo $r[j]$
+\li \Do $q \gets -1$
+\li     \For $i \gets 1$ \To $j$
+\li     \Do $q \gets \proc{Max}(q, p[i] + r[j-1])$ \Comment $\Theta(1)$
+        \End
+        $r[j] \gets q$
+    \End
+\li \Return $r[n]$
+\end{codebox}
