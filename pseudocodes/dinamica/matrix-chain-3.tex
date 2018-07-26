@@ -1,0 +1,22 @@
+\begin{codebox}
+\Procname{$\proc{MatrixChain}(p,n)$}
+\li \For $i \gets 1$ \To $n$
+\li \Do 
+        $m[i,j] \gets 0$
+    \End
+\li \For $l \gets 2$ \To $n$
+\li \Do \For $i \gets 1$ \To $n-l+1$
+\li     \Do
+            $j \gets i+l-1$
+\li         $m[i,j] \gets +\infty$
+\li         \For $k \gets 1$ \To $j-1$
+\li         \Do
+                $q \gets m[i,j]+m[k+1,j]+p[i-1]p[k]p[j]$
+\li             \If $q < m[i,j]$
+\li             \Then $m[i,j] \gets q$
+                \End
+            \End
+        \End
+    \End
+\li \Return $m[1,n]$
+\end{codebox}

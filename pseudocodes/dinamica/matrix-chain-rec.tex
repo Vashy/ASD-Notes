@@ -1,0 +1,20 @@
+\begin{codebox}
+\Procname{$\proc{MatrixChainRec}(p,i,j,m)$}
+\li \If $m[i,j] = +\infty$
+\li \Then \If $i = j$
+\li     \Then
+            $m[i,j] \gets 0$
+\li     \Else 
+\li         \For $k \gets 1$ \To $j-1$
+\li         \Do
+                $q \gets \proc{MatrixChainRec}(p,i,k,m)+$
+\zi             $\quad + \proc{MatrixChainRec}(p,k+1,j,m)+$
+\zi             $\quad + p[i-1]p[k]p[j]$
+\li             \If $q < m[i,j]$
+\li             \Then $m[i,j] \gets q$
+                \End
+            \End
+        \End
+    \End
+\li \Return $m[i,j]$
+\end{codebox}

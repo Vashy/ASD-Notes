@@ -1,0 +1,11 @@
+\begin{codebox}
+\Procname{$\proc{MatrixChain}(p,i,j)$}
+\li \For $i \gets 1$ \To $n$
+\li \Do 
+        \For $j \gets 1$ \To $n$
+\li     \Do
+            $m[i,j] \gets +\infty$
+        \End
+    \End
+\li \Return $\proc{MatrixChainRec}(p,1,n,m)$
+\end{codebox}

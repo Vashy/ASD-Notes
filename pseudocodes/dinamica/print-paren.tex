@@ -1,0 +1,10 @@
+\begin{codebox}
+\Procname{$\proc{PrintParen}(S,i,j)$}
+\li \If $i = j$
+\li \Then \proc{Print} ``$A_i$''
+\li \Else
+\li     $\proc{Print}$ ``$($''
+\li     $\proc{PrintParen}(S,i,S[i,j])$
+\li     $\proc{PrintParen}(S,S[i,j]+1,j)$
+\li     $\proc{Print}$ ``$)$''
+\end{codebox}

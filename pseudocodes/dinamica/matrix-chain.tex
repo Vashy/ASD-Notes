@@ -1,0 +1,17 @@
+\begin{codebox}
+\Procname{$\proc{MatrixChain}(p,i,j)$}
+\li \If $i = j$
+\li \Then \Return $0$
+\li \Else
+\li     $\id{cmin} \gets +\infty$
+\li     \For $k \gets i$ \To $j-1$
+\li     \Do 
+            $q \gets \proc{MatrixChain}(p,i,k) + \proc{MatrixChain}(p,k+1,j) + $
+\zi         $\quad + p[i-1]p[k]p[j]$
+\li         \If $q < \id{cmin}$
+\li         \Then $\id{cmin} \gets q$
+            \End
+        \End
+    \End
+\li \Return $\id{cmin}$
+\end{codebox}

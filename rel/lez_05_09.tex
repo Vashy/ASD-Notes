@@ -1,4 +1,4 @@
-\section{Lezione del 09/05/2018}
+\section{Lezioni del 09-10-11/05/2018}
 
 \subsection{Programmazione Dinamica}
 
@@ -170,7 +170,7 @@ Sono possibili due approcci:
 \input{pseudocodes/dinamica/memcutrod}
 \input{pseudocodes/dinamica/memcutrod-aux}
 
-$$j = 1, \dots, n$$
+$$j = 1, \ldots, n$$
 \begin{gather*}
     \displaystyle\sum_{j=1}^{n} \left( \Theta(1) + j \Theta(1) \right) \\
     = \Theta \left( \displaystyle\sum_{j=1}^{n} (1+j) \right) = \Theta(n^2)
@@ -180,3 +180,127 @@ $$j = 1, \dots, n$$
 \input{pseudocodes/dinamica/bottomup-cutrod}
 
 $$\displaystyle\sum_{i=1}^n \displaystyle\sum_{i=1}^j \Theta(1) = \Theta (n^2)$$
+
+%10/05
+\subsubsection{Prodotto di Matrici}
+
+Ecco un altro esempio di \emph{programmazione dinamica}.
+
+Consideriamo $A$ e $B$ di dimensioni $p \times q$ e $q \times r$
+$\rightarrow$ otteniamo $C$ di dimensioni $p \times r$.
+
+$$C[i,j] = \displaystyle\sum_{k=1}^q A[i,k] \cdot B[k,j]$$
+
+$$costo = q \text{ prodotti di scalari per ogni elemento} = q\cdot p \cdot r$$
+
+Vogliamo moltiplicare $n$ matrici $C = A_1 \times A_2 \times \ldots \times A_n$. 
+Possiamo farlo in molti modi poich\'e è un'operazione associativa e vogliamo il modo che ci permetta di fare meno prodotti scalari possibili.
+
+\paragraph{Esempio} 
+$$A_1 \times A_2 \times A_3$$ 
+$$A_1 \rightarrow 10 \times 100$$
+$$A_2 \rightarrow 100 \times 5$$
+$$A_3 \rightarrow 5 \times 50$$
+
+Abbiamo due possibili \emph{parentetizzazioni}:
+\begin{align*}
+    (A_1 \times A_2) \times A_3 \qquad & (10 \times 100 \times 5) + 100 \times 5 \times 50 = 7500 \\
+    A_1 \times (A_2 \times A_3) \qquad & 10 \times 100 \times 50 + (100 \times 5 \times 50) = 75000
+\end{align*}
+Non posso provare tutte le parentetizzazioni del prodotto perch\'e sono in numero
+
+\[
+    P(n) = 
+    \begin{cases}
+        1 & \text{se } n = 1 \\
+        \displaystyle\sum_{k=1}^{n-1} P(k) P(n-k) & \text{se } n > 1
+    \end{cases}
+\]
+
+Che cresce in maniera esponenziale! $\Omega(2^n)$
+\begin{align*}
+    P(n) & = \displaystyle\sum_{k=1}^{n-1} P(k) P(n-k) 
+        \geq \displaystyle\sum_{k=1}^{n-1} c \cdot 2^k \cdot c \cdot 2^{n-k} \\
+        & \geq (n-1)c^2 \cdot 2^n \geq c \cdot 2^n \text{ per } c \geq 1, \ n > 2
+\end{align*}
+
+\paragraph{Sottoproblema} $A_i \times \ldots \times A_j$, $1 \leq i < j \leq n$, in numero $\Theta(n^2)$
+\begin{enumerate}
+    \item Suppongo di avere la \textit{soluzione ottima}. Avrò un livello esterno di parentesizzazione
+    $$(A_1 \times \ldots \times A_k)(A_{k+1} \times \ldots \times A_n)$$
+    Ognuna delle due parentesizzazioni è ottima per quel sottoproblema.
+
+    \textbf{Nota bene}: Ogni matrice $A_i$ ha dimensioni $p_{i-1} \times p_i$, quindi serve un array delle dimensioni $p[0\twodots n]$;
+
+    \item Considero i sottoproblemi $A_{ij} = (A_1 \times A_2 \times \ldots \times A_j)$ \par
+    Indico con $m[i,j]$ il valore della \emph{soluzione ottima} per il \textit{sottoproblema};
+    \begin{align*}
+        m[i,j] & = \text{minimo } \# \text{ di prodotti per calcolare } A_{ij} \\
+        & =
+        \begin{cases}
+            0 & i = j \\
+            min_{i \leq n < j} \left( m[i,k] + m[k+1,j] + p_{i-1} p_k p_j \right) & i < j
+        \end{cases}
+    \end{align*}
+    È il minimo delle due parentesizzazioni + il costo del prodotto fra le due matrici ottenute.
+\end{enumerate}
+
+\paragraph{Pseudocodice}
+\input{pseudocodes/dinamica/matrix-chain}
+
+\paragraph{Complessità} Mi aspetto poca efficienza.
+\begin{align*}
+    T(n) & = 1 + \displaystyle\sum_{k=1}^{n-1} \left( T(k) T(n-k) + 1 \right) \qquad && \left[ 1 \text{ costante qualsiasi} \right] \\
+    & = n + 2\displaystyle\sum_{j=1}^{n-1}T(j) \quad && \left[ \text{trovo } T(k) \text{ due volte} \right] \\
+    & = \Omega(2^n)
+\end{align*}
+
+\paragraph{Dimostrazione} per induzione (dimostrazione che $T(n) \geq 2 \ \forall n \geq 1$)
+
+\begin{itemize}
+    \item \textbf{Base}: $T(1) = 1 \geq 2^{1-1}$ ok;
+    \item \textbf{Induzione}: 
+    \begin{align*}
+        T(n-1) & = n+1 +2 \displaystyle\sum_{j=1}^{n} T(j) = \\
+        & = n+1+2\displaystyle\sum_{j=1}^{n-1} T(j) + 2T(n) \geq 
+        2T(n) \geq 2^n
+    \end{align*}
+\end{itemize}
+
+Anche in questo problema, i sottoproblemi vengono risolti molte volte. Ecco perch\'e è possibile un approccio alla programmazione
+dinamica per migliorare notevolmente l'efficienza.
+
+\begin{itemize}
+    \item \textbf{Soluzione Top-down}: memorizzo in $m[i,j]$ la soluzione del sottopb $i,j$.
+    \input{pseudocodes/dinamica/matrix-chain-2}
+    \input{pseudocodes/dinamica/matrix-chain-rec}
+    Per ogni coppia $(i,j)$ ho un ciclo di costo $O(n)$ e ho $n^2$ coppie
+    $$\Rightarrow \text{complessità } O(n^3)$$
+
+    %11/05
+    \item \textbf{Soluzione Bottom-up} \par
+    per lunghezza \underline{crescente} della sequenza $A_i \twodots A_j$
+    \input{pseudocodes/dinamica/matrix-chain-3}
+
+    Complessità $O(n^3)$
+    \begin{multline*}
+        \displaystyle\sum_{l=2}^{n}\displaystyle\sum_{i=1}^{n-l+1}
+        \displaystyle\sum_{k=i}^{j-1} 1 = 
+        \displaystyle\sum_{l=2}^{n}\displaystyle\sum_{i=1}^{n-l+1}(l-1) = \\
+        \displaystyle\sum_{l=2}^{n}(n-l+1)(l-1) = \left( n-(l-1) \right) \qquad (h = l-1)
+    \end{multline*}
+    \begin{align*}
+        & = \displaystyle\sum_{h=1}^{n-1} (n-h)j = \displaystyle\sum_{h=1}^{n-1} h^2 = \\
+        & = n \frac{n(n-1)}{2} - \frac{(n-1)n(2n-1)}{6} = \\
+        & = n(n-1)\left( 3\frac{n}{6} - \frac{2n-1}{6}\right) 
+            = \frac{n(n-1)(n-2)}{6} = \frac{n^3-n}{6} = \Theta(n^3)
+    \end{align*}
+\end{itemize}
+
+\clearpage
+
+\paragraph{Stampa del risultato}
+$$S[i,j] = \text{posizione della parentetizzazione più esterna per } A_i \twodots A_j$$
+\input{pseudocodes/dinamica/print-paren}
+
+\subsubsection{Cammino minimo di un grafo*} Esempio omesso.
