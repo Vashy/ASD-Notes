@@ -1,0 +1,113 @@
+\section{Lezioni del 16/05/2018}
+
+\subsection{Altri esempi di progr. dinamica}
+
+\subsubsection{Longest Common Subsequence (LCS)}
+
+Consideriamo le \emph{basi azotate} del DNA: \textit{Adenina, Citosina, Guanina, Timina} (A, C, G, T).
+
+Date due stringhe 
+\begin{align*}
+    & x_1: \quad A \ C \ T \ A \ C \ C \ T \ G \\
+    & x_2: \quad A \ T \ C \ A \ C \ C
+\end{align*}
+Definiamo \par
+\emph{eliot distance}: $n$ passi per rendere uguali le due stringhe.
+\bigskip
+
+LCS tra $x_1$ e $x_2$: $A\ T\ A\ C\ C$
+
+\bigskip
+
+Consideriamo $X = x_1 \ldots x_m$, \par
+e una sua sottosequenza $x_{i_1}\ldots x_{i_k} \quad \text{con } i_1,\ldots, i_k \in \{ 1,\ldots, m \}$
+
+\paragraph{Problema} Date due sequenze
+$$X = x_1 \ldots x_m$$
+$$Y = y_1 \ldots y_n$$
+Trovare $W = w_1 \ldots w_k$ tale che:
+\begin{enumerate}
+    \item $W$ è sottosequenza di $X$ e $Y$;
+    \item la lunghezza sia massima.
+\end{enumerate}
+
+\paragraph{Osservazioni}
+\begin{enumerate}
+    \item C'è una sottosequenza comune;
+    \item LCS non è unica (e.g. consideriamo le stringhe $AB$ e $BA$. La loro LCS è sia $A$ che $B$)
+    $$LCS(X,Y) = \text{insieme di LCS di $X$ e $Y$}$$
+    \item Ricerca esaustiva impossibile.
+\end{enumerate}
+
+\paragraph{Sottostruttura ottima}
+Mi riduco a prefissi
+$$X = x_1 \ldots x_m$$
+Prefissi $X^k = x_1 \ldots x_k \quad k \leq m$ (ad esempio $X^0$ è $\varepsilon$)
+
+\clearpage 
+Sia $W = w_1 \ldots w_k \in LCS(X,Y)$ \par
+Allora 
+\begin{enumerate}
+    \item Se $x_m = y_n$ allora $w_k = x_m = y_n$ e $W^{k-1} \in LCS(X^{m-1},Y^{n-1})$;
+    \item Se $x_m \neq y_n$
+    \begin{enumerate}[label=($2\alph*$)]
+        \item se $x_m \neq w_k$ allora $W \in LCS(X^{m-1},Y)$;
+        \item se $y_n \neq w_k$ allora $W \in LCS(X, Y^{n-1})$.
+    \end{enumerate}
+\end{enumerate}
+
+\paragraph{Dimostrazione}
+\begin{enumerate}
+    \item $$X = x_1 \ldots x_{m-1} x_m$$
+    $$Y = y_1 \ldots y_{n-1} y_n$$
+    \begin{itemize}
+        \item $w_k = x_m = y_n$
+        $$\text{Se } w_k \neq x_m \Rightarrow W \text{ sottoseq. di } X^{m-1}, Y^{n-1}$$
+        $$\text{Impossibile, } Wx_m \text{ sarebbe sottoseq. di $X$ e $Y$ più lunga di } W$$
+
+        \item $W^{k-1} \in LCS(X^{m-1}, Y^{n-1})$ \par
+        $W^{k-1}$ se non ottima, esisterebbe $W'$ sottoseq. di $X^{m-1}$ e $Y^{n-1}$ tale che $\abs{W'} > \abs{W^{k-1}}$, 
+        ottenendo $W'x_m$ sottoseq. di $X$ e $Y$ con $\abs{W'x_m} > \abs{W^{k-1}x_m} = \abs{W}$, \emph{assurdo}.
+    \end{itemize}
+
+    \item $x_m \neq y_n$
+    \begin{enumerate}[label=($2\alph*$)]
+        \item $x_m \neq w_k$
+        $$\Rightarrow W \text{ è sottoseq. di } X^{m-1}$$
+        $$W \text{ è sottoseq. di } Y$$
+        $W \in LCS(X^{m-1}, Y)? \quad (\text{è ottima?})$
+        \par Se \underline{no}, esisterebbe $W'$ sottoseq. di $X^{m-1}$ e $Y$ 
+        $$\abs{W'} > \abs{W}$$
+        Assurdo, dato che $W'$ è anche sottoseq. di $X$ e $Y$, inoltre $W$ è ottima per $X$ e $Y$;
+        
+        \item Duale.
+    \end{enumerate}
+\end{enumerate}
+
+\paragraph{Espressione ricorsiva} Valore della soluzione ottima
+
+\subparagraph{Dati} $$X = x_1 \ldots x_m$$
+$$Y = y_1 \ldots y_n$$
+$$C[i,j] = \text{lunghezza di LCS di $X^i$ e $Y^j$}$$
+
+\[ C[i,j] =
+    \begin{cases}
+        0 & \text{se } i = 0 \text{ o } j = 0 \\
+        C[i-1, j-1]+1 & \text{se } i,j > 0 \text{ e } x_i = y_j \\
+        max(C[i-1,j], C[i,j-1]) & \text{se } i,j > 0 \text{ e } x_i \neq y_j
+    \end{cases}
+\]
+
+\[ b[i,j] =
+    \begin{cases}
+        \arrow{3} & \text{se } x_i = y_j \text{ e } C[i,j] = 1+C[i-1,j-1] \\
+        \leftarrow & \text{se } x_i \neq y_j \text{ e } C[i,j] = C[i-1,j] \\
+        \uparrow & \text{se } x_i \neq y_j \text{ e } C[i,j] = C[i,j-1]
+    \end{cases}
+\]
+
+\paragraph{Pseudocodice}
+\input{pseudocodes/dinamica/lcs}
+
+\input{pseudocodes/dinamica/print-lcs}
+\input{pseudocodes/dinamica/print-lcs-rec}

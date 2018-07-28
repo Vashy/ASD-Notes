@@ -30,8 +30,17 @@
 \usepackage{enumitem} %lists
 \usepackage[perpage]{footmisc} %footnote, starting at 1 every page
 
-\usepackage{mathtools} %math package
+\usepackage{mathtools,stmaryrd} %math package
 \usepackage{amssymb} % N, R ... symbols
+
+% per frecce in tutte le direzioni, comando \arrow{0}, \arrow{1}, etc.. 
+\makeatletter
+\newcommand{\fixed@sra}{$\vrule height 2\fontdimen22\textfont2 width 0pt\rightarrow$}
+\newcommand{\arrow}[1]{%
+  \mathrel{\text{\rotatebox[origin=c]{\numexpr#1*45}{\fixed@sra}}}
+}
+\makeatother
+
 \usepackage{cancel}
 \usepackage{appendix}
 

@@ -1,0 +1,14 @@
+\begin{codebox}
+\Procname{$\proc{PrintLCSrec}(X,b,i,j)$}
+\li \If $i > 0$ \kw{ and } $j > 0$
+\li \Then \If $b[i,j] = \arrow{3}$
+\li     \Then 
+            $\proc{PrintLCSrec}(X,b,i-1,j-1)$
+\li         $\proc{Print} X[i]$
+\li     \Else \If $b[i,j] = \leftarrow$
+\li         $\proc{PrintLCSrec}(X,b,i-1,j)$
+\li     \Else
+\li         $\proc{PrintLCSrec}(X,b,i,j-1)$
+        \End
+    \End
+\end{codebox}

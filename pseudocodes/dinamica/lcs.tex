@@ -1,0 +1,29 @@
+\begin{codebox}
+\Procname{$\proc{LCS}(X,Y)$}
+\li $m \gets \attrib{X}{len}, \ n \gets \attrib{Y}{len}$
+\li \For $i \gets 0$ \To $m$ \Comment $\Theta(m)$
+\li \Do $C[i,0] \gets 0$
+    \End
+\li \For $j \gets 1$ \To $n$ \Comment $\Theta(n)$
+\li \Do $C[0,j] \gets 0$
+    \End
+\li \For $i \gets 1$ \To $m$ \Comment $\Theta(n\cdot m)$
+\li \Do \For $j \gets 1$ \To $n$
+\li     \Do \If $X[i] = Y[j]$ \Comment C'è un match
+\li         \Then
+                $C[i,j] \gets C[i-1,j-1]$
+\li             $b[i,j] \gets \arrow{3}$
+\li         \Else
+\li             \If $C[i-1,j] \geq C[i,j-1]$
+\li             \Then
+                    $C[i,j] \gets C[i-1,j]$
+\li                 $b[i,j] \gets \leftarrow$
+\li             \Else
+\li                 $C[i,j] \gets C[i,j-1]$
+\li                 $b[i,j] \gets \uparrow$
+                \End
+            \End
+        \End
+    \End
+\li \Return $b,c$
+\end{codebox}
