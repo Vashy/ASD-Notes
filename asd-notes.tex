@@ -37,10 +37,21 @@
 	{draw,edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
 	level distance=1.5cm}
 
+% Da qui comincia la numerazione normale
+\pagenumbering{roman}
+\setcounter{page}{1}
+
 \newpage
 \tableofcontents
+\newpage
 
 \frenchspacing
+
+% Da qui comincia la numerazione normale
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\cfoot{\thepage~di~\pageref{TotPages}}
 
 \include{rel/lez_02_28} 
 
